@@ -100,7 +100,7 @@ func TestMacOSLoginWindow(t *testing.T) {
 	auto := runner.Key("defaults", "read", loginwindow, "autoLoginUser")
 	runCases(t, "macos.auto_login", laptop, []macCase{
 		{"off 26.2", map[string]runner.Output{auto: errOut(missingKey, 1)}, check.Pass, ""},
-		{"on", map[string]runner.Output{auto: out("jesus\n", 0)}, check.Fail, ""},
+		{"on", map[string]runner.Output{auto: out("alex\n", 0)}, check.Fail, ""},
 		{"other error", map[string]runner.Output{auto: errOut("permission denied", 1)}, check.Unknown, ""},
 	})
 	guest := runner.Key("defaults", "read", loginwindow, "GuestEnabled")

@@ -31,7 +31,7 @@ Publish `hardenme` as an MIT open-source repository on GitHub. It ships two thin
 
 ## 👀 Context
 
-- New repository: [`/Users/jesus/Documents/GitHub/hardenme`](../../../). It is empty apart from this plan and the research.
+- New repository: [the repository root](../../../). It is empty apart from this plan and the research.
 - Prior-art research: [`docs/research/prior-art.md`](../../../docs/research/prior-art.md). It contains the design lessons, the check catalogue for each OS and the licensing rules. **Read it before implementing any phase.** Items marked _unverified_ there must be confirmed on a real device before they ship.
 - Draft credits: [`docs/research/CREDITS.draft.md`](../../../docs/research/CREDITS.draft.md). This becomes `CREDITS.md` in Phase 1.
 - There is no `AGENTS.md` yet. Phase 1 creates it with the conventions below.

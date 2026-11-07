@@ -1,6 +1,6 @@
 # hardenme: estado actual y roadmap
 
-Fecha: 2026-11-06. Documento interno para decidir en qué centrarse. Revisado con Jesús el mismo día.
+Fecha: 2026-11-06. Documento interno para decidir en qué centrarse. Revisado con el mantenedor el mismo día.
 
 ## 1. Lo que tenemos
 
