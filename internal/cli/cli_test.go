@@ -50,3 +50,40 @@ func TestFilterChecksAcceptsShortIDs(t *testing.T) {
 		t.Fatal("expected an error for an unknown check")
 	}
 }
+
+func TestPickLang(t *testing.T) {
+	env := func(m map[string]string) func(string) string {
+		return func(k string) string { return m[k] }
+	}
+	cases := []struct {
+		name   string
+		env    map[string]string
+		system string
+		want   string
+	}{
+		{"LANG Spanish", map[string]string{"LANG": "es_ES.UTF-8"}, "en-US", "es"},
+		{"LC_ALL wins", map[string]string{"LC_ALL": "en_US.UTF-8", "LANG": "es_ES.UTF-8"}, "es-ES", "en"},
+		{"no env, macOS Spanish", nil, "es-ES", "es"},
+		{"C locale falls back", map[string]string{"LANG": "C"}, "es-419", "es"},
+		{"nothing", nil, "", "en"},
+	}
+	for _, c := range cases {
+		if got := pickLang(env(c.env), func() string { return c.system }); got != c.want {
+			t.Errorf("%s: got %s, want %s", c.name, got, c.want)
+		}
+	}
+}
+
+func TestFirstAppleLanguage(t *testing.T) {
+	cases := map[string]string{
+		"(\n    \"es-ES\",\n    en\n)\n": "es-ES",
+		"(\n    \"en-GB\"\n)\n":          "en-GB",
+		"(\n    en\n)":                   "en",
+		"":                               "",
+	}
+	for in, want := range cases {
+		if got := firstAppleLanguage(in); got != want {
+			t.Errorf("firstAppleLanguage(%q) = %q, want %q", in, got, want)
+		}
+	}
+}

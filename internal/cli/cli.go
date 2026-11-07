@@ -10,6 +10,7 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 	"golang.org/x/term"
@@ -62,17 +63,51 @@ func newRoot() *cobra.Command {
 	return root
 }
 
-// defaultLang picks Spanish when the system language is Spanish.
+// defaultLang picks Spanish when the system language is Spanish. It reads
+// the locale variables first and falls back to the macOS language list,
+// because apps opened from Finder often start without LANG.
 func defaultLang() string {
+	return pickLang(os.Getenv, systemLanguages)
+}
+
+func pickLang(getenv func(string) string, system func() string) string {
 	for _, v := range []string{"LC_ALL", "LC_MESSAGES", "LANG"} {
-		if val := os.Getenv(v); val != "" {
-			if strings.HasPrefix(strings.ToLower(val), "es") {
-				return "es"
-			}
-			return "en"
+		if val := getenv(v); val != "" && val != "C" && val != "POSIX" {
+			return langOf(val)
 		}
 	}
+	return langOf(system())
+}
+
+func langOf(val string) string {
+	if strings.HasPrefix(strings.ToLower(val), "es") {
+		return "es"
+	}
 	return "en"
+}
+
+// systemLanguages returns the first preferred language on macOS, e.g.
+// "es-ES" from `defaults read -g AppleLanguages`, or "" elsewhere.
+func systemLanguages() string {
+	if runtime.GOOS != "darwin" {
+		return ""
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+	out, err := (runner.Exec{}).Run(ctx, "defaults", "read", "-g", "AppleLanguages")
+	if err != nil || out.ExitCode != 0 {
+		return ""
+	}
+	return firstAppleLanguage(out.Stdout)
+}
+
+// firstAppleLanguage parses the plist array printed by defaults:
+// ( "es-ES", en ) -> "es-ES".
+func firstAppleLanguage(s string) string {
+	s = strings.TrimSpace(s)
+	s = strings.TrimPrefix(s, "(")
+	first, _, _ := strings.Cut(s, ",")
+	return strings.Trim(strings.TrimSpace(strings.TrimSuffix(strings.TrimSpace(first), ")")), `"`)
 }
 
 func currentPlatform() (string, error) {

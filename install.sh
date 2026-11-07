@@ -41,7 +41,13 @@ else
 	BASE_URL="https://github.com/$REPO/releases/download/$VERSION"
 fi
 
-case "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" in
+# Use the locale variables, or the macOS language list when they are unset
+# (Terminal does not always set LANG).
+LOCALE="${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}"
+case "$LOCALE" in
+"" | C | POSIX) LOCALE="$(defaults read -g AppleLanguages 2>/dev/null | awk 'NR == 2 { gsub(/[ ",]/, ""); print }')" ;;
+esac
+case "$LOCALE" in
 es*) LANG_ES=1 ;;
 *) LANG_ES=0 ;;
 esac
@@ -92,19 +98,17 @@ tar -xzf "$TMP/$ARCHIVE" -C "$TMP"
 mkdir -p "$BIN_DIR" "$SHARE_DIR"
 install -m 0755 "$TMP/hardenme" "$BIN_DIR/hardenme"
 
-# The script Terminal runs when you double-click the app. It keeps the
-# language used during installation.
+# The script Terminal runs when you double-click the app. hardenme picks
+# the language from the system settings each time it runs.
 if [ "$LANG_ES" = 1 ]; then
-	SCAN_LANG=es
 	CLOSE_MSG="Pulsa Intro para cerrar. "
 else
-	SCAN_LANG=en
 	CLOSE_MSG="Press Return to close. "
 fi
 cat >"$SHARE_DIR/scan.command" <<EOF
 #!/bin/sh
 clear
-"$BIN_DIR/hardenme" scan --lang $SCAN_LANG
+"$BIN_DIR/hardenme" scan
 echo
 printf '%s' "$CLOSE_MSG"
 read -r _
