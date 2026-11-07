@@ -1,0 +1,42 @@
+id: macos.airdrop
+platform: macos
+category: privacy
+severity: low
+relevance:
+  default: optional
+  rules:
+    - when: { leaves_home: true }
+      level: recommended
+probe:
+  command: [defaults, read, com.apple.sharingd, DiscoverableMode]
+  rules:
+    - match: 'does not exist'
+      exit: 1
+      status: pass
+    - match: 'Everyone'
+      status: fail
+    - match: 'Off|Contacts Only'
+      status: pass
+text:
+  en:
+    title_pass: AirDrop is limited to your contacts
+    title_fail: Limit AirDrop to your contacts
+    why: >-
+      With AirDrop open to everyone, strangers nearby (on public transport, in a
+      café) can send you unwanted images or files and see your device's name.
+    fix_steps:
+      - Open Control Center (top-right of the menu bar) and click AirDrop.
+      - Choose "Contacts Only" (or turn AirDrop off).
+  es:
+    title_pass: AirDrop está limitado a tus contactos
+    title_fail: Limita AirDrop a tus contactos
+    why: >-
+      Con AirDrop abierto a todo el mundo, desconocidos cercanos (en el transporte
+      público, en una cafetería) pueden enviarte imágenes o archivos no deseados y
+      ver el nombre de tu dispositivo.
+    fix_steps:
+      - Abre el Centro de control (arriba a la derecha de la barra de menús) y pulsa AirDrop.
+      - Elige "Solo contactos" (o desactiva AirDrop).
+references:
+  - https://support.apple.com/guide/mac-help/use-airdrop-to-send-items-to-nearby-devices-mh35868/mac
+credits: [fort]

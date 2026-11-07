@@ -1,0 +1,38 @@
+id: macos.pending_updates
+platform: macos
+category: updates
+severity: high
+relevance:
+  default: essential
+probe:
+  builtin: macos.pending_updates
+text:
+  en:
+    title_pass: There are no pending macOS updates
+    title_fail: Install the pending macOS update
+    why: >-
+      An update for your version of macOS is waiting. Until you install it, the
+      security holes it fixes stay open. Upgrades to a new major version are shown
+      for information only.
+    fix_steps:
+      - Save your work.
+      - Open System Settings > General > Software Update.
+      - Click "Update Now" (or "Restart Now") and let the Mac restart.
+    deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
+  es:
+    title_pass: No hay actualizaciones de macOS pendientes
+    title_fail: Instala la actualización de macOS pendiente
+    why: >-
+      Hay una actualización esperando para tu versión de macOS. Hasta que la
+      instales, los fallos de seguridad que corrige siguen abiertos. Las
+      actualizaciones a una versión principal nueva solo se muestran como
+      información.
+    fix_steps:
+      - Guarda lo que estés haciendo.
+      - Abre Ajustes del Sistema > General > Actualización de software.
+      - Pulsa "Actualizar ahora" (o "Reiniciar ahora") y deja que el Mac se reinicie.
+    deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
+references:
+  - https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065/mac
+  - https://support.apple.com/100100
+credits: [fort, mSCP]

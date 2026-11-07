@@ -1,0 +1,44 @@
+id: macos.sip
+platform: macos
+category: malware
+severity: high
+relevance:
+  default: essential
+probe:
+  command: [csrutil, status]
+  rules:
+    - match: 'status: enabled\.'
+      status: pass
+    - match: 'Custom Configuration'
+      status: warn
+    - match: 'status: disabled'
+      status: fail
+text:
+  en:
+    title_pass: System Integrity Protection is on
+    title_fail: Turn System Integrity Protection back on
+    why: >-
+      System Integrity Protection (SIP) stops malware, even with your password,
+      from modifying macOS itself. It is on by default and should only be off if
+      you turned it off on purpose for development work.
+    fix_steps:
+      - Restart the Mac into Recovery (on Apple silicon, hold the power button until "Loading startup options" appears, then choose Options).
+      - Open Utilities > Terminal and run the command below.
+      - Restart normally.
+    command: csrutil enable
+  es:
+    title_pass: La Protección de la Integridad del Sistema está activada
+    title_fail: Vuelve a activar la Protección de la Integridad del Sistema
+    why: >-
+      La Protección de la Integridad del Sistema (SIP) impide que un programa
+      malicioso modifique macOS, aunque tenga tu contraseña. Viene activada de
+      fábrica y solo debería estar desactivada si lo hiciste a propósito para
+      desarrollar.
+    fix_steps:
+      - Reinicia el Mac en modo recuperación (en Apple silicon, mantén pulsado el botón de encendido hasta que salga "Cargando opciones de arranque" y elige Opciones).
+      - Abre Utilidades > Terminal y ejecuta el comando de abajo.
+      - Reinicia con normalidad.
+    command: csrutil enable
+references:
+  - https://support.apple.com/102149
+credits: [fort, mSCP]

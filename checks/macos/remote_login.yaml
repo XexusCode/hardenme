@@ -1,0 +1,43 @@
+id: macos.remote_login
+platform: macos
+category: network
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { risk: elevated }
+      level: essential
+probe:
+  command: [launchctl, print-disabled, system]
+  rules:
+    - match: '"com\.openssh\.sshd" => (enabled|false)'
+      status: fail
+    - match: '"com\.openssh\.sshd" => (disabled|true)'
+      status: pass
+  default: pass
+text:
+  en:
+    title_pass: Remote Login (SSH) is off
+    title_fail: Turn off Remote Login (SSH) if you do not use it
+    why: >-
+      Remote Login lets anyone on the network try to log in to your Mac from the
+      command line. If you are not a developer who connects to this Mac from
+      another computer, it should be off.
+    fix_steps:
+      - Open System Settings > General > Sharing.
+      - Turn off "Remote Login".
+    deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
+  es:
+    title_pass: El inicio de sesión remoto (SSH) está desactivado
+    title_fail: Desactiva el inicio de sesión remoto (SSH) si no lo usas
+    why: >-
+      El inicio de sesión remoto permite que cualquiera en la red intente entrar en
+      tu Mac desde la línea de comandos. Si no eres desarrollador y no te conectas
+      a este Mac desde otro ordenador, debería estar desactivado.
+    fix_steps:
+      - Abre Ajustes del Sistema > General > Compartir.
+      - Desactiva "Sesión remota".
+    deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
+references:
+  - https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac
+credits: [fort, mSCP]

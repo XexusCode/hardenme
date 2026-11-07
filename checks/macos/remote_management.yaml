@@ -1,0 +1,38 @@
+id: macos.remote_management
+platform: macos
+category: network
+severity: medium
+relevance:
+  default: recommended
+probe:
+  command: [pgrep, -x, ARDAgent]
+  rules:
+    - exit: 1
+      status: pass
+    - exit: 0
+      status: fail
+text:
+  en:
+    title_pass: Remote Management is off
+    title_fail: Turn off Remote Management if nobody manages your Mac
+    why: >-
+      Remote Management gives full remote control of the Mac. It is meant for
+      company IT departments. On a personal Mac it should be off.
+    fix_steps:
+      - Open System Settings > General > Sharing.
+      - Turn off "Remote Management".
+    deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
+  es:
+    title_pass: La gestión remota está desactivada
+    title_fail: Desactiva la gestión remota si nadie administra tu Mac
+    why: >-
+      La gestión remota da control total del Mac a distancia. Está pensada para el
+      departamento de informática de una empresa. En un Mac personal debería estar
+      desactivada.
+    fix_steps:
+      - Abre Ajustes del Sistema > General > Compartir.
+      - Desactiva "Gestión remota".
+    deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
+references:
+  - https://support.apple.com/guide/remote-desktop/enable-remote-management-apd8b1c65bd/mac
+credits: [fort, mSCP]

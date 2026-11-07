@@ -1,0 +1,45 @@
+id: macos.auto_lock
+platform: macos
+category: theft
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { portable: true }
+      level: essential
+    - when: { leaves_home: true }
+      level: essential
+    - when: { shared: true }
+      level: essential
+probe:
+  builtin: macos.auto_lock_timeout
+text:
+  en:
+    title_pass: The screen locks itself quickly when you walk away
+    title_fail: Make the screen lock itself sooner
+    why: >-
+      If you forget to lock the Mac, it stays open until the screen turns off. The
+      shorter that time, the smaller the window for someone to use it. If you take
+      it outside or share it, aim for 5 minutes or less; at home, 15 minutes.
+    fix_steps:
+      - Open System Settings > Lock Screen.
+      - Set "Turn display off on battery when inactive" and "Turn display off on power adapter when inactive" to 5 minutes (or 15 at home).
+      - Optionally set "Start Screen Saver when inactive" to the same time or less.
+      - Tip, lock it yourself when you leave it with Control-Command-Q.
+    deep_link: x-apple.systempreferences:com.apple.Lock-Screen-Settings.extension
+  es:
+    title_pass: La pantalla se bloquea sola enseguida cuando te alejas
+    title_fail: Haz que la pantalla se bloquee antes
+    why: >-
+      Si olvidas bloquear el Mac, sigue abierto hasta que se apaga la pantalla.
+      Cuanto menos tiempo, menos margen tiene alguien para usarlo. Si lo sacas de
+      casa o lo compartes, apunta a 5 minutos o menos; en casa, a 15.
+    fix_steps:
+      - Abre Ajustes del Sistema > Pantalla bloqueada.
+      - Pon "Apagar la pantalla con batería si está inactiva" y "Apagar la pantalla con el adaptador de corriente si está inactiva" en 5 minutos (o 15 en casa).
+      - Si quieres, pon "Iniciar el salvapantallas si está inactivo" en el mismo tiempo o menos.
+      - Truco, bloquéalo tú al levantarte con Control + Comando + Q.
+    deep_link: x-apple.systempreferences:com.apple.Lock-Screen-Settings.extension
+references:
+  - https://support.apple.com/guide/mac-help/change-lock-screen-settings-mh11784/mac
+credits: [mSCP]

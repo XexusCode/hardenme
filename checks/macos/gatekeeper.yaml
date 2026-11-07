@@ -1,0 +1,41 @@
+id: macos.gatekeeper
+platform: macos
+category: malware
+severity: high
+relevance:
+  default: essential
+probe:
+  command: [spctl, --status]
+  rules:
+    - match: 'assessments enabled'
+      status: pass
+    - match: 'assessments disabled'
+      status: fail
+text:
+  en:
+    title_pass: Gatekeeper checks the apps you open
+    title_fail: Turn Gatekeeper back on
+    why: >-
+      Gatekeeper stops apps that are unsigned or known to be malicious from opening.
+      With it off, any app you download can run without a warning.
+    fix_steps:
+      - Open the Terminal app.
+      - Run the command below and type your password when asked.
+      - Then, in System Settings > Privacy & Security, allow apps from "App Store and identified developers".
+    deep_link: x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension
+    command: sudo spctl --global-enable
+  es:
+    title_pass: Gatekeeper revisa las apps que abres
+    title_fail: Vuelve a activar Gatekeeper
+    why: >-
+      Gatekeeper impide abrir apps sin firmar o conocidas por ser maliciosas. Si
+      está desactivado, cualquier app que descargues puede ejecutarse sin avisarte.
+    fix_steps:
+      - Abre la app Terminal.
+      - Ejecuta el comando de abajo y escribe tu contraseña cuando te la pida.
+      - Después, en Ajustes del Sistema > Privacidad y seguridad, permite apps de "App Store y desarrolladores identificados".
+    deep_link: x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension
+    command: sudo spctl --global-enable
+references:
+  - https://support.apple.com/guide/security/gatekeeper-and-runtime-protection-sec5599b66df/web
+credits: [fort, mSCP]

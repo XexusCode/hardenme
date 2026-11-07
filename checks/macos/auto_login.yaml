@@ -1,0 +1,47 @@
+id: macos.auto_login
+platform: macos
+category: theft
+severity: high
+relevance:
+  default: recommended
+  rules:
+    - when: { portable: true }
+      level: essential
+    - when: { leaves_home: true }
+      level: essential
+    - when: { shared: true }
+      level: essential
+    - when: { sensitive_data: true }
+      level: essential
+probe:
+  command: [defaults, read, /Library/Preferences/com.apple.loginwindow, autoLoginUser]
+  rules:
+    - match: 'does not exist'
+      exit: 1
+      status: pass
+    - exit: 0
+      status: fail
+text:
+  en:
+    title_pass: The Mac asks for a password when it starts
+    title_fail: Turn off automatic login
+    why: >-
+      With automatic login, turning the Mac on opens your account without a
+      password. A thief only has to restart it to get in.
+    fix_steps:
+      - Open System Settings > Users & Groups.
+      - Set "Automatically log in as" to "Off".
+    deep_link: x-apple.systempreferences:com.apple.Users-Groups-Settings.extension
+  es:
+    title_pass: El Mac pide contraseña al arrancar
+    title_fail: Desactiva el inicio de sesión automático
+    why: >-
+      Con el inicio de sesión automático, al encender el Mac se abre tu cuenta sin
+      contraseña. A un ladrón le basta con reiniciarlo para entrar.
+    fix_steps:
+      - Abre Ajustes del Sistema > Usuarios y grupos.
+      - Pon "Iniciar sesión automáticamente como" en "Desactivado".
+    deep_link: x-apple.systempreferences:com.apple.Users-Groups-Settings.extension
+references:
+  - https://support.apple.com/102316
+credits: [fort]

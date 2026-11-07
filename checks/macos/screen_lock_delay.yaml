@@ -1,0 +1,43 @@
+id: macos.screen_lock_delay
+platform: macos
+category: theft
+severity: high
+relevance:
+  default: recommended
+  rules:
+    - when: { portable: true }
+      level: essential
+    - when: { leaves_home: true }
+      level: essential
+    - when: { shared: true }
+      level: essential
+    - when: { sensitive_data: true }
+      level: essential
+probe:
+  builtin: macos.screen_lock_delay
+text:
+  en:
+    title_pass: Your Mac asks for the password as soon as it locks
+    title_fail: Ask for the password right after sleep or the screen saver
+    why: >-
+      If the Mac does not ask for your password when it wakes up, anyone who picks
+      it up (or steals it while it is asleep) gets straight into your accounts,
+      email and files.
+    fix_steps:
+      - Open System Settings > Lock Screen.
+      - Set "Require password after screen saver begins or display is turned off" to "Immediately".
+    deep_link: x-apple.systempreferences:com.apple.Lock-Screen-Settings.extension
+  es:
+    title_pass: Tu Mac pide la contraseña nada más bloquearse
+    title_fail: Pide la contraseña justo después del reposo o el salvapantallas
+    why: >-
+      Si el Mac no pide la contraseña al despertar, cualquiera que lo coja (o lo
+      robe mientras está en reposo) entra directamente en tus cuentas, tu correo y
+      tus archivos.
+    fix_steps:
+      - Abre Ajustes del Sistema > Pantalla bloqueada.
+      - Pon "Solicitar contraseña tras iniciarse el salvapantallas o apagarse la pantalla" en "Inmediatamente".
+    deep_link: x-apple.systempreferences:com.apple.Lock-Screen-Settings.extension
+references:
+  - https://support.apple.com/guide/mac-help/change-lock-screen-settings-mh11784/mac
+credits: [fort]

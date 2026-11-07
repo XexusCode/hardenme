@@ -1,0 +1,52 @@
+id: macos.admin_account
+platform: macos
+category: accounts
+severity: low
+relevance:
+  default: optional
+  rules:
+    - when: { shared: true }
+      level: recommended
+    - when: { sensitive_data: true }
+      level: recommended
+    - when: { risk: elevated }
+      level: recommended
+probe:
+  command: [id, -Gn]
+  rules:
+    - match: '\badmin\b'
+      status: warn
+  default: pass
+text:
+  en:
+    title_pass: You use a standard (non-admin) account day to day
+    title_fail: Consider a standard account for everyday use
+    why: >-
+      Your everyday account is an administrator. Anything you run (including a
+      malicious app you are tricked into opening) can ask for admin rights with the
+      same password you type all day. A separate admin account adds one more
+      barrier. This is a suggestion, not an urgent problem.
+    fix_steps:
+      - Open System Settings > Users & Groups and add a new Administrator account with a different password.
+      - Log in to that new account once to check it works.
+      - Go back to Users & Groups, open your usual account and turn off "Allow this user to administer this computer".
+      - From now on, macOS will ask for the admin account's name and password when it needs to.
+    deep_link: x-apple.systempreferences:com.apple.Users-Groups-Settings.extension
+  es:
+    title_pass: Usas una cuenta estándar (no administradora) en el día a día
+    title_fail: Plantéate usar una cuenta estándar para el día a día
+    why: >-
+      Tu cuenta de todos los días es administradora. Cualquier cosa que ejecutes
+      (incluida una app maliciosa que te engañen para abrir) puede pedir permisos de
+      administrador con la misma contraseña que escribes a diario. Una cuenta de
+      administrador aparte añade una barrera más. Es una sugerencia, no un problema
+      urgente.
+    fix_steps:
+      - Abre Ajustes del Sistema > Usuarios y grupos y añade una cuenta nueva de tipo Administrador con otra contraseña.
+      - Inicia sesión una vez en esa cuenta para comprobar que funciona.
+      - Vuelve a Usuarios y grupos, abre tu cuenta habitual y desactiva "Permitir a este usuario administrar este ordenador".
+      - A partir de ahora, macOS te pedirá el nombre y la contraseña de la cuenta administradora cuando la necesite.
+    deep_link: x-apple.systempreferences:com.apple.Users-Groups-Settings.extension
+references:
+  - https://support.apple.com/guide/mac-help/set-up-users-guests-and-groups-on-mac-mtusr001/mac
+credits: [fort]

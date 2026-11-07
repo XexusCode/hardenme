@@ -1,0 +1,43 @@
+id: macos.icloud_adp
+platform: macos
+category: privacy
+severity: medium
+relevance:
+  default: optional
+  rules:
+    - when: { sensitive_data: true }
+      level: recommended
+    - when: { risk: elevated }
+      level: essential
+probe:
+  manual: true
+text:
+  en:
+    title_pass: Advanced Data Protection for iCloud is on
+    title_fail: Check whether Advanced Data Protection for iCloud is on
+    why: >-
+      By default Apple can decrypt your iCloud backups, notes and photos (for
+      example to help you recover your account). Advanced Data Protection encrypts
+      them so that only your devices can read them. You must set up a recovery
+      contact or recovery key first, because Apple will not be able to help you
+      recover the data.
+    fix_steps:
+      - Open System Settings and click your name, then iCloud.
+      - Look at "Advanced Data Protection". If it is off and you want it, click it and follow the steps.
+      - Set up a recovery contact or recovery key when asked, and keep the key somewhere safe.
+  es:
+    title_pass: La protección de datos avanzada de iCloud está activada
+    title_fail: Comprueba si la protección de datos avanzada de iCloud está activada
+    why: >-
+      Por defecto Apple puede descifrar tus copias de iCloud, notas y fotos (por
+      ejemplo, para ayudarte a recuperar la cuenta). La protección de datos avanzada
+      las cifra para que solo tus dispositivos puedan leerlas. Antes tienes que
+      configurar un contacto o una clave de recuperación, porque Apple no podrá
+      ayudarte a recuperar los datos.
+    fix_steps:
+      - Abre Ajustes del Sistema y pulsa tu nombre y luego iCloud.
+      - Mira "Protección de datos avanzada". Si está desactivada y la quieres, púlsala y sigue los pasos.
+      - Configura un contacto o una clave de recuperación cuando te lo pida y guarda la clave en un lugar seguro.
+references:
+  - https://support.apple.com/108756
+credits: [drduh/macOS-Security-and-Privacy-Guide]

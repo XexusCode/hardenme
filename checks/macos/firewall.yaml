@@ -1,0 +1,48 @@
+id: macos.firewall
+platform: macos
+category: network
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { portable: true }
+      level: essential
+    - when: { leaves_home: true }
+      level: essential
+    - when: { risk: elevated }
+      level: essential
+probe:
+  command: [/usr/libexec/ApplicationFirewall/socketfilterfw, --getglobalstate]
+  rules:
+    - match: '(?i)firewall is enabled|State = [12]'
+      status: pass
+    - match: '(?i)firewall is disabled|State = 0'
+      status: fail
+text:
+  en:
+    title_pass: The firewall is on
+    title_fail: Turn on the firewall
+    why: >-
+      The firewall blocks other devices on the same network from connecting to
+      services on your Mac. It matters most on public Wi-Fi (cafés, hotels,
+      airports), where you do not know who else is connected.
+    fix_steps:
+      - Open System Settings > Network > Firewall.
+      - Turn the firewall on.
+    deep_link: x-apple.systempreferences:com.apple.Network-Settings.extension
+    command: sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+  es:
+    title_pass: El cortafuegos está activado
+    title_fail: Activa el cortafuegos
+    why: >-
+      El cortafuegos impide que otros dispositivos de la misma red se conecten a
+      servicios de tu Mac. Es especialmente importante en wifis públicas
+      (cafeterías, hoteles, aeropuertos), donde no sabes quién más está conectado.
+    fix_steps:
+      - Abre Ajustes del Sistema > Red > Cortafuegos.
+      - Activa el cortafuegos.
+    deep_link: x-apple.systempreferences:com.apple.Network-Settings.extension
+    command: sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+references:
+  - https://support.apple.com/guide/mac-help/block-connections-to-your-mac-with-a-firewall-mh34041/mac
+credits: [fort, Lynis]

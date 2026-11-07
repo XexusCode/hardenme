@@ -1,0 +1,35 @@
+id: macos.security_responses
+platform: macos
+category: updates
+severity: high
+relevance:
+  default: essential
+probe:
+  builtin: macos.security_responses
+text:
+  en:
+    title_pass: Security responses and system files install automatically
+    title_fail: Turn on automatic security responses and system files
+    why: >-
+      Apple uses these to update the built-in malware protection (XProtect) and to
+      ship urgent security fixes quickly, without waiting for a full update.
+    fix_steps:
+      - Open System Settings > General > Software Update.
+      - Click the info button next to "Automatic updates".
+      - Turn on "Install Security Responses and system files".
+    deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
+  es:
+    title_pass: Las respuestas de seguridad y archivos del sistema se instalan solos
+    title_fail: Activa la instalación automática de respuestas de seguridad
+    why: >-
+      Apple las usa para actualizar la protección antimalware integrada (XProtect)
+      y para enviar arreglos de seguridad urgentes rápido, sin esperar a una
+      actualización completa.
+    fix_steps:
+      - Abre Ajustes del Sistema > General > Actualización de software.
+      - Pulsa el botón de información junto a "Actualizaciones automáticas".
+      - Activa "Instalar respuestas de seguridad y archivos del sistema".
+    deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
+references:
+  - https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a/web
+credits: [mSCP]

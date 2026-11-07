@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/XexusCode/hardenme/checks/schema.json",
+  "title": "hardenme check",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "platform", "category", "severity", "relevance", "probe", "text", "references"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^(macos|windows|android|ios)\\.[a-z0-9_]+$" },
+    "platform": { "enum": ["macos", "windows", "android", "ios"] },
+    "category": { "enum": ["theft", "accounts", "updates", "network", "privacy", "malware"] },
+    "severity": { "enum": ["high", "medium", "low"] },
+    "relevance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default"],
+      "properties": {
+        "default": { "$ref": "#/$defs/relevance" },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["when", "level"],
+            "properties": {
+              "when": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "portable": { "type": "boolean" },
+                  "leaves_home": { "type": "boolean" },
+                  "shared": { "type": "boolean" },
+                  "sensitive_data": { "type": "boolean" },
+                  "risk": { "enum": ["normal", "elevated"] }
+                }
+              },
+              "level": { "$ref": "#/$defs/relevance" }
+            }
+          }
+        }
+      }
+    },
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "oneOf": [
+        { "required": ["command", "rules"] },
+        { "required": ["builtin"] },
+        { "required": ["manual"] }
+      ],
+      "properties": {
+        "command": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status"],
+            "anyOf": [{ "required": ["match"] }, { "required": ["exit"] }],
+            "properties": {
+              "match": { "type": "string" },
+              "exit": { "type": "integer" },
+              "status": { "$ref": "#/$defs/status" },
+              "credit": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          }
+        },
+        "default": { "$ref": "#/$defs/status" },
+        "builtin": { "type": "string" },
+        "manual": { "const": true }
+      }
+    },
+    "text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["en", "es"],
+      "properties": {
+        "en": { "$ref": "#/$defs/text" },
+        "es": { "$ref": "#/$defs/text" }
+      }
+    },
+    "references": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^https://" } },
+    "credits": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "relevance": { "enum": ["not_applicable", "optional", "recommended", "essential"] },
+    "status": { "enum": ["pass", "fail", "warn", "unknown", "manual", "skipped"] },
+    "text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title_pass", "title_fail", "why", "fix_steps"],
+      "properties": {
+        "title_pass": { "type": "string", "minLength": 1 },
+        "title_fail": { "type": "string", "minLength": 1 },
+        "why": { "type": "string", "minLength": 1 },
+        "fix_steps": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "deep_link": { "type": "string", "pattern": "^(x-apple\\.systempreferences:|ms-settings:|https://)" },
+        "command": { "type": "string" }
+      }
+    }
+  }
+}

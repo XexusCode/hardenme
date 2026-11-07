@@ -1,0 +1,40 @@
+id: macos.file_sharing
+platform: macos
+category: network
+severity: low
+relevance:
+  default: optional
+  rules:
+    - when: { leaves_home: true }
+      level: recommended
+probe:
+  command: [launchctl, print, system/com.apple.smbd]
+  rules:
+    - exit: 0
+      status: fail
+    - exit: 113
+      status: pass
+text:
+  en:
+    title_pass: File Sharing is off
+    title_fail: Turn off File Sharing if you do not use it
+    why: >-
+      File Sharing makes folders on your Mac reachable from other devices on the
+      network. On public Wi-Fi that means strangers can try to reach them too.
+    fix_steps:
+      - Open System Settings > General > Sharing.
+      - Turn off "File Sharing".
+    deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
+  es:
+    title_pass: Compartir archivos está desactivado
+    title_fail: Desactiva Compartir archivos si no lo usas
+    why: >-
+      Compartir archivos hace que carpetas de tu Mac sean accesibles desde otros
+      dispositivos de la red. En una wifi pública, eso incluye a desconocidos.
+    fix_steps:
+      - Abre Ajustes del Sistema > General > Compartir.
+      - Desactiva "Compartir archivos".
+    deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
+references:
+  - https://support.apple.com/guide/mac-help/set-up-file-sharing-on-mac-mh17131/mac
+credits: [fort, mSCP]

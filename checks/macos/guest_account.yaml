@@ -1,0 +1,49 @@
+id: macos.guest_account
+platform: macos
+category: theft
+severity: low
+relevance:
+  default: optional
+  rules:
+    - when: { leaves_home: true }
+      level: recommended
+    - when: { shared: true }
+      level: recommended
+probe:
+  command: [defaults, read, /Library/Preferences/com.apple.loginwindow, GuestEnabled]
+  rules:
+    - match: 'does not exist'
+      exit: 1
+      status: pass
+    - match: '(?m)^\s*0\s*$'
+      exit: 0
+      status: pass
+    - match: '(?m)^\s*1\s*$'
+      exit: 0
+      status: fail
+text:
+  en:
+    title_pass: The guest account is off
+    title_fail: Turn off the guest account
+    why: >-
+      The guest account lets anyone use the Mac without a password. A thief can use
+      it to get online and wipe or resell the Mac more easily. If you want to lend
+      your Mac, create a normal account for that person instead.
+    fix_steps:
+      - Open System Settings > Users & Groups.
+      - Click the info button next to "Guest User" and turn off "Allow guests to log in to this computer".
+    deep_link: x-apple.systempreferences:com.apple.Users-Groups-Settings.extension
+  es:
+    title_pass: La cuenta de invitado está desactivada
+    title_fail: Desactiva la cuenta de invitado
+    why: >-
+      La cuenta de invitado permite usar el Mac sin contraseña. Un ladrón puede
+      usarla para conectarse a internet y borrar o revender el Mac con más
+      facilidad. Si quieres prestarlo, crea una cuenta normal para esa persona.
+    fix_steps:
+      - Abre Ajustes del Sistema > Usuarios y grupos.
+      - Pulsa el botón de información junto a "Usuario invitado" y desactiva "Permitir a los invitados iniciar sesión en este ordenador".
+    deep_link: x-apple.systempreferences:com.apple.Users-Groups-Settings.extension
+references:
+  - https://support.apple.com/guide/mac-help/set-up-a-guest-user-mh11396/mac
+credits: [fort]

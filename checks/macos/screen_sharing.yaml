@@ -1,0 +1,39 @@
+id: macos.screen_sharing
+platform: macos
+category: network
+severity: medium
+relevance:
+  default: recommended
+probe:
+  command: [launchctl, print, system/com.apple.screensharing]
+  rules:
+    - exit: 0
+      status: fail
+    - exit: 113
+      status: pass
+text:
+  en:
+    title_pass: Screen Sharing is off
+    title_fail: Turn off Screen Sharing if you do not use it
+    why: >-
+      Screen Sharing lets someone see and control your Mac from another computer.
+      Scammers often ask victims to turn it on. Keep it off unless you are using it
+      right now.
+    fix_steps:
+      - Open System Settings > General > Sharing.
+      - Turn off "Screen Sharing".
+    deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
+  es:
+    title_pass: Compartir pantalla está desactivado
+    title_fail: Desactiva Compartir pantalla si no lo usas
+    why: >-
+      Compartir pantalla permite que alguien vea y controle tu Mac desde otro
+      ordenador. Los estafadores suelen pedir a sus víctimas que lo activen.
+      Mantenlo desactivado salvo cuando lo estés usando.
+    fix_steps:
+      - Abre Ajustes del Sistema > General > Compartir.
+      - Desactiva "Compartir pantalla".
+    deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
+references:
+  - https://support.apple.com/guide/mac-help/turn-screen-sharing-on-or-off-mh11848/mac
+credits: [fort, mSCP]

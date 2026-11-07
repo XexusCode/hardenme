@@ -1,0 +1,45 @@
+id: macos.firewall_stealth
+platform: macos
+category: network
+severity: low
+relevance:
+  default: optional
+  rules:
+    - when: { leaves_home: true }
+      level: recommended
+    - when: { risk: elevated }
+      level: recommended
+probe:
+  command: [/usr/libexec/ApplicationFirewall/socketfilterfw, --getstealthmode]
+  rules:
+    - match: '(?i)stealth mode is on|stealth mode enabled'
+      status: pass
+    - match: '(?i)stealth mode is off|stealth mode disabled'
+      status: fail
+text:
+  en:
+    title_pass: Stealth mode is on
+    title_fail: Turn on the firewall's stealth mode
+    why: >-
+      In stealth mode your Mac does not answer "is anyone there?" probes, so it is
+      harder to find on a public network. It only works while the firewall is on.
+    fix_steps:
+      - Open System Settings > Network > Firewall > Options.
+      - Turn on "Enable stealth mode".
+    deep_link: x-apple.systempreferences:com.apple.Network-Settings.extension
+    command: sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+  es:
+    title_pass: El modo invisible está activado
+    title_fail: Activa el modo invisible del cortafuegos
+    why: >-
+      En modo invisible tu Mac no responde a los sondeos de "¿hay alguien ahí?", así
+      que es más difícil encontrarlo en una red pública. Solo funciona con el
+      cortafuegos activado.
+    fix_steps:
+      - Abre Ajustes del Sistema > Red > Cortafuegos > Opciones.
+      - Activa "Activar modo invisible".
+    deep_link: x-apple.systempreferences:com.apple.Network-Settings.extension
+    command: sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+references:
+  - https://support.apple.com/guide/mac-help/change-firewall-settings-on-mac-mh11783/mac
+credits: [drduh/macOS-Security-and-Privacy-Guide]

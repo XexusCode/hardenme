@@ -1,0 +1,39 @@
+id: macos.find_my
+platform: macos
+category: theft
+severity: high
+relevance:
+  default: optional
+  rules:
+    - when: { portable: true }
+      level: essential
+    - when: { leaves_home: true }
+      level: essential
+probe:
+  builtin: macos.find_my
+text:
+  en:
+    title_pass: Find My Mac is on
+    title_fail: Make sure Find My Mac is on
+    why: >-
+      Find My lets you see where your Mac is, lock it with a message and erase it
+      remotely if it is stolen. It also enables Activation Lock, which makes a
+      stolen Mac much harder to resell.
+    fix_steps:
+      - Open System Settings and click your name at the top.
+      - Go to iCloud > Find My Mac (or "See All" > Find My Mac) and turn it on.
+      - Test it once at icloud.com/find from another device.
+  es:
+    title_pass: Buscar mi Mac está activado
+    title_fail: Comprueba que Buscar mi Mac está activado
+    why: >-
+      Buscar te deja ver dónde está tu Mac, bloquearlo con un mensaje y borrarlo a
+      distancia si te lo roban. También activa el Bloqueo de activación, que hace
+      mucho más difícil revender un Mac robado.
+    fix_steps:
+      - Abre Ajustes del Sistema y pulsa tu nombre arriba del todo.
+      - Ve a iCloud > Buscar mi Mac (o "Ver todo" > Buscar mi Mac) y actívalo.
+      - Pruébalo una vez en icloud.com/find desde otro dispositivo.
+references:
+  - https://support.apple.com/guide/mac-help/if-your-mac-is-lost-or-stolen-mchlp2534/mac
+  - https://support.apple.com/102541

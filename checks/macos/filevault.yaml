@@ -1,0 +1,58 @@
+id: macos.filevault
+platform: macos
+category: theft
+severity: high
+relevance:
+  default: optional
+  rules:
+    - when: { portable: true }
+      level: essential
+    - when: { leaves_home: true }
+      level: essential
+    - when: { sensitive_data: true }
+      level: essential
+    - when: { risk: elevated }
+      level: essential
+    - when: { shared: true }
+      level: recommended
+probe:
+  command: [fdesetup, status]
+  rules:
+    - match: 'FileVault is On'
+      status: pass
+    - match: 'Encryption in progress'
+      status: pass
+    - match: 'Decryption in progress'
+      status: fail
+    - match: 'FileVault is Off'
+      status: fail
+text:
+  en:
+    title_pass: Your disk is encrypted (FileVault is on)
+    title_fail: Turn on disk encryption (FileVault)
+    why: >-
+      Without FileVault, anyone who steals your Mac can take the disk out or boot
+      it from another drive and read all your files, passwords and photos without
+      knowing your password. With FileVault on, the data is useless without it.
+    fix_steps:
+      - Open System Settings > Privacy & Security.
+      - Scroll to FileVault and click "Turn On".
+      - Save the recovery key somewhere safe outside the Mac (or let your Apple Account unlock it).
+      - Keep working while it encrypts; it can take a few hours.
+    deep_link: x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension
+  es:
+    title_pass: Tu disco está cifrado (FileVault activado)
+    title_fail: Activa el cifrado del disco (FileVault)
+    why: >-
+      Sin FileVault, quien robe tu Mac puede sacar el disco o arrancarlo desde otra
+      unidad y leer todos tus archivos, contraseñas y fotos sin saber tu contraseña.
+      Con FileVault activado, esos datos no sirven de nada sin ella.
+    fix_steps:
+      - Abre Ajustes del Sistema > Privacidad y seguridad.
+      - Baja hasta FileVault y pulsa "Activar".
+      - Guarda la clave de recuperación en un lugar seguro fuera del Mac (o deja que tu cuenta de Apple lo desbloquee).
+      - Puedes seguir usando el Mac mientras cifra; puede tardar unas horas.
+    deep_link: x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension
+references:
+  - https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785/mac
+credits: [fort, mSCP]

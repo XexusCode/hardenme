@@ -1,0 +1,161 @@
+# hardenme
+
+**English** | [Español](README.es.md)
+
+> Check how safe your device is, in plain language, and get ready for the day it gets stolen.
+
+`hardenme` is a free, open-source command-line tool for **non-technical people**. It looks at your device's security settings, gives you a **score from 0 to 100** (grade A to F), and tells you, for each problem, **why it matters and how to fix it**, in English or Spanish.
+
+The score depends on **your situation**. Disk encryption is essential on a laptop you carry around, but optional on a desktop that never leaves home. `hardenme` asks a few simple questions and weighs every check accordingly.
+
+> **Project status: early development, macOS only.** Android, Windows and iOS are on the [roadmap](#roadmap).
+
+## Why
+
+There are great security tools out there, but none of them combines all of this:
+
+- **Cross-platform**: one tool for your Mac, your Windows laptop and your phone.
+- **Made for non-technical people**: no jargon, clear steps, links straight to the right setting.
+- **A score weighted by your profile**: what matters for a commuter's laptop is not what matters for a family desktop.
+- **Focus on theft**: what to set up before your device is stolen, and what to do in the first minutes, hours and days after.
+- **In English and Spanish.**
+
+## Privacy promises
+
+- **Read-only.** It only reads settings. It never changes anything on its own.
+- **No sudo, no admin password.** Ever.
+- **No network.** Nothing is sent anywhere. No telemetry, no accounts, no cloud.
+- **Open source** (MIT), so anyone can check these promises.
+
+## Install
+
+Release binaries are coming in phase 3. For now you need [Go](https://go.dev/dl/) installed:
+
+```sh
+go install github.com/XexusCode/hardenme@latest
+```
+
+Or clone the repository and run it directly:
+
+```sh
+git clone https://github.com/XexusCode/hardenme.git
+cd hardenme
+go run . scan
+```
+
+## Usage
+
+```sh
+# Tell hardenme about your situation (asks interactively without flags)
+hardenme profile
+hardenme profile --portable --leaves-home --sensitive-data --risk normal
+
+# Audit this device
+hardenme scan
+hardenme scan --lang es
+hardenme scan --only filevault,firewall
+
+# Read the theft guides in your terminal
+hardenme guide theft-before
+hardenme guide theft-after --lang es
+```
+
+Your profile is saved at `~/.config/hardenme/profile.json`. The questions are:
+
+| Flag | Question |
+|---|---|
+| `--portable` | Is it a laptop? (detected automatically when possible) |
+| `--leaves-home` | Do you take it outside? |
+| `--shared` | Do other people use it? |
+| `--sensitive-data` | Does it hold work or banking data? |
+| `--risk normal\|elevated` | Is someone likely to target you personally? |
+
+### Sample output
+
+An excerpt from a real run on a MacBook (macOS 26.2):
+
+```text
+hardenme · macOS 26.2
+Profile: laptop, goes outside, normal risk
+
+Security score: 57/100 (F, At risk)
+7 to fix, 1 suggestions, 2 to check yourself
+
+FIX FIRST (essential for you) (5)
+
+✗ Turn on disk encryption (FileVault)
+  Now: FileVault is Off.
+  Why it matters:
+    Without FileVault, anyone who steals your Mac can take the disk out or
+    boot it from another drive and read all your files, passwords and photos
+    without knowing your password. [...]
+  How to fix it:
+    1. Open System Settings > Privacy & Security.
+    2. Scroll to FileVault and click "Turn On". [...]
+  Open: open "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension"
+
+✗ Install the pending macOS update
+  Now: 26.2, pending: macOS Tahoe 26.7.2
+  [...]
+
+CHECK IT YOURSELF (2)
+? Make sure Find My Mac is on
+  [...]
+
+ALREADY GOOD (10)
+✓ Gatekeeper checks the apps you open
+✓ macOS updates itself automatically
+[...]
+```
+
+### Exit codes
+
+| Code | Meaning |
+|---|---|
+| `0` | Everything relevant passes |
+| `1` | At least one essential or recommended check failed |
+| `2` | Only warnings or optional items |
+
+## How the score works
+
+Each check gets a **weight** from your profile:
+
+| Relevance for you | Weight |
+|---|---|
+| Essential | 3 |
+| Recommended | 2 |
+| Optional | 1 |
+| Not applicable | 0 |
+
+The score is the points you earned divided by the points you could earn, times 100:
+
+```
+score = Σ(earned × weight) / Σ(max × weight) × 100
+```
+
+Grades: **A** 90 or more, **B** 80 to 89, **C** 70 to 79, **D** 60 to 69, **F** below 60.
+
+Some checks give partial credit. Checks that could not be read (**unknown**) or that you need to verify yourself (**manual**) do **not** count, neither for nor against you. A check that cannot run is never treated as a pass.
+
+## Guides
+
+- [Before your device is stolen](docs/guide/en/theft-before.md)
+- [My device was stolen: what to do now](docs/guide/en/theft-after.md)
+
+## Roadmap
+
+- **Phase 1 (now):** macOS audit, profile-weighted score, theft guides in EN/ES.
+- **Phase 2:** Android audit over USB (`adb`, no root), JSON and Markdown output, "theft stories" that explain what a thief could do with your current settings.
+- **Phase 3:** Windows audit, guided iOS checklist, release binaries and a Homebrew tap.
+
+## Contributing
+
+Contributions are very welcome, especially new checks, corrections and translations. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and our [Code of Conduct](CODE_OF_CONDUCT.md). To report a security issue, see [SECURITY.md](SECURITY.md).
+
+## Credits
+
+`hardenme` builds on the work of many open-source projects. See [CREDITS.md](CREDITS.md).
+
+## License
+
+[MIT](LICENSE)

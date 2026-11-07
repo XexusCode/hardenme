@@ -1,0 +1,35 @@
+id: macos.auto_updates
+platform: macos
+category: updates
+severity: high
+relevance:
+  default: essential
+probe:
+  builtin: macos.auto_updates
+text:
+  en:
+    title_pass: macOS updates itself automatically
+    title_fail: Turn on automatic macOS updates
+    why: >-
+      Most attacks use security holes that Apple has already fixed. Automatic
+      updates install those fixes without you having to remember.
+    fix_steps:
+      - Open System Settings > General > Software Update.
+      - Click the info button next to "Automatic updates".
+      - Turn on "Check for updates", "Download new updates when available" and "Install macOS updates".
+    deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
+  es:
+    title_pass: macOS se actualiza solo
+    title_fail: Activa las actualizaciones automáticas de macOS
+    why: >-
+      La mayoría de ataques aprovechan fallos de seguridad que Apple ya ha
+      arreglado. Las actualizaciones automáticas instalan esos arreglos sin que
+      tengas que acordarte.
+    fix_steps:
+      - Abre Ajustes del Sistema > General > Actualización de software.
+      - Pulsa el botón de información junto a "Actualizaciones automáticas".
+      - Activa "Buscar actualizaciones", "Descargar actualizaciones nuevas cuando estén disponibles" e "Instalar actualizaciones de macOS".
+    deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
+references:
+  - https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065/mac
+credits: [fort, mSCP]

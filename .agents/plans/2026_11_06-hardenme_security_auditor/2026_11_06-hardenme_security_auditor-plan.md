@@ -9,6 +9,16 @@ created_by:
     name: "Claude Opus"
     version: "5.5"
     reasoning_effort: "low"
+
+implemented_by:
+  tool: "Claude Code"
+  model:
+    name: "Claude Opus"
+    version: "5.5"
+    reasoning_effort: "low"
+
+last_implementation_at: "2026-11-06T16:30:00Z"
+has_completed_all_phases: "false"
 ---
 
 # hardenme security auditor
@@ -96,27 +106,42 @@ Publish `hardenme` as an MIT open-source repository on GitHub. It ships two thin
 
 **Description:** Deliver a runnable `hardenme scan` on macOS that asks for the user's profile, runs the macOS checks and prints a weighted score with fixes in EN/ES. Also publish the open-source scaffolding and the first guide pages.
 
-- [ ] Install Go (`brew install go`) and initialise the module `github.com/<owner>/hardenme` (confirm the GitHub owner with the user).
-- [ ] Add the open-source scaffolding:
+- [x] Install Go (`brew install go`) and initialise the module `github.com/<owner>/hardenme` (confirm the GitHub owner with the user).
+- [x] Add the open-source scaffolding:
   - `LICENSE` (MIT) and `README.md` (EN) with `README.es.md` (ES).
   - `CONTRIBUTING.md`, which requires references for every check and states the licensing rules from the research.
   - `CODE_OF_CONDUCT.md` and `SECURITY.md`.
   - `CREDITS.md`, promoted from `docs/research/CREDITS.draft.md`.
   - `third_party/fort/LICENSE`.
-- [ ] Add `AGENTS.md` with the architecture, the conventions and the verification command.
-- [ ] Implement `Runner` (`ExecRunner` and `FakeRunner`).
-- [ ] Implement `Profile`, `ProfileStore`, `ProfileDetector` (macOS battery detection via `pmset -g batt`) and `hardenme profile` (interactive and flag-based).
-- [ ] Implement the check schema, `Catalog.Load` with `go:embed`, and `catalog_test`.
-- [ ] Implement `Scanner`, `Report.Score` and `scoring_test`.
-- [ ] Add the macOS checks from the catalogue in `docs/research/prior-art.md` §3. Each one gets a YAML definition with EN/ES text and a `x-apple.systempreferences:` deep link where one exists. Checks adapted from fort credit it.
-- [ ] Add the macOS check tests with fixtures.
-- [ ] Verify the _unverified_ macOS probes on this Mac: `sysadminctl -screenLock status`, `nvram fmm-mobileme-token-FMM`, and the update keys on macOS 14+. Fix the probes or mark those checks `manual`.
-- [ ] Implement the text `Renderer`, the `--lang` flag and the text golden tests.
-- [ ] Wire up `hardenme scan` and the exit codes.
-- [ ] Write the guide pages `docs/guide/{en,es}/theft-before.md` and `theft-after.md`, and the `hardenme guide` command that prints them.
-- [ ] Run `go run . scan` on this Mac and attach the output to the review.
-- [ ] Verify the changes in terms of typechecking, linting and tests using the project's verification command (`gofmt -l . && go vet ./... && go test ./...`). Fix issues if any.
-- [ ] STOP. Present the changes to the user for review and suggest commit messages (or pull request titles, when the phases are implemented through pull requests). Do NOT proceed to the next phase until the user explicitly asks.
+- [x] Add `AGENTS.md` with the architecture, the conventions and the verification command.
+- [x] Implement `Runner` (`ExecRunner` and `FakeRunner`).
+- [x] Implement `Profile`, `ProfileStore`, `ProfileDetector` (macOS battery detection via `pmset -g batt`) and `hardenme profile` (interactive and flag-based).
+- [x] Implement the check schema, `Catalog.Load` with `go:embed`, and `catalog_test`.
+- [x] Implement `Scanner`, `Report.Score` and `scoring_test`.
+- [x] Add the macOS checks from the catalogue in `docs/research/prior-art.md` §3. Each one gets a YAML definition with EN/ES text and a `x-apple.systempreferences:` deep link where one exists. Checks adapted from fort credit it.
+- [x] Add the macOS check tests with fixtures.
+- [x] Verify the _unverified_ macOS probes on this Mac: `sysadminctl -screenLock status`, `nvram fmm-mobileme-token-FMM`, and the update keys on macOS 14+. Fix the probes or mark those checks `manual`.
+- [x] Implement the text `Renderer`, the `--lang` flag and the text golden tests.
+- [x] Wire up `hardenme scan` and the exit codes.
+- [x] Write the guide pages `docs/guide/{en,es}/theft-before.md` and `theft-after.md`, and the `hardenme guide` command that prints them.
+- [x] Run `go run . scan` on this Mac and attach the output to the review.
+- [x] Verify the changes in terms of typechecking, linting and tests using the project's verification command (`gofmt -l . && go vet ./... && go test ./...`). Fix issues if any.
+- [x] STOP. Present the changes to the user for review and suggest commit messages (or pull request titles, when the phases are implemented through pull requests). Do NOT proceed to the next phase until the user explicitly asks.
+
+**Implementation notes (Phase 1):**
+- `Runner.Run` returns `(runner.Output{Stdout, Stderr, ExitCode}, error)`, not `(stdout, error)`. Several macOS tools answer on stderr, and many rules depend on the exit code. Errors are reserved for commands that could not run.
+- `ProfileDetector.Detect` became the function `profile.DetectPortable(ctx, Runner, goos)`.
+- The JSON Schema is enforced in `catalog_test`. At runtime, `check.Load` performs equivalent Go validation, so the binary does not ship a schema validator.
+- Probes verified on a real MacBook (macOS 26.2):
+  - Real fixtures were captured for every check.
+  - The update check found a real bug: names like "macOS Tahoe 26.7.2" were not detected. It is fixed and covered by a test.
+  - `sysadminctl -screenLock status` works without sudo. It prints to stderr: "screenLock is off" or "screenLock delay is N seconds".
+  - Missing SoftwareUpdate keys are mapped to the macOS defaults.
+- Still unverified on a real device:
+  - Find My Mac. The `fmm-mobileme-token-FMM` NVRAM key was absent on the test Mac, and the toggle state could not be confirmed. Absent therefore maps to `manual`, never `fail`.
+  - The "on" outputs for Screen Sharing, File Sharing and Remote Management. They follow launchd semantics but were not observed.
+  - Fixtures labelled as older formats (pre-macOS 26) are not captured from real machines.
+- Settings deep links use the System Settings extension bundle IDs, read from `/System/Library/ExtensionKit/Extensions` on macOS 26.2. Opening them was not tested.
 
 ### Phase 2: Android audit over adb and theft stories
 
@@ -174,6 +199,6 @@ Publish `hardenme` as an MIT open-source repository on GitHub. It ships two thin
 
 ## ⏭️ Next step
 
-Implement Phase 1: the repository foundation and the macOS audit with the profile-weighted score.
+Implement Phase 2: the Android audit over adb, JSON/Markdown output and theft stories.
 
-Hardened, scored and theft-ready, brought to you by 🐢 💨 (Turbotuga™, [Codely](https://codely.com)'s mascot).
+Hardened, scored and theft-ready: the Mac is locked down, the Android is next 💻🔒 < 🐢 💨 (Turbotuga™, [Codely](https://codely.com)'s mascot).
