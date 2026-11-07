@@ -1,0 +1,43 @@
+# Builds the release artifacts that install.sh downloads.
+# Local dry run: goreleaser release --snapshot --clean
+version: 2
+project_name: hardenme
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+builds:
+  - id: hardenme
+    main: .
+    env: [CGO_ENABLED=0]
+    goos: [darwin]
+    goarch: [amd64, arm64]
+    flags: [-trimpath]
+    ldflags: ["-s -w -X main.version={{ .Version }}"]
+
+# One binary for Intel and Apple silicon Macs.
+universal_binaries:
+  - id: hardenme
+    replace: true
+
+archives:
+  - ids: [hardenme]
+    formats: [tar.gz]
+    # No version in the name, so install.sh can use releases/latest/download.
+    name_template: "{{ .ProjectName }}_{{ .Os }}_universal"
+    files: [LICENSE, README.md, README.es.md, CREDITS.md]
+
+checksum:
+  name_template: checksums.txt
+  algorithm: sha256
+
+release:
+  extra_files:
+    - glob: ./install.sh
+
+changelog:
+  use: github
+  filters:
+    exclude: ["^docs:", "^test:", "^chore:"]

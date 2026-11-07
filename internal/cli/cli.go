@@ -29,8 +29,9 @@ type ExitError struct{ Code int }
 func (e ExitError) Error() string { return fmt.Sprintf("exit %d", e.Code) }
 
 // Execute runs the CLI and returns the process exit code.
-func Execute() int {
+func Execute(version string) int {
 	root := newRoot()
+	root.Version = version
 	err := root.Execute()
 	var exit ExitError
 	switch {

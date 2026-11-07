@@ -29,19 +29,29 @@ Hay herramientas de seguridad muy buenas, pero ninguna junta todo esto:
 
 ## Instalación
 
-Los binarios listos para descargar llegarán en la fase 3. De momento necesitas tener [Go](https://go.dev/dl/) instalado:
+No hace falta saber programar. Solo usarás Terminal **una vez**, para pegar una línea. Después, hardenme es una app que abres con doble clic.
+
+1. **Abre Terminal.** Pulsa `Comando (⌘) + Espacio`, escribe `Terminal` y pulsa `Intro`. Aparece una ventana con texto.
+2. **Copia esta línea, pégala en esa ventana y pulsa `Intro`:**
+
+   ```sh
+   curl -fsSL https://raw.githubusercontent.com/XexusCode/hardenme/main/install.sh | sh
+   ```
+
+3. **Espera unos segundos.** Verás cuatro pasos (descargar, comprobar, instalar y crear la app) y después "¡Listo!". No pide tu contraseña y no instala nada fuera de tu carpeta de usuario o de Aplicaciones.
+4. **Se abre una ventana del Finder con hardenme seleccionado. Haz doble clic.** Se abre Terminal, te hace unas preguntas sobre cómo usas tu Mac y te enseña tu nota.
+
+A partir de ahí, abre **hardenme** desde Aplicaciones o Spotlight cuando quieras revisar otra vez.
+
+> **¿Es seguro pegar un comando?** Solo si confías en su origen. Puedes [leer el instalador](install.sh) antes: es corto y está comentado. Descarga la versión publicada en GitHub, comprueba su checksum SHA-256 y se para si algo no coincide.
+
+**Desinstalar:**
 
 ```sh
-go install github.com/XexusCode/hardenme@latest
+curl -fsSL https://raw.githubusercontent.com/XexusCode/hardenme/main/install.sh | sh -s -- --uninstall
 ```
 
-O clona el repositorio y ejecútalo directamente:
-
-```sh
-git clone https://github.com/XexusCode/hardenme.git
-cd hardenme
-go run . scan
-```
+**Para desarrolladores:** `go install github.com/XexusCode/hardenme@latest`, o clona el repositorio y ejecuta `go run . scan`.
 
 ## Uso
 
@@ -144,9 +154,10 @@ Algunas comprobaciones dan puntos a medias. Las que no se han podido leer (**des
 
 ## Hoja de ruta
 
-- **Fase 1 (ahora):** revisión de macOS, nota según tu perfil y guías sobre robos en español e inglés.
-- **Fase 2:** revisión de Android por USB (`adb`, sin root), resultados en JSON y Markdown, e "historias de robo" que explican qué podría hacer un ladrón con tu configuración actual.
-- **Fase 3:** revisión de Windows, lista guiada para iOS, binarios para descargar y fórmula de Homebrew.
+- **v0.1 (ahora):** revisión de macOS, nota según tu perfil, guías sobre robos en español e inglés, e instalador de una línea con app de doble clic.
+- **v0.2:** lista guiada para iPhone y Android, "historias de robo" que explican qué podría hacer un ladrón con tu configuración actual, y resultados en JSON y Markdown.
+- **v0.3:** revisión automática de Android por USB (`adb`, sin root) para usuarios avanzados.
+- **Más adelante:** revisión de Windows, lectura de ajustes del iPhone por USB, `--fix` seguro con confirmación y fórmula de Homebrew.
 
 ## Cómo colaborar
 

@@ -68,17 +68,18 @@ Fecha: 2026-11-06. Documento interno para decidir en qué centrarse. Revisado co
 - **Sin estimaciones de tiempo:** el roadmap se ordena por prioridad, no por fechas.
 
 ### Ahora (v0.1): publicar el Mac con instalación fácil
-- [ ] Commit de la fase 1 y crear el repo público en GitHub.
-- [ ] CI con GitHub Actions: `gofmt`, `vet` y `test` en `macos-latest`.
-- [ ] Release con GoReleaser: binario universal de macOS más `brew install`. Se adelanta de la fase 3 porque sin esto nadie puede usarlo.
+- [x] Commit de la fase 1 (`8c46765`).
+- [ ] Crear el repo público en GitHub y hacer push.
+- [x] CI con GitHub Actions: `gofmt`, `vet` y `test` en `macos-latest`.
+- [x] Release con GoReleaser: binario universal de macOS, `checksums.txt` e `install.sh` (Homebrew queda para más adelante). Se adelanta de la fase 3 porque sin esto nadie puede usarlo.
 - [ ] **Instalación sin darse de alta en ningún sitio** (decidido el 2026-11-07: nada de Apple Developer Program). Por eso **no hay `.pkg` notarizado**: un `.pkg` sin firmar descargado desde el navegador lo bloquea Gatekeeper, y para abrirlo hay que ir a Ajustes > Privacidad y seguridad > "Abrir igualmente", que parece malware. En su lugar:
-  - [ ] **Instalador de un solo comando** (`install.sh`, publicado en el repo y en cada release):
+  - [x] **Instalador de un solo comando** (`install.sh`, publicado en el repo y en cada release):
     - Lo que se descarga con `curl` no lleva la marca de cuarentena, así que Gatekeeper no lo bloquea.
     - El script descarga el binario universal de la release, comprueba su checksum SHA-256 y lo instala en `~/.local/bin` (sin sudo).
     - Crea la app lanzadora `~/Applications/hardenme.app`. Al generarse en local, tampoco lleva cuarentena.
     - Explica en EN/ES qué hace en cada paso.
-  - [ ] **Lanzador de doble clic** `hardenme.app`: abre Terminal y ejecuta `hardenme scan`. Es lo que usará la persona no técnica después de instalar: Terminal solo se usa una vez, para pegar el comando de instalación.
-  - [ ] **README con la instalación paso a paso y capturas**: cómo abrir Terminal, qué pegar y qué vas a ver. Con un enlace al script, para quien quiera leerlo antes.
+  - [x] **Lanzador de doble clic** `hardenme.app`: abre Terminal y ejecuta `hardenme scan`. Es lo que usará la persona no técnica después de instalar: Terminal solo se usa una vez, para pegar el comando de instalación.
+  - [x] **README con la instalación paso a paso** (las capturas, cuando exista la primera release): cómo abrir Terminal, qué pegar y qué vas a ver. Con un enlace al script, para quien quiera leerlo antes.
   - [ ] **Homebrew** (`brew install XexusCode/tap/hardenme`) para usuarios técnicos. Solo necesita GitHub, que ya existe.
   - [ ] Probar la instalación en un Mac limpio, sin Go ni Homebrew, con una persona no técnica.
 - [ ] Arreglos pequeños: título neutro para "no se pudo comprobar" y concordancia de plurales.

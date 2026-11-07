@@ -8,6 +8,9 @@ import (
 	"github.com/XexusCode/hardenme/internal/cli"
 )
 
+// version is set at build time by GoReleaser (-X main.version=...).
+var version = "dev"
+
 func main() {
-	os.Exit(cli.Execute())
+	os.Exit(cli.Execute(version))
 }

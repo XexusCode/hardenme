@@ -29,19 +29,29 @@ There are great security tools out there, but none of them combines all of this:
 
 ## Install
 
-Release binaries are coming in phase 3. For now you need [Go](https://go.dev/dl/) installed:
+You do not need to know how to program. You will use Terminal **only once**, to paste one line. After that, hardenme is an app you open with a double-click.
+
+1. **Open Terminal.** Press `Command (⌘) + Space`, type `Terminal` and press `Return`. A window with text appears.
+2. **Copy this line, paste it into that window and press `Return`:**
+
+   ```sh
+   curl -fsSL https://raw.githubusercontent.com/XexusCode/hardenme/main/install.sh | sh
+   ```
+
+3. **Wait a few seconds.** You will see four steps (download, check, install, create the app) and then "Done!". It does not ask for your password and does not install anything outside your user folder or Applications.
+4. **A Finder window opens with hardenme selected. Double-click it.** Terminal opens, asks you a few questions about how you use your Mac and shows your score.
+
+From then on, open **hardenme** from Applications or Spotlight whenever you want to check again.
+
+> **Is it safe to paste a command?** Only if you trust where it comes from. You can [read the installer](install.sh) first: it is short and commented. It downloads the release from GitHub, verifies its SHA-256 checksum and stops if anything does not match.
+
+**Uninstall:**
 
 ```sh
-go install github.com/XexusCode/hardenme@latest
+curl -fsSL https://raw.githubusercontent.com/XexusCode/hardenme/main/install.sh | sh -s -- --uninstall
 ```
 
-Or clone the repository and run it directly:
-
-```sh
-git clone https://github.com/XexusCode/hardenme.git
-cd hardenme
-go run . scan
-```
+**For developers:** `go install github.com/XexusCode/hardenme@latest`, or clone the repository and run `go run . scan`.
 
 ## Usage
 
@@ -144,9 +154,10 @@ Some checks give partial credit. Checks that could not be read (**unknown**) or 
 
 ## Roadmap
 
-- **Phase 1 (now):** macOS audit, profile-weighted score, theft guides in EN/ES.
-- **Phase 2:** Android audit over USB (`adb`, no root), JSON and Markdown output, "theft stories" that explain what a thief could do with your current settings.
-- **Phase 3:** Windows audit, guided iOS checklist, release binaries and a Homebrew tap.
+- **v0.1 (now):** macOS audit, profile-weighted score, theft guides in EN/ES, one-line installer with a double-click app.
+- **v0.2:** guided checklist for iPhone and Android, "theft stories" that explain what a thief could do with your current settings, JSON and Markdown output.
+- **v0.3:** automatic Android audit over USB (`adb`, no root) for advanced users.
+- **Later:** Windows audit, reading iPhone settings over USB, safe `--fix` with confirmation, Homebrew tap.
 
 ## Contributing
 
