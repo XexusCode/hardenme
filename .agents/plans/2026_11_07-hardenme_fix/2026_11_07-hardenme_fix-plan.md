@@ -136,6 +136,31 @@ fix:
 - [ ] Write the results in this plan's implementation notes and update the fix-class table.
 - [ ] STOP. Present the table to the user before Phase 2.
 
+**Implementation notes (Phase 1, maintainer's MacBook, macOS 26.2, 2026-11-07):**
+- One `osascript … with administrator privileges` call ran a 13-step root script behind a single native password dialog, and every step returned 0. This confirms the one-dialog-per-batch design.
+- The maintainer chose to leave the failing settings fixed after the undo test. Afterwards, `hardenme scan --only firewall,firewall_stealth,auto_lock,guest_account,auto_updates` gave 5/5 pass.
+
+| Check | Verified | Apply | Undo | Result |
+|---|---|---|---|---|
+| firewall | apply, undo, reapply | `socketfilterfw --setglobalstate on` | `… off` | **auto, admin** |
+| firewall_stealth | apply, undo, reapply | `socketfilterfw --setstealthmode on` | `… off` | **auto, admin**. Needs the firewall on, so order it after `firewall` |
+| auto_lock | apply, undo, reapply | `pmset -c displaysleep 5` (admin). `defaults -currentHost write com.apple.screensaver idleTime -int 300` (user) | the previous value | **auto, mixed** |
+| guest_account | weaken, apply | `sysadminctl -guestAccount off` | `… on` | **auto, admin**. Turning it on creates the account, which takes about 2 s |
+| auto_updates | weaken, apply (`AutomaticDownload`) | `defaults write /Library/Preferences/com.apple.SoftwareUpdate <key> -bool true` | the previous value | **auto, admin**. The probe reflects the change. Not checked: whether System Settings shows it |
+| security_responses | not tested (same mechanism) | same, for `ConfigDataInstall` and `CriticalUpdateInstall` | the previous value | auto, admin, tested only on fixtures until checked |
+| auto_login | not testable: auto-login was not enabled | — | — | **guided** |
+| gatekeeper | not tested (the maintainer excluded it) | — | — | **guided** |
+| remote_login, screen_sharing, file_sharing, remote_management | not tested (the maintainer uses this Mac and asked not to touch SSH) | — | — | **guided** |
+
+**Design consequences for Phase 2:**
+- **Undo cannot always be a static argv.**
+  - `pmset` keeps separate values for battery (`-b`) and AC (`-c`). On this Mac, battery was already 5 and AC was 120.
+  - `idleTime` and the SoftwareUpdate keys may be absent, which means the macOS default.
+  - So a `fix` needs a `read` step that captures the previous value at apply time. The change log stores the concrete undo argv: the previous value, or `defaults delete` when the key was absent.
+  - The catalog rule therefore becomes "an `auto` fix has an `undo` or an `undo_from_read`", not "a static `undo`".
+- **Order inside a batch matters**: `firewall` comes before `firewall_stealth`.
+- **`pmset`:** only the source that fails is changed. The probe reads the active source, and the fix applies to the source that is over the limit (`-c`, `-b`, or both).
+
 ### Phase 2: Fix engine, menu and undo
 
 **Description:** Implement `fix` data, the `internal/fix` package and `hardenme fix` with the interactive menu, dry run, re-check, change log and undo.
