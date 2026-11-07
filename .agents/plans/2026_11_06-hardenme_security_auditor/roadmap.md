@@ -1,6 +1,6 @@
 # hardenme: estado actual y roadmap
 
-Fecha: 2026-11-06. Documento interno para decidir en qué centrarse. Revisado con el mantenedor el mismo día.
+Fecha: 2026-11-06, actualizado el 2026-11-07. Documento interno para decidir en qué centrarse. Revisado con el mantenedor.
 
 ## 1. Lo que tenemos
 
@@ -28,7 +28,7 @@ Fecha: 2026-11-06. Documento interno para decidir en qué centrarse. Revisado co
 1. **El público y la forma de uso no encajan.** El usuario objetivo no es técnico, pero hoy la herramienta es una CLI que necesita Go y Terminal. Ese usuario no la va a usar.
 2. **El móvil es lo que más se roba y aún no está cubierto.** Hoy solo hay Mac. Además, Android por adb exige activar la depuración USB, otra barrera técnica.
 3. **No hay salida JSON ni Markdown**, así que no se puede compartir ni comparar el informe.
-4. **No hay `--fix`.** El usuario tiene que ir a Ajustes él solo, aunque tiene el enlace directo.
+4. **No hay `--fix`.** El usuario tiene que ir a Ajustes él solo, aunque tiene el enlace directo. **Pasa a ser la v0.2** (decisión del 2026-11-07).
 5. **Faltan "historias de robo"**: frases que unan varios fallos en un riesgo concreto. Es la idea más diferencial y aún no existe.
 6. **Faltan Windows e iOS.**
 
@@ -66,10 +66,11 @@ Fecha: 2026-11-06. Documento interno para decidir en qué centrarse. Revisado co
 - **Formato:** la CLI es el producto principal. **La web queda para el final.** Un navegador no puede leer los ajustes del dispositivo, así que la web solo sería un checklist de autoevaluación, y eso aporta poco frente a lo que ya existe.
 - **Orden:** primero el checklist guiado del móvil; Android por adb queda para después.
 - **Sin estimaciones de tiempo:** el roadmap se ordena por prioridad, no por fechas.
+- **Aplicar mejoras antes que el móvil** (2026-11-07): el usuario elige qué mejoras quiere y hardenme las aplica. Completa la experiencia en Mac, que es lo único que existe hoy. El checklist del móvil pasa a la v0.3. Plan: [`2026_11_07-hardenme_fix-plan.md`](../2026_11_07-hardenme_fix/2026_11_07-hardenme_fix-plan.md).
 
 ### Ahora (v0.1): publicar el Mac con instalación fácil
 - [x] Commit de la fase 1 (`8c46765`).
-- [ ] Crear el repo público en GitHub y hacer push.
+- [x] Crear el repo público en GitHub y hacer push ([XexusCode/hardenme](https://github.com/XexusCode/hardenme)). Releases v0.1.0 y v0.1.1 (arreglo del idioma cuando falta `LANG`).
 - [x] CI con GitHub Actions: `gofmt`, `vet` y `test` en `macos-latest`.
 - [x] Release con GoReleaser: binario universal de macOS, `checksums.txt` e `install.sh` (Homebrew queda para más adelante). Se adelanta de la fase 3 porque sin esto nadie puede usarlo.
 - [ ] **Instalación sin darse de alta en ningún sitio** (decidido el 2026-11-07: nada de Apple Developer Program). Por eso **no hay `.pkg` notarizado**: un `.pkg` sin firmar descargado desde el navegador lo bloquea Gatekeeper, y para abrirlo hay que ir a Ajustes > Privacidad y seguridad > "Abrir igualmente", que parece malware. En su lugar:
@@ -87,7 +88,18 @@ Fecha: 2026-11-06. Documento interno para decidir en qué centrarse. Revisado co
 
 **Hecho cuando:** una persona no técnica instala hardenme siguiendo solo las instrucciones y entiende el informe sin ayuda.
 
-### Siguiente (v0.2): el móvil, sin barreras técnicas
+### Siguiente (v0.2): elegir mejoras y aplicarlas
+Plan detallado: [`2026_11_07-hardenme_fix-plan.md`](../2026_11_07-hardenme_fix/2026_11_07-hardenme_fix-plan.md).
+- [ ] Verificar en un Mac real cada arreglo automático: aplicarlo, comprobarlo y deshacerlo. Lo que no se pueda verificar queda como "guiado".
+- [ ] `hardenme fix`: lista numerada de mejoras; la persona elige cuáles, ve qué va a cambiar y confirma.
+- [ ] Una sola ventana de contraseña de macOS por tanda. hardenme nunca ve la contraseña y solo ejecuta comandos fijos que van dentro del programa.
+- [ ] Los arreglos guiados (FileVault, Buscar mi Mac, actualizaciones...) abren el ajuste exacto, esperan y lo vuelven a comprobar.
+- [ ] Al terminar, la nota de antes y la de ahora. Deshacer con `hardenme fix --undo`. Opción `--dry-run`.
+- [ ] El doble clic en la app hace el escaneo y luego ofrece los arreglos.
+
+**Hecho cuando:** una persona no técnica hace doble clic, elige qué arreglar, escribe su contraseña una vez y ve la nota nueva. Y puede deshacerlo.
+
+### Después (v0.3): el móvil, sin barreras técnicas
 - [ ] **Checklist de móvil guiado, iOS y Android, en la CLI** (`hardenme checklist ios|android`). Preguntas sí/no con nota por perfil, usando los textos ya escritos en la investigación. Con esto se cubre lo más robado sin adb ni cables. Antes estaba en la fase 3; se adelanta.
 - [ ] **Historias de robo**: unir varios fallos en un riesgo concreto, por ejemplo "si te roban el Mac ahora mismo, podrían leer tus archivos y no podrías borrarlo".
 - [ ] Salidas `--format json|markdown` para compartir el informe.
@@ -95,16 +107,15 @@ Fecha: 2026-11-06. Documento interno para decidir en qué centrarse. Revisado co
 
 **Hecho cuando:** alguien revisa la seguridad de su móvil con hardenme y sabe qué hacer si se lo roban.
 
-### Después (v0.3): Android automático por adb
+### Después (v0.4): Android automático por adb
 Es la fase 2 del plan, ahora para usuarios avanzados:
 - Checks adaptados de HARDAX.
 - Probar las claves sin verificar en un Android real.
 - Los checks automáticos sustituyen a las preguntas del checklist cuando hay un móvil conectado.
 
-### Más adelante (v0.4+)
+### Más adelante (v0.5+)
 - **Windows** (checks adaptados de HardeningKitty, leyendo el estado real).
 - **Lecturas de iOS por USB** (libimobiledevice o go-ios) para completar el checklist.
-- **`--fix` con confirmación** (estilo fort). Solo para cambios seguros que no necesiten sudo.
 - **App de escritorio**: una app de menú en macOS, si el lanzador no basta.
 - **Web (al final)**: un checklist estático generado desde los YAML, para usarlo sin instalar nada. Solo es autoevaluación, porque el navegador no puede leer los ajustes.
 - **Comunidad**: plantillas de issues ("check nuevo", "falso positivo"), etiquetas `good first issue` y traducciones.
@@ -113,9 +124,10 @@ Es la fase 2 del plan, ahora para usuarios avanzados:
 
 | Plan original | Propuesta | Por qué |
 |---|---|---|
-| Fase 2: Android por adb | Pasa a v0.3 | Exige depuración USB, una barrera para el público objetivo |
-| Fase 3: checklist iOS | Se adelanta a v0.2 y se amplía a Android | Cubre el dispositivo más robado sin barreras técnicas |
+| Fase 2: Android por adb | Pasa a v0.4 | Exige depuración USB, una barrera para el público objetivo |
+| Fase 3: checklist iOS | Se adelanta a v0.3 y se amplía a Android | Cubre el dispositivo más robado sin barreras técnicas |
 | Fase 3: GoReleaser y CI | Se adelanta a v0.1 | Sin binario no hay usuarios |
-| Historias de robo, en la fase 2 | Pasa a v0.2 | Es lo más diferencial del proyecto |
+| `--fix`, en "más adelante" | Pasa a v0.2 | Elegir y aplicar mejoras completa la experiencia en Mac |
+| Historias de robo, en la fase 2 | Pasa a v0.3 | Es lo más diferencial del proyecto |
 
 Si se aceptan estos cambios, hay que actualizar las fases del plan con `/codely-plan-create` o editando el `*-plan.md`.

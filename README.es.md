@@ -155,9 +155,10 @@ Algunas comprobaciones dan puntos a medias. Las que no se han podido leer (**des
 ## Hoja de ruta
 
 - **v0.1 (ahora):** revisión de macOS, nota según tu perfil, guías sobre robos en español e inglés, e instalador de una línea con app de doble clic.
-- **v0.2:** lista guiada para iPhone y Android, "historias de robo" que explican qué podría hacer un ladrón con tu configuración actual, y resultados en JSON y Markdown.
-- **v0.3:** revisión automática de Android por USB (`adb`, sin root) para usuarios avanzados.
-- **Más adelante:** revisión de Windows, lectura de ajustes del iPhone por USB, `--fix` seguro con confirmación y fórmula de Homebrew.
+- **v0.2:** eliges qué mejoras quieres y hardenme las aplica. Escribes tu contraseña una vez en la ventana de macOS, ves tu nota nueva y puedes deshacerlo todo. Los ajustes que te toca cambiar a ti (como FileVault) te los abre en la página exacta y los comprueba cuando terminas.
+- **v0.3:** lista guiada para iPhone y Android, "historias de robo" que explican qué podría hacer un ladrón con tu configuración actual, y resultados en JSON y Markdown.
+- **v0.4:** revisión automática de Android por USB (`adb`, sin root) para usuarios avanzados.
+- **Más adelante:** revisión de Windows, lectura de ajustes del iPhone por USB y fórmula de Homebrew.
 
 ## Cómo colaborar
 

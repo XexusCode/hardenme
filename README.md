@@ -155,9 +155,10 @@ Some checks give partial credit. Checks that could not be read (**unknown**) or 
 ## Roadmap
 
 - **v0.1 (now):** macOS audit, profile-weighted score, theft guides in EN/ES, one-line installer with a double-click app.
-- **v0.2:** guided checklist for iPhone and Android, "theft stories" that explain what a thief could do with your current settings, JSON and Markdown output.
-- **v0.3:** automatic Android audit over USB (`adb`, no root) for advanced users.
-- **Later:** Windows audit, reading iPhone settings over USB, safe `--fix` with confirmation, Homebrew tap.
+- **v0.2:** pick the improvements you want and hardenme applies them. You type your password once in the macOS dialog, see your new score, and can undo everything. For the settings only you should change (like FileVault), it opens the right page and checks again when you are done.
+- **v0.3:** guided checklist for iPhone and Android, "theft stories" that explain what a thief could do with your current settings, JSON and Markdown output.
+- **v0.4:** automatic Android audit over USB (`adb`, no root) for advanced users.
+- **Later:** Windows audit, reading iPhone settings over USB, Homebrew tap.
 
 ## Contributing
 
