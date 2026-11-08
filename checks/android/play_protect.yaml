@@ -1,0 +1,32 @@
+id: android.play_protect
+platform: android
+category: malware
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Google Play Protect"
+    title_pass: "Play Protect scans your apps"
+    title_fail: "Turn on app scanning in Play Protect"
+    question: "Is \"Scan apps with Play Protect\" on?"
+    where: "Play Store > your profile picture > Play Protect > Settings (gear)"
+    why: "Play Protect checks your apps, including ones installed from outside the Play Store, and warns you about or removes harmful ones such as spyware or fake banking apps."
+    fix_steps:
+      - "Open the Play Store app and tap your profile picture (top right)."
+      - "Tap Play Protect, then the gear, and turn on \"Scan apps with Play Protect\"."
+  es:
+    title: "Google Play Protect"
+    title_pass: "Play Protect analiza tus aplicaciones"
+    title_fail: "Activa el an\u00e1lisis de aplicaciones de Play Protect"
+    question: "\u00bfEst\u00e1 activado \"Analizar aplicaciones con Play Protect\"?"
+    where: "Play Store > tu foto de perfil > Play Protect > Ajustes (rueda)"
+    why: "Play Protect revisa tus aplicaciones, tambi\u00e9n las instaladas fuera de Play Store, y te avisa o elimina las da\u00f1inas, como programas esp\u00eda o apps falsas del banco."
+    fix_steps:
+      - "Abre la app Play Store y toca tu foto de perfil (arriba a la derecha)."
+      - "Toca Play Protect, luego la rueda, y activa \"Analizar aplicaciones con Play Protect\"."
+references:
+  - https://support.google.com/googleplay/answer/2812853?hl=en
+  - https://support.google.com/googleplay/answer/2812853?hl=es

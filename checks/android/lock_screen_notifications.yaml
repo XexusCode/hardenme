@@ -1,0 +1,39 @@
+id: android.lock_screen_notifications
+platform: android
+category: privacy
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { sensitive_data: true }
+      level: essential
+    - when: { risk: elevated }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Notifications on the lock screen"
+    title_pass: "The lock screen hides the content of your notifications"
+    title_fail: "Hide sensitive notification content on the lock screen"
+    question: "With the phone locked, are message texts and codes hidden in your notifications?"
+    where: "Settings > Notifications > Notifications on lock screen"
+    why: "Codes sent by text message and message previews on a locked screen let a thief or a snooper read your verification codes and reset your accounts without unlocking the phone."
+    fix_steps:
+      - "Open Settings > Notifications > Notifications on lock screen (on some phones, Settings > Security & privacy > More security settings > Notifications on lock screen)."
+      - "Turn off \"Show sensitive content\", or choose to hide silent and sensitive notifications."
+      - "On Samsung and other brands the menu can have another name: search for \"Notifications on lock screen\" in Settings."
+  es:
+    title: "Notificaciones en la pantalla de bloqueo"
+    title_pass: "La pantalla de bloqueo oculta el contenido de tus notificaciones"
+    title_fail: "Oculta el contenido sensible de las notificaciones en la pantalla de bloqueo"
+    question: "Con el m\u00f3vil bloqueado, \u00bfse ocultan los textos de los mensajes y los c\u00f3digos en las notificaciones?"
+    where: "Ajustes > Notificaciones > Notificaciones en pantalla de bloqueo"
+    why: "Los c\u00f3digos que llegan por SMS y las vistas previas de mensajes en la pantalla bloqueada permiten a un ladr\u00f3n o a un cotilla leer tus c\u00f3digos de verificaci\u00f3n y recuperar tus cuentas sin desbloquear el m\u00f3vil."
+    fix_steps:
+      - "Abre Ajustes > Notificaciones > Notificaciones en pantalla de bloqueo (en algunos m\u00f3viles, Ajustes > Seguridad y privacidad > M\u00e1s ajustes de seguridad > Notificaciones en pantalla de bloqueo)."
+      - "Desactiva \"Mostrar contenido sensible\" o elige ocultar las notificaciones sensibles."
+      - "En Samsung y otras marcas el men\u00fa puede llamarse de otra forma: busca \"Notificaciones en pantalla de bloqueo\" en Ajustes."
+references:
+  - https://support.google.com/android/answer/9079661?hl=en
+  - https://support.google.com/android/answer/9079661?hl=es

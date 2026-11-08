@@ -1,0 +1,39 @@
+id: android.sim_pin
+platform: android
+category: theft
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { leaves_home: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "SIM PIN"
+    title_pass: "The SIM card has a PIN"
+    title_fail: "Lock the SIM card with a PIN"
+    question: "Does your phone ask for the SIM PIN when it starts?"
+    where: "Settings > Security & privacy > More security settings > SIM lock"
+    why: "Without a SIM PIN, a thief can put your SIM in another phone, receive your text-message codes and calls, and use them to reset your accounts."
+    fix_steps:
+      - "Open Settings > Security & privacy > More security settings > SIM lock and turn on \"Lock SIM\"."
+      - "If your carrier gave you a default PIN (such as 0000 or 1234), change it to one only you know."
+      - "Careful: several wrong PINs lock the SIM, and then you need the PUK from your carrier."
+      - "On Samsung and other brands the menu can have another name: search for \"SIM lock\" in Settings."
+  es:
+    title: "PIN de la SIM"
+    title_pass: "La tarjeta SIM tiene PIN"
+    title_fail: "Protege la tarjeta SIM con un PIN"
+    question: "\u00bfTu m\u00f3vil pide el PIN de la SIM al encenderse?"
+    where: "Ajustes > Seguridad y privacidad > M\u00e1s ajustes de seguridad > Bloqueo de SIM"
+    why: "Sin PIN en la SIM, un ladr\u00f3n puede meter tu tarjeta en otro m\u00f3vil, recibir tus SMS con c\u00f3digos y tus llamadas, y usarlos para recuperar tus cuentas."
+    fix_steps:
+      - "Abre Ajustes > Seguridad y privacidad > M\u00e1s ajustes de seguridad > Bloqueo de SIM y activa \"Bloquear SIM\"."
+      - "Si tu operador te dio un PIN de f\u00e1brica (como 0000 o 1234), c\u00e1mbialo por uno que solo sepas t\u00fa."
+      - "Cuidado: varios PIN err\u00f3neos bloquean la SIM y entonces necesitas el PUK de tu operador."
+      - "En Samsung y otras marcas el men\u00fa puede llamarse de otra forma: busca \"Bloqueo de SIM\" en Ajustes."
+references:
+  - https://support.google.com/android/answer/15146908?hl=en
+  - https://support.google.com/android/answer/15146908?hl=es

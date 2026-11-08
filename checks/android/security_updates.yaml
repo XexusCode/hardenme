@@ -1,0 +1,34 @@
+id: android.security_updates
+platform: android
+category: updates
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Security updates"
+    title_pass: "The phone has a recent security update"
+    title_fail: "Install the latest security update"
+    question: "Is the \"Android security update\" date less than 3 months old?"
+    where: "Settings > About phone > Android version > Android security update"
+    why: "Security updates close holes that let malicious apps, websites or someone holding the phone get past the lock. An old date means known, public flaws are still open. If your phone gets no updates any more, consider replacing it."
+    fix_steps:
+      - "Open Settings > About phone > Android version and look at \"Android security update\"."
+      - "To update, open Settings > System > Software updates, install what is pending and restart."
+      - "If the date is over a year old and there is nothing to install, the maker no longer updates this phone."
+  es:
+    title: "Actualizaciones de seguridad"
+    title_pass: "El m\u00f3vil tiene una actualizaci\u00f3n de seguridad reciente"
+    title_fail: "Instala la \u00faltima actualizaci\u00f3n de seguridad"
+    question: "\u00bfLa fecha de la \"Actualizaci\u00f3n de seguridad de Android\" tiene menos de 3 meses?"
+    where: "Ajustes > Informaci\u00f3n del tel\u00e9fono > Versi\u00f3n de Android > Actualizaci\u00f3n de seguridad de Android"
+    why: "Las actualizaciones de seguridad cierran fallos que permiten a apps maliciosas, webs o a quien tenga el m\u00f3vil saltarse el bloqueo. Una fecha antigua significa fallos conocidos y p\u00fablicos sin arreglar. Si tu m\u00f3vil ya no recibe actualizaciones, plant\u00e9ate cambiarlo."
+    fix_steps:
+      - "Abre Ajustes > Informaci\u00f3n del tel\u00e9fono > Versi\u00f3n de Android y mira \"Actualizaci\u00f3n de seguridad de Android\"."
+      - "Para actualizar, busca \"Actualizaciones de software\" en Ajustes (suele estar en Sistema), instala lo pendiente y reinicia."
+      - "Si la fecha tiene m\u00e1s de un a\u00f1o y no hay nada que instalar, el fabricante ya no actualiza este m\u00f3vil."
+references:
+  - https://support.google.com/android/answer/7680439?hl=en
+  - https://support.google.com/android/answer/7680439?hl=es

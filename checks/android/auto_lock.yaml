@@ -1,0 +1,40 @@
+id: android.auto_lock
+platform: android
+category: theft
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { leaves_home: true }
+      level: essential
+    - when: { shared: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Automatic screen lock"
+    title_pass: "The screen turns off and locks quickly"
+    title_fail: "Make the screen turn off and lock sooner"
+    question: "Does the screen turn off by itself after 1 minute or less?"
+    where: "Settings > Display & touch > Screen timeout"
+    why: "A phone left on a table or grabbed while it is unlocked is completely open. The sooner the screen turns off and locks, the smaller that window."
+    fix_steps:
+      - "Open Settings > Display & touch > Screen timeout and choose 30 seconds or 1 minute."
+      - "In Settings > Security & privacy > Device unlock, tap the gear next to Screen lock and make it lock right away when the screen turns off."
+      - "On Samsung and other brands the menu can have another name: search for \"Screen timeout\" in Settings."
+  es:
+    title: "Bloqueo autom\u00e1tico de la pantalla"
+    title_pass: "La pantalla se apaga y se bloquea enseguida"
+    title_fail: "Haz que la pantalla se apague y se bloquee antes"
+    question: "\u00bfLa pantalla se apaga sola en 1 minuto o menos?"
+    where: "Ajustes > Pantalla y ajustes t\u00e1ctiles > Tiempo de espera de la pantalla"
+    why: "Un m\u00f3vil olvidado en una mesa o que te quitan desbloqueado est\u00e1 completamente abierto. Cuanto antes se apague y se bloquee la pantalla, menos tiempo hay para usarlo."
+    fix_steps:
+      - "Abre Ajustes > Pantalla y ajustes t\u00e1ctiles > Tiempo de espera de la pantalla y elige 30 segundos o 1 minuto."
+      - "En Ajustes > Seguridad y privacidad > Desbloqueo del dispositivo, toca la rueda junto a Bloqueo de pantalla y haz que se bloquee nada m\u00e1s apagarse la pantalla."
+      - "En Samsung y otras marcas el men\u00fa puede llamarse de otra forma: busca \"Tiempo de espera de la pantalla\" en Ajustes."
+references:
+  - https://support.google.com/pixelphone/answer/6111557?hl=en
+  - https://support.google.com/pixelphone/answer/6111557?hl=es
+  - https://support.google.com/pixelphone/answer/2819522?hl=en

@@ -1,0 +1,39 @@
+id: android.theft_protection
+platform: android
+category: theft
+severity: high
+relevance:
+  default: recommended
+  rules:
+    - when: { leaves_home: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Theft protection"
+    title_pass: "Theft Detection Lock and Offline Device Lock are on"
+    title_fail: "Turn on Theft Detection Lock and Offline Device Lock"
+    question: "Are \"Theft Detection Lock\" and \"Offline Device Lock\" both on? (If your phone does not have them, answer ?)"
+    where: "Settings > Google > All services > Theft protection"
+    why: "Theft Detection Lock locks the screen if someone snatches the phone from your hand while it is unlocked. Offline Device Lock locks it if the thief cuts the connection so you cannot lock it remotely."
+    fix_steps:
+      - "Open Settings > Google > All services > Theft protection."
+      - "Turn on \"Theft Detection Lock\" and \"Offline Device Lock\"."
+      - "If the switches are grey or missing, your phone does not offer them."
+      - "On Samsung and other brands the menu can have another name: search for \"Theft protection\" in Settings."
+  es:
+    title: "Protecci\u00f3n antirrobo"
+    title_pass: "El bloqueo antirrobo y el bloqueo sin conexi\u00f3n est\u00e1n activados"
+    title_fail: "Activa el bloqueo antirrobo y el bloqueo del dispositivo sin conexi\u00f3n"
+    question: "\u00bfEst\u00e1n activados el \"Bloqueo antirrobo\" y el \"Bloqueo del dispositivo sin conexi\u00f3n\"? (Si tu m\u00f3vil no los tiene, contesta ?)"
+    where: "Ajustes > Google > Todos los servicios > Protecci\u00f3n antirrobo"
+    why: "El bloqueo antirrobo bloquea la pantalla si alguien te arranca el m\u00f3vil de la mano mientras est\u00e1 desbloqueado. El bloqueo sin conexi\u00f3n lo bloquea si el ladr\u00f3n le quita la conexi\u00f3n para que no puedas bloquearlo a distancia."
+    fix_steps:
+      - "Abre Ajustes > Google > Todos los servicios > Protecci\u00f3n antirrobo."
+      - "Activa \"Bloqueo antirrobo\" y \"Bloqueo del dispositivo sin conexi\u00f3n\"."
+      - "Si los interruptores est\u00e1n en gris o no aparecen, tu m\u00f3vil no los ofrece."
+      - "En Samsung y otras marcas el men\u00fa puede llamarse de otra forma: busca \"Protecci\u00f3n antirrobo\" en Ajustes."
+references:
+  - https://support.google.com/android/answer/15146908?hl=en
+  - https://support.google.com/android/answer/15146908?hl=es

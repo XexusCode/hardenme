@@ -1,0 +1,35 @@
+id: android.screen_lock
+platform: android
+category: theft
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Screen lock"
+    title_pass: "The phone has a screen lock"
+    title_fail: "Set a screen lock (PIN, pattern or password)"
+    question: "Does your phone ask for a PIN, pattern or password to unlock (not just a swipe)?"
+    where: "Settings > Security & privacy > Device unlock > Screen lock"
+    why: "Without a screen lock, anyone who picks up your phone gets your email, photos, banking apps and the codes to reset your accounts. Find Hub, theft protection and encrypted backups also need it."
+    fix_steps:
+      - "Open Settings > Security & privacy > Device unlock > Screen lock (on older phones, Settings > Security > Screen lock)."
+      - "Choose PIN (6 digits or more) or Password. Avoid \"None\" and \"Swipe\"."
+      - "On Samsung and other brands the menu can have another name: search for \"Screen lock\" in Settings."
+  es:
+    title: "Bloqueo de pantalla"
+    title_pass: "El m\u00f3vil tiene bloqueo de pantalla"
+    title_fail: "Pon un bloqueo de pantalla (PIN, patr\u00f3n o contrase\u00f1a)"
+    question: "\u00bfTu m\u00f3vil pide un PIN, patr\u00f3n o contrase\u00f1a para desbloquearse (no solo deslizar)?"
+    where: "Ajustes > Seguridad y privacidad > Desbloqueo del dispositivo > Bloqueo de pantalla"
+    why: "Sin bloqueo de pantalla, quien coja tu m\u00f3vil tiene tu correo, tus fotos, las apps del banco y los c\u00f3digos para recuperar tus cuentas. Adem\u00e1s, el Localizador, la protecci\u00f3n antirrobo y las copias cifradas lo necesitan."
+    fix_steps:
+      - "Abre Ajustes > Seguridad y privacidad > Desbloqueo del dispositivo > Bloqueo de pantalla (en m\u00f3viles antiguos, Ajustes > Seguridad > Bloqueo de pantalla)."
+      - "Elige PIN (de 6 cifras o m\u00e1s) o Contrase\u00f1a. Evita \"Ninguno\" y \"Deslizar\"."
+      - "En Samsung y otras marcas el men\u00fa puede llamarse de otra forma: busca \"Bloqueo de pantalla\" en Ajustes."
+references:
+  - https://support.google.com/pixelphone/answer/2819522?hl=en
+  - https://support.google.com/pixelphone/answer/2819522?hl=es
+  - https://support.google.com/android/answer/9079129?hl=en

@@ -1,0 +1,37 @@
+id: android.find_hub
+platform: android
+category: theft
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Find Hub (Find My Device)"
+    title_pass: "Find Hub can locate your phone"
+    title_fail: "Turn on Find Hub so you can locate and erase your phone"
+    question: "Is \"Allow device to be located\" on in Find Hub (Find My Device)?"
+    where: "Settings > Security > Find Hub"
+    why: "If your phone is lost or stolen, Find Hub lets you see where it is, mark it as lost and erase it from another device before anyone gets to your data."
+    fix_steps:
+      - "Open Settings > Security > Find Hub (called Find My Device on older phones) and turn on \"Allow device to be located\"."
+      - "Keep Location on."
+      - "Try it once at google.com/android/find from another device."
+      - "On Samsung and other brands the menu can have another name: search for \"Find Hub\" in Settings."
+  es:
+    title: "Localizador (Encontrar mi dispositivo)"
+    title_pass: "El Localizador puede encontrar tu m\u00f3vil"
+    title_fail: "Activa el Localizador para poder encontrar y borrar tu m\u00f3vil"
+    question: "\u00bfEst\u00e1 activado \"Permitir que se localice el dispositivo\" en el Localizador (Encontrar mi dispositivo)?"
+    where: "Ajustes > Seguridad > Localizador"
+    why: "Si pierdes el m\u00f3vil o te lo roban, el Localizador te deja ver d\u00f3nde est\u00e1, marcarlo como perdido y borrarlo desde otro dispositivo antes de que alguien llegue a tus datos."
+    fix_steps:
+      - "Abre Ajustes > Seguridad > Localizador (Encontrar mi dispositivo en m\u00f3viles antiguos) y activa \"Permitir que se localice el dispositivo\"."
+      - "Mant\u00e9n la ubicaci\u00f3n activada."
+      - "Pru\u00e9balo una vez en google.com/android/find desde otro dispositivo."
+      - "En Samsung y otras marcas el men\u00fa puede llamarse de otra forma: busca \"Localizador\" en Ajustes."
+references:
+  - https://support.google.com/android/answer/3265955?hl=en
+  - https://support.google.com/android/answer/3265955?hl=es
+  - https://support.google.com/android/answer/6160491?hl=en

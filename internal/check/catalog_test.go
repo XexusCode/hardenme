@@ -165,3 +165,40 @@ references: [https://example.com]
 		})
 	}
 }
+
+// Phone checks are questions: each needs EN/ES question and menu path, and
+// official references (Apple or Google).
+func TestPhoneCatalogs(t *testing.T) {
+	official := map[string]string{"ios": "https://support.apple.com/", "android": "https://support.google.com/"}
+	for platform, prefix := range official {
+		all, err := check.Load(checks.FS, platform)
+		if err != nil {
+			if strings.Contains(err.Error(), "no checks") {
+				continue
+			}
+			t.Fatal(err)
+		}
+		for _, c := range all {
+			if !c.Probe.Ask {
+				t.Errorf("%s: phone checks must ask", c.ID)
+			}
+			for _, lang := range []check.Lang{check.EN, check.ES} {
+				text := c.TextFor(lang)
+				if text.Where == "" || !strings.HasSuffix(text.Question, "?") && !strings.HasSuffix(text.Question, ")") {
+					t.Errorf("%s (%s): needs a question ending in ? and a where", c.ID, lang)
+				}
+				if text.TitlePass == text.TitleFail {
+					t.Errorf("%s (%s): pass and fail titles must differ", c.ID, lang)
+				}
+				if strings.ContainsAny(text.Why+text.Question+strings.Join(text.FixSteps, ""), "—–") {
+					t.Errorf("%s (%s): use ':' or ',' instead of long dashes", c.ID, lang)
+				}
+			}
+			for _, ref := range c.References {
+				if !strings.HasPrefix(ref, prefix) {
+					t.Errorf("%s: reference %s is not from %s", c.ID, ref, prefix)
+				}
+			}
+		}
+	}
+}

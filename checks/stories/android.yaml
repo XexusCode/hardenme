@@ -1,0 +1,22 @@
+# Theft stories for Android. See macos.yaml for how they fire.
+stories:
+  - id: android.open_phone
+    any: [android.screen_lock, android.extend_unlock]
+    text:
+      en: If someone takes your phone, they could open it without your PIN and get into your email, photos and banking apps.
+      es: Si alguien coge tu móvil, podría abrirlo sin tu PIN y entrar en tu correo, tus fotos y las apps del banco.
+  - id: android.cannot_locate
+    any: [android.find_hub, android.theft_protection]
+    text:
+      en: If your phone is stolen, you might not be able to locate it, lock it or erase it before someone gets to your data.
+      es: Si te roban el móvil, puede que no consigas localizarlo, bloquearlo ni borrarlo antes de que alguien llegue a tus datos.
+  - id: android.account_takeover
+    any: [android.sim_pin, android.lock_screen_notifications]
+    text:
+      en: A thief could read the codes that arrive by text message, with the phone locked or with your SIM in another phone, and use them to take over your accounts.
+      es: Un ladrón podría leer los códigos que llegan por SMS, con el móvil bloqueado o con tu SIM en otro móvil, y usarlos para quedarse con tus cuentas.
+  - id: android.spyware
+    any: [android.play_protect, android.unknown_apps]
+    text:
+      en: A spy app or a fake banking app would find it easier to get onto your phone without you noticing.
+      es: Una app espía o una app falsa del banco lo tendría más fácil para colarse en tu móvil sin que te des cuenta.

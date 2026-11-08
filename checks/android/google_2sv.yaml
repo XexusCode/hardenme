@@ -1,0 +1,34 @@
+id: android.google_2sv
+platform: android
+category: accounts
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "2-Step Verification for your Google Account"
+    title_pass: "Your Google Account has 2-Step Verification"
+    title_fail: "Turn on 2-Step Verification for your Google Account"
+    question: "Is 2-Step Verification on for your Google Account?"
+    where: "myaccount.google.com > Security & sign-in"
+    why: "Your Google Account controls Find Hub, your backups, Gmail and the password resets of many other services. With 2-Step Verification, a stolen or phished password is not enough to get in."
+    fix_steps:
+      - "Go to myaccount.google.com > Security & sign-in."
+      - "Under \"How you sign in to Google\", turn on 2-Step Verification."
+      - "Prefer Google prompts or a passkey over text-message codes."
+  es:
+    title: "Verificaci\u00f3n en dos pasos de tu cuenta de Google"
+    title_pass: "Tu cuenta de Google tiene verificaci\u00f3n en dos pasos"
+    title_fail: "Activa la verificaci\u00f3n en dos pasos de tu cuenta de Google"
+    question: "\u00bfTienes activada la verificaci\u00f3n en dos pasos en tu cuenta de Google?"
+    where: "myaccount.google.com > Seguridad e inicio de sesi\u00f3n"
+    why: "Tu cuenta de Google controla el Localizador, tus copias de seguridad, Gmail y la recuperaci\u00f3n de contrase\u00f1as de muchos otros servicios. Con la verificaci\u00f3n en dos pasos, una contrase\u00f1a robada no basta para entrar."
+    fix_steps:
+      - "Entra en myaccount.google.com > Seguridad e inicio de sesi\u00f3n."
+      - "En \"C\u00f3mo inicias sesi\u00f3n en Google\", activa la verificaci\u00f3n en dos pasos."
+      - "Mejor con avisos de Google o una llave de acceso que con c\u00f3digos por SMS."
+references:
+  - https://support.google.com/accounts/answer/185839?hl=en
+  - https://support.google.com/accounts/answer/185839?hl=es

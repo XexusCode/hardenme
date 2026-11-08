@@ -1,0 +1,39 @@
+id: android.extend_unlock
+platform: android
+category: theft
+severity: medium
+relevance:
+  default: optional
+  rules:
+    - when: { leaves_home: true }
+      level: recommended
+    - when: { risk: elevated }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Extend Unlock (Smart Lock)"
+    title_pass: "The phone does not stay unlocked by itself"
+    title_fail: "Turn off Extend Unlock (Smart Lock) or limit it"
+    question: "Is Extend Unlock (Smart Lock) off, or limited to places and devices you are sure about?"
+    where: "Settings > Security & privacy > More security & privacy > Extend Unlock"
+    why: "Extend Unlock keeps the phone unlocked for up to 4 hours while it is in your pocket, at a trusted place or near a paired device. A thief who grabs it then gets an unlocked phone."
+    fix_steps:
+      - "Open Settings > Security & privacy > More security & privacy > Extend Unlock (Smart Lock on Android 13 and older)."
+      - "Turn off On-body detection and Trusted places, and remove trusted devices you do not need."
+      - "On Samsung and other brands the menu can have another name: search for \"Extend Unlock\" in Settings."
+  es:
+    title: "Prolongar desbloqueo (Smart Lock)"
+    title_pass: "El m\u00f3vil no se queda desbloqueado solo"
+    title_fail: "Desactiva Prolongar desbloqueo (Smart Lock) o lim\u00edtalo"
+    question: "\u00bfEst\u00e1 desactivado Prolongar desbloqueo (Smart Lock), o limitado a sitios y dispositivos de los que est\u00e1s seguro?"
+    where: "Ajustes > Seguridad y privacidad > M\u00e1s seguridad y privacidad > Prolongar desbloqueo"
+    why: "Prolongar desbloqueo mantiene el m\u00f3vil desbloqueado hasta 4 horas mientras lo llevas encima, est\u00e1s en un sitio de confianza o cerca de un dispositivo vinculado. Si te lo quitan en ese momento, se llevan un m\u00f3vil abierto."
+    fix_steps:
+      - "Abre Ajustes > Seguridad y privacidad > M\u00e1s seguridad y privacidad > Prolongar desbloqueo (Smart Lock en Android 13 y anteriores)."
+      - "Desactiva Detecci\u00f3n corporal y Sitios de confianza, y quita los dispositivos de confianza que no necesites."
+      - "En Samsung y otras marcas el men\u00fa puede llamarse de otra forma: busca \"Prolongar desbloqueo\" en Ajustes."
+references:
+  - https://support.google.com/pixelphone/answer/6093922?hl=en
+  - https://support.google.com/pixelphone/answer/6093922?hl=es

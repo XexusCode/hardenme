@@ -1,0 +1,41 @@
+id: android.identity_check
+platform: android
+category: accounts
+severity: medium
+relevance:
+  default: optional
+  rules:
+    - when: { leaves_home: true }
+      level: recommended
+    - when: { sensitive_data: true }
+      level: essential
+    - when: { risk: elevated }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Identity Check"
+    title_pass: "Identity Check is on"
+    title_fail: "Turn on Identity Check"
+    question: "Is Identity Check on? (If your phone does not have it, answer ?)"
+    where: "Settings > Google > All services > Theft protection > Identity Check"
+    why: "Away from your trusted places, changing your Google password, recovery options or security settings needs your fingerprint or face. A thief who watched you type your PIN still cannot take over your account."
+    fix_steps:
+      - "Open Settings > Google > All services > Theft protection > Identity Check and turn it on."
+      - "It needs a screen lock and a fingerprint or face unlock. If you do not see the option, your phone does not offer it."
+      - "On Samsung and other brands the menu can have another name: search for \"Identity Check\" in Settings."
+  es:
+    title: "Verificaci\u00f3n de identidad"
+    title_pass: "La verificaci\u00f3n de identidad est\u00e1 activada"
+    title_fail: "Activa la verificaci\u00f3n de identidad"
+    question: "\u00bfEst\u00e1 activada la verificaci\u00f3n de identidad? (Si tu m\u00f3vil no la tiene, contesta ?)"
+    where: "Ajustes > Google > Todos los servicios > Protecci\u00f3n antirrobo > Verificaci\u00f3n de identidad"
+    why: "Fuera de tus sitios de confianza, cambiar la contrase\u00f1a de Google, las opciones de recuperaci\u00f3n o los ajustes de seguridad pide tu huella o tu cara. Quien te haya visto teclear el PIN no podr\u00e1 quedarse con tu cuenta."
+    fix_steps:
+      - "Abre Ajustes > Google > Todos los servicios > Protecci\u00f3n antirrobo > Verificaci\u00f3n de identidad y act\u00edvala."
+      - "Necesita bloqueo de pantalla y desbloqueo con huella o cara. Si no ves la opci\u00f3n, tu m\u00f3vil no la ofrece."
+      - "En Samsung y otras marcas el men\u00fa puede llamarse de otra forma: busca \"Verificaci\u00f3n de identidad\" en Ajustes."
+references:
+  - https://support.google.com/android/answer/15146908?hl=en
+  - https://support.google.com/android/answer/15146908?hl=es

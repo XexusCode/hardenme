@@ -1,0 +1,39 @@
+id: android.unknown_apps
+platform: android
+category: malware
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { risk: elevated }
+      level: essential
+    - when: { shared: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Installing unknown apps"
+    title_pass: "No app can install other apps without you knowing"
+    title_fail: "Stop apps from installing other apps from outside Play"
+    question: "In \"Install unknown apps\", is every app set to not allowed, except ones you allowed on purpose?"
+    where: "Settings > Apps > Special app access > Install unknown apps"
+    why: "An app with this permission (a browser, a messaging app, a file manager) can install apps from outside the Play Store. That is the usual way spyware and fake banking apps get in."
+    fix_steps:
+      - "Open Settings > Apps > Special app access > Install unknown apps."
+      - "Open each app marked as allowed that you do not recognise and turn off \"Allow from this source\"."
+      - "On Samsung and other brands the menu can have another name: search for \"Install unknown apps\" in Settings."
+  es:
+    title: "Instalar aplicaciones desconocidas"
+    title_pass: "Ninguna app puede instalar otras sin que lo sepas"
+    title_fail: "Impide que las apps instalen otras desde fuera de Play"
+    question: "En \"Instalar aplicaciones desconocidas\", \u00bfest\u00e1n todas sin permiso, salvo las que autorizaste a prop\u00f3sito?"
+    where: "Ajustes > Aplicaciones > Aplicaciones con accesos especiales > Instalar aplicaciones desconocidas"
+    why: "Una app con este permiso (un navegador, una app de mensajer\u00eda, un gestor de archivos) puede instalar aplicaciones de fuera de Play Store. Es la v\u00eda habitual por la que entran los programas esp\u00eda y las apps falsas del banco."
+    fix_steps:
+      - "Abre Ajustes > Aplicaciones > Aplicaciones con accesos especiales > Instalar aplicaciones desconocidas."
+      - "Entra en cada app autorizada que no reconozcas y desactiva \"Autorizar de esta fuente\"."
+      - "En Samsung y otras marcas el men\u00fa puede llamarse de otra forma: busca \"Instalar aplicaciones desconocidas\" en Ajustes."
+references:
+  - https://support.google.com/pixelphone/answer/7391672?hl=en
+  - https://support.google.com/pixelphone/answer/7391672?hl=es
