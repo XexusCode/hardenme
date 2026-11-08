@@ -22,8 +22,8 @@ There are great security tools out there, but none of them combines all of this:
 
 ## Privacy promises
 
-- **Read-only.** It only reads settings. It never changes anything on its own.
-- **No sudo, no admin password.** Ever.
+- **The check only reads.** `hardenme scan` never changes anything and never asks for a password.
+- **Fixes only with your OK** (from v0.2). `hardenme fix` changes only what you pick, after showing you what will change. When a change needs your password, macOS asks in its own window: hardenme never sees it. Every automatic change can be undone with `hardenme fix --undo`.
 - **No network.** Nothing is sent anywhere. No telemetry, no accounts, no cloud.
 - **Open source** (MIT), so anyone can check these promises.
 
@@ -39,7 +39,7 @@ You do not need to know how to program. You will use Terminal **only once**, to 
    ```
 
 3. **Wait a few seconds.** You will see four steps (download, check, install, create the app) and then "Done!". It does not ask for your password and does not install anything outside your user folder or Applications.
-4. **A Finder window opens with hardenme selected. Double-click it.** Terminal opens, asks you a few questions about how you use your Mac and shows your score.
+4. **A Finder window opens with hardenme selected. Double-click it.** Terminal opens, asks you a few questions about how you use your Mac and shows your score. Then it lists what can be improved: type the numbers of what you want to fix, or press `Return` to leave everything as it is.
 
 From then on, open **hardenme** from Applications or Spotlight whenever you want to check again.
 
@@ -64,6 +64,11 @@ hardenme profile --portable --leaves-home --sensitive-data --risk normal
 hardenme scan
 hardenme scan --lang es
 hardenme scan --only filevault,firewall
+
+# Pick the improvements and let hardenme apply them (from v0.2)
+hardenme fix
+hardenme fix --dry-run      # show the exact commands, change nothing
+hardenme fix --undo         # undo the last batch of changes
 
 # Read the theft guides in your terminal
 hardenme guide theft-before

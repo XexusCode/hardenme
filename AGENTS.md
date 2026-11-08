@@ -21,11 +21,12 @@ gofmt -l . && go vet ./... && go test ./...
 | Path | What it holds |
 |---|---|
 | `main.go` | Entry point |
-| `internal/cli` | Cobra commands (`scan`, `profile`, `guide`) and their EN/ES prompts |
+| `internal/cli` | Cobra commands (`scan`, `fix`, `profile`, `guide`) and their EN/ES prompts |
 | `internal/runner` | `Runner` interface: `Exec` runs real commands, `Fake` replays captured outputs in tests |
 | `internal/profile` | `Profile`, its JSON `Store`, and laptop detection |
 | `internal/check` | Check model, catalogue loading and validation, probe execution, Go builtins (`builtins_<platform>.go`) |
 | `internal/scan` | Runs the checks for a profile, then computes the weighted score and the exit code |
+| `internal/fix` | Fix candidates, previous-value capture, the one-dialog admin batch (`osascript`), re-check, change log and catalog-checked undo |
 | `internal/render` | Report output (text for now) with EN/ES labels; golden files in `testdata/` |
 | `checks/` | **Check definitions as data**: `checks/<platform>/<name>.yaml`, plus `schema.json`. Embedded with `go:embed` |
 | `docs/guide/<lang>/` | Guide pages, embedded and printed by `hardenme guide` |
@@ -37,7 +38,7 @@ gofmt -l . && go vet ./... && go test ./...
    - Use a `command` probe with regex/exit-code `rules` whenever possible.
    - Write a Go `builtin` only when the logic needs thresholds that depend on the profile, or needs several reads.
    - Use `manual: true` when the setting cannot be read.
-2. **Never require sudo, never read TCC-protected data, never use the network, never change settings.** Fixes are shown as steps, a settings deep link, or a command the user can copy.
+2. **Never require sudo to read, never read TCC-protected data, never use the network.** `hardenme scan` never changes settings. Only `hardenme fix` changes them, after the user picks and confirms, through the embedded `fix` blocks (see CONTRIBUTING, "Rules for automatic fixes"), with one native password dialog and an undo log.
 3. **Read effective state, not policy keys alone.** A missing key must map to the OS default, never silently to "pass".
 4. **A probe that cannot run is `unknown`, never `pass`.** `unknown`, `manual` and `skipped` do not count towards the score.
 5. **Every check needs:**

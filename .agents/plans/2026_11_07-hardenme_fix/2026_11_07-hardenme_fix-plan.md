@@ -134,7 +134,7 @@ fix:
 - [x] Mark every candidate that needs Full Disk Access, a GUI confirmation or a reboot, or that macOS ignores, as `guided`.
 - [x] Decide how to handle `screen_lock_delay` and the `remote_*` checks, from what was observed.
 - [x] Write the results in this plan's implementation notes and update the fix-class table.
-- [ ] STOP. Present the table to the user before Phase 2.
+- [x] STOP. Present the table to the user before Phase 2.
 
 **Implementation notes (Phase 1, maintainer's MacBook, macOS 26.2, 2026-11-07):**
 - One `osascript … with administrator privileges` call ran a 13-step root script behind a single native password dialog, and every step returned 0. This confirms the one-dialog-per-batch design.
@@ -166,15 +166,30 @@ fix:
 
 **Description:** Implement `fix` data, the `internal/fix` package and `hardenme fix` with the interactive menu, dry run, re-check, change log and undo.
 
-- [ ] Extend `checks/schema.json`, `check.Check` and `compile()` with `fix`, `fix_warning` and the safety rules. Add `fix` blocks to the checks verified in Phase 1, with EN/ES `fix_warning` where it applies.
-- [ ] Implement `fix.Plan`, `fix.Script`, `fix.Apply`, `fix.Log` and `fix.Undo`, with their tests.
-- [ ] Implement `hardenme fix` (`--only`, `--dry-run`, `--yes`, `--undo`), the EN/ES menu and the summary rendering, with golden tests.
-- [ ] Guided fixes: open the `deep_link` with `open`, wait for Return, then re-check.
-- [ ] Add the "run `hardenme fix`" hint to `scan`, and change `install.sh` so `scan.command` runs `hardenme fix` after the scan.
-- [ ] Run `hardenme fix --dry-run` and a real `hardenme fix` on the maintainer's Mac, with their go-ahead. Then run `--undo` and check the score returns to the earlier value.
-- [ ] Verify with `gofmt -l . && go vet ./... && go test ./...`.
-- [ ] Update the README files (EN/ES) with the fix flow and the undo command.
+- [x] Extend `checks/schema.json`, `check.Check` and `compile()` with `fix`, `fix_warning` and the safety rules. Add `fix` blocks to the checks verified in Phase 1, with EN/ES `fix_warning` where it applies.
+- [x] Implement `fix.Plan`, `fix.Script`, `fix.Apply`, `fix.Log` and `fix.Undo`, with their tests.
+- [x] Implement `hardenme fix` (`--only`, `--dry-run`, `--yes`, `--undo`), the EN/ES menu and the summary rendering, with golden tests.
+- [x] Guided fixes: open the `deep_link` with `open`, wait for Return, then re-check.
+- [x] Add the "run `hardenme fix`" hint to `scan`, and change `install.sh` so `scan.command` runs `hardenme fix` after the scan.
+- [ ] Run `hardenme fix --dry-run` and a real `hardenme fix` on the maintainer's Mac, with their go-ahead. Then run `--undo` and check the score returns to the earlier value. **Dry run done (2026-11-08). The real run was postponed by the maintainer**: no auto check fails on their Mac any more, so the proposed test turns stealth mode off, fixes it with `hardenme fix`, then runs `--undo` and fixes it again (3 password dialogs).
+- [x] Verify with `gofmt -l . && go vet ./... && go test ./...`.
+- [x] Update the README files (EN/ES) with the fix flow and the undo command.
 - [ ] STOP. Present the changes and suggest commit messages. Release v0.2.0 only when the user asks.
+
+**Implementation notes (Phase 2):**
+- **Deviations from the contracts:**
+  - `kind` is not stored in YAML. `Check.FixKind()` derives it: `auto` when there is a `fix` block, `guided` when there is a `deep_link`, `info` otherwise. Only the six verified checks carry YAML.
+  - `fix.Plan` became `fix.Candidates`, and `fix.Apply` became `fix.Prepare` (captures previous values as the user) plus `fix.Run` (one osascript batch, then the user-level steps).
+  - `fix.Undo` became `fix.UndoSteps` plus `fix.Run`.
+  - The menu and summary are plain text in `internal/cli/fix.go` with EN/ES strings in `i18n.go`. They are covered by CLI tests that assert key lines, not by golden files.
+- **Undo safety:** `UndoSteps` replays a logged command only if it matches a `undo`/`undo_if_missing` template of the same check with the same `admin` flag, with `{previous}` holding `^[A-Za-z0-9._-]{1,64}$`. A tampered log cannot run arbitrary commands as root.
+- **Unexpected previous values** (for example a SoftwareUpdate key that is not 0/1) skip the step with a visible reason, because it could not be undone faithfully. A `read_match` that does not match means the step does not apply (for example the battery setting on a desktop) and is dropped silently.
+- **osascript details:**
+  - The script is passed inline to `osascript -e` (no temp file a user process could swap before root runs it). It uses `without altering line endings`, and results are parsed from `HARDENME_STEP <n> <code>` lines.
+  - A closed dialog (error -128) maps to `cancelled`.
+  - The runner for applying waits up to 5 minutes, for the dialog.
+- **Launcher:** `scan.command` runs `HARDENME_NO_FIX_HINT=1 hardenme scan` and then `hardenme fix`.
+- **Dry run on the maintainer's Mac:** score 74/100. The five candidates are all guided: FileVault, pending update, screen lock, SSH and admin account. The phase 1 fixes still pass.
 
 **Done when:** a non-technical person double-clicks hardenme.app, picks the numbers of what to fix, types their password once in the macOS dialog, sees the new score, and can undo it with a single command.
 

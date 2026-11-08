@@ -22,8 +22,8 @@ Hay herramientas de seguridad muy buenas, pero ninguna junta todo esto:
 
 ## Lo que prometemos sobre tu privacidad
 
-- **Solo lectura.** Únicamente lee ajustes. Nunca cambia nada por su cuenta.
-- **Sin sudo ni contraseña de administrador.** Nunca.
+- **La revisión solo lee.** `hardenme scan` nunca cambia nada ni pide contraseña.
+- **Arreglos solo con tu permiso** (desde la v0.2). `hardenme fix` cambia solo lo que eliges, después de enseñarte qué va a cambiar. Cuando un cambio necesita tu contraseña, te la pide macOS en su propia ventana: hardenme no la ve. Todo cambio automático se puede deshacer con `hardenme fix --undo`.
 - **Sin red.** No envía nada a ningún sitio. Ni telemetría, ni cuentas, ni nube.
 - **Código abierto** (MIT), para que cualquiera pueda comprobar estas promesas.
 
@@ -39,7 +39,7 @@ No hace falta saber programar. Solo usarás Terminal **una vez**, para pegar una
    ```
 
 3. **Espera unos segundos.** Verás cuatro pasos (descargar, comprobar, instalar y crear la app) y después "¡Listo!". No pide tu contraseña y no instala nada fuera de tu carpeta de usuario o de Aplicaciones.
-4. **Se abre una ventana del Finder con hardenme seleccionado. Haz doble clic.** Se abre Terminal, te hace unas preguntas sobre cómo usas tu Mac y te enseña tu nota.
+4. **Se abre una ventana del Finder con hardenme seleccionado. Haz doble clic.** Se abre Terminal, te hace unas preguntas sobre cómo usas tu Mac y te enseña tu nota. Después te enseña lo que se puede mejorar: escribe los números de lo que quieres arreglar, o pulsa `Intro` para dejarlo todo como está.
 
 A partir de ahí, abre **hardenme** desde Aplicaciones o Spotlight cuando quieras revisar otra vez.
 
@@ -64,6 +64,11 @@ hardenme profile --portable --leaves-home --sensitive-data --risk normal
 hardenme scan
 hardenme scan --lang es
 hardenme scan --only filevault,firewall
+
+# Elige las mejoras y deja que hardenme las aplique (desde la v0.2)
+hardenme fix
+hardenme fix --dry-run      # enseña los comandos exactos, no cambia nada
+hardenme fix --undo         # deshace la última tanda de cambios
 
 # Lee las guías sobre robos en la terminal
 hardenme guide theft-before --lang es
