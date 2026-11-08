@@ -14,26 +14,38 @@ import (
 // Format is an output format.
 type Format string
 
-const Text Format = "text"
+const (
+	Text     Format = "text"
+	JSON     Format = "json"
+	Markdown Format = "markdown"
+)
 
 // ParseFormat validates an output format.
 func ParseFormat(s string) (Format, error) {
-	if Format(s) == Text {
-		return Text, nil
+	switch Format(s) {
+	case Text, JSON, Markdown:
+		return Format(s), nil
+	case "md":
+		return Markdown, nil
 	}
-	return "", fmt.Errorf("unsupported format %q (only text for now)", s)
+	return "", fmt.Errorf("unsupported format %q (use text, json or markdown)", s)
 }
 
 const width = 78
 
 // Render writes the report in the given format and language.
 func Render(w io.Writer, r scan.Report, f Format, lang check.Lang) error {
-	if f != Text {
-		return fmt.Errorf("unsupported format %q", f)
+	switch f {
+	case Text:
+		t := &textWriter{w: w, lang: lang}
+		t.report(r)
+		return t.err
+	case JSON:
+		return renderJSON(w, r, lang)
+	case Markdown:
+		return renderMarkdown(w, r, lang)
 	}
-	t := &textWriter{w: w, lang: lang}
-	t.report(r)
-	return t.err
+	return fmt.Errorf("unsupported format %q", f)
 }
 
 type textWriter struct {
@@ -54,7 +66,7 @@ func (t *textWriter) report(r scan.Report) {
 		title += " " + r.OSVersion
 	}
 	t.printf("%s\n", title)
-	t.printf("%s: %s\n\n", msg(t.lang, "profile"), describeProfile(r.Profile, t.lang))
+	t.printf("%s: %s\n\n", msg(t.lang, "profile"), describeProfile(r.Profile, r.Platform, t.lang))
 
 	groups := group(r.Entries)
 	score := r.Score()
@@ -63,20 +75,58 @@ func (t *textWriter) report(r scan.Report) {
 	} else {
 		t.printf("%s: %d/100 (%s, %s)\n", msg(t.lang, "score"), score.Value, score.Grade, msg(t.lang, "label_"+score.Grade))
 	}
-	toFix := len(groups[string(check.Essential)]) + len(groups[string(check.Recommended)])
-	suggestions := len(groups[string(check.Optional)])
-	t.printf(msg(t.lang, "summary")+"\n", toFix, suggestions, plural(t.lang, "suggestion", suggestions), len(groups["manual"]))
+	t.printf("%s\n", summaryLine(groups, t.lang))
 	t.printf("%s\n", wrap(msg(t.lang, "scoring_note"), width, ""))
 
-	t.section("sec_essential", "✗", groups[string(check.Essential)], true)
-	t.section("sec_recommended", "✗", groups[string(check.Recommended)], true)
-	t.section("sec_optional", "·", groups[string(check.Optional)], true)
-	t.section("sec_manual", "?", groups["manual"], true)
-	t.section("sec_unknown", "!", groups["unknown"], false)
-	t.section("sec_pass", "✓", groups["pass"], false)
-	t.section("sec_na", "-", groups["na"], false)
+	for _, s := range sections {
+		t.section(s.key, s.mark, groups[s.group], s.detailed)
+	}
 
+	if isPhone(r.Platform) {
+		t.printf("\n%s\n", wrap(fmt.Sprintf(msg(t.lang, "next_phone"), r.Platform), width, ""))
+		t.printf("%s\n", fmt.Sprintf(msg(t.lang, "edit_profile_phone"), r.Platform))
+		return
+	}
 	t.printf("\n%s\n", msg(t.lang, "edit_profile"))
+}
+
+func isPhone(platform string) bool { return platform == "ios" || platform == "android" }
+
+// summaryLine is "2 to fix, 1 suggestion, 1 to check yourself".
+func summaryLine(groups map[string][]scan.Entry, lang check.Lang) string {
+	toFix := len(groups[string(check.Essential)]) + len(groups[string(check.Recommended)])
+	suggestions := len(groups[string(check.Optional)])
+	return fmt.Sprintf(msg(lang, "summary"), toFix, suggestions, plural(lang, "suggestion", suggestions), len(groups["manual"]))
+}
+
+// sections are the report sections in order: key, mark, group and whether
+// each entry is shown with its explanation.
+var sections = []struct {
+	key, mark, group string
+	detailed         bool
+}{
+	{"sec_essential", "✗", string(check.Essential), true},
+	{"sec_recommended", "✗", string(check.Recommended), true},
+	{"sec_optional", "·", string(check.Optional), true},
+	{"sec_manual", "?", "manual", true},
+	{"sec_unknown", "!", "unknown", false},
+	{"sec_pass", "✓", "pass", false},
+	{"sec_na", "-", "na", false},
+}
+
+// entryTitle says what was found: the pass or fix title, or the neutral
+// name when the setting was not read or does not apply.
+func entryTitle(e scan.Entry, lang check.Lang) string {
+	text := e.Check.TextFor(lang)
+	switch {
+	case e.Relevance == check.NotApplicable:
+		return text.Title
+	case e.Result.Status == check.Pass:
+		return text.TitlePass
+	case e.Result.Status == check.Unknown, e.Result.Status == check.Skipped:
+		return text.Title
+	}
+	return text.TitleFail
 }
 
 // group sorts entries into the report sections. Problems are grouped by
@@ -109,16 +159,7 @@ func (t *textWriter) section(key, mark string, entries []scan.Entry, detailed bo
 	t.printf("\n%s (%d)\n", msg(t.lang, key), len(entries))
 	for _, e := range entries {
 		text := e.Check.TextFor(t.lang)
-		title := text.TitleFail
-		switch e.Result.Status {
-		case check.Pass:
-			title = text.TitlePass
-		case check.Unknown, check.Skipped:
-			title = text.Title
-		}
-		if e.Relevance == check.NotApplicable {
-			title = text.Title
-		}
+		title := entryTitle(e, t.lang)
 		if !detailed {
 			line := mark + " " + title
 			if e.Result.Status == check.Unknown && e.Result.Current != "" {
@@ -160,9 +201,12 @@ func platformName(p string) string {
 	return p
 }
 
-func describeProfile(p profile.Profile, lang check.Lang) string {
+func describeProfile(p profile.Profile, platform string, lang check.Lang) string {
 	parts := []string{msg(lang, "desktop")}
-	if p.Portable {
+	switch {
+	case isPhone(platform):
+		parts[0] = msg(lang, "phone")
+	case p.Portable:
 		parts[0] = msg(lang, "laptop")
 	}
 	if p.LeavesHome {

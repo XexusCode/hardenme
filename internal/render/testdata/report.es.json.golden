@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "tool": "hardenme",
+  "language": "es",
+  "platform": "macos",
+  "os_version": "26.2",
+  "generated_at": "2026-11-08T10:00:00Z",
+  "profile": {
+    "portable": true,
+    "leaves_home": true,
+    "shared": false,
+    "sensitive_data": false,
+    "risk": "normal"
+  },
+  "score": {
+    "value": 39,
+    "grade": "F"
+  },
+  "entries": [
+    {
+      "id": "macos.admin_account",
+      "title": "Plantéate usar una cuenta estándar para el día a día",
+      "status": "warn",
+      "relevance": "optional",
+      "current": "staff everyone admin",
+      "fix_kind": "guided"
+    },
+    {
+      "id": "macos.filevault",
+      "title": "Activa el cifrado del disco (FileVault)",
+      "status": "fail",
+      "relevance": "essential",
+      "current": "FileVault is Off.",
+      "fix_kind": "guided"
+    },
+    {
+      "id": "macos.find_my",
+      "title": "Comprueba que Buscar mi Mac está activado",
+      "status": "manual",
+      "relevance": "essential",
+      "current": "could not confirm",
+      "fix_kind": "info"
+    },
+    {
+      "id": "macos.firewall_stealth",
+      "title": "Activa el modo invisible del cortafuegos",
+      "status": "fail",
+      "relevance": "recommended",
+      "current": "Firewall stealth mode is off",
+      "fix_kind": "auto"
+    },
+    {
+      "id": "macos.gatekeeper",
+      "title": "Gatekeeper revisa las apps que abres",
+      "status": "pass",
+      "relevance": "essential",
+      "current": "assessments enabled",
+      "fix_kind": "guided"
+    },
+    {
+      "id": "macos.lockdown_mode",
+      "title": "Modo de aislamiento",
+      "status": "skipped",
+      "relevance": "not_applicable",
+      "fix_kind": "guided"
+    },
+    {
+      "id": "macos.sip",
+      "title": "Protección de la Integridad del Sistema",
+      "status": "unknown",
+      "relevance": "essential",
+      "current": "csrutil: command not found",
+      "fix_kind": "info"
+    }
+  ]
+}

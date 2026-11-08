@@ -1,0 +1,84 @@
+# hardenme · macOS 26.2
+
+**Profile:** laptop, goes outside, normal risk
+
+**Security score: 39/100 (F, At risk)**
+
+2 to fix, 1 suggestion, 1 to check yourself
+
+_Checks are weighted by your profile: essential x3, recommended x2, optional x1. Items you have to check yourself do not count._
+
+## FIX FIRST (essential for you) (1)
+
+### ✗ Turn on disk encryption (FileVault)
+
+**Now:** `FileVault is Off.`
+
+**Why it matters:** Without FileVault, anyone who steals your Mac can take the disk out or boot it from another drive and read all your files, passwords and photos without knowing your password. With FileVault on, the data is useless without it.
+
+**How to fix it:**
+
+1. Open System Settings > Privacy & Security.
+2. Scroll to FileVault and click "Turn On".
+3. Save the recovery key somewhere safe outside the Mac (or let your Apple Account unlock it).
+4. Keep working while it encrypts; it can take a few hours.
+
+Open: `open "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension"`
+
+## RECOMMENDED (1)
+
+### ✗ Turn on the firewall's stealth mode
+
+**Now:** `Firewall stealth mode is off`
+
+**Why it matters:** In stealth mode your Mac does not answer "is anyone there?" probes, so it is harder to find on a public network. It only works while the firewall is on.
+
+**How to fix it:**
+
+1. Open System Settings > Network > Firewall > Options.
+2. Turn on "Enable stealth mode".
+
+Open: `open "x-apple.systempreferences:com.apple.Network-Settings.extension"`
+
+Or in Terminal: `sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on`
+
+## SUGGESTIONS (optional for you) (1)
+
+### · Consider a standard account for everyday use
+
+**Now:** `staff everyone admin`
+
+**Why it matters:** Your everyday account is an administrator. Anything you run (including a malicious app you are tricked into opening) can ask for admin rights with the same password you type all day. A separate admin account adds one more barrier. This is a suggestion, not an urgent problem.
+
+**How to fix it:**
+
+1. Open System Settings > Users & Groups and add a new Administrator account with a different password.
+2. Log in to that new account once to check it works.
+3. Go back to Users & Groups, open your usual account and turn off "Allow this user to administer this computer".
+4. From now on, macOS will ask for the admin account's name and password when it needs to.
+
+Open: `open "x-apple.systempreferences:com.apple.Users-Groups-Settings.extension"`
+
+## CHECK IT YOURSELF (1)
+
+### ? Make sure Find My Mac is on
+
+**Why it matters:** Find My lets you see where your Mac is, lock it with a message and erase it remotely if it is stolen. It also enables Activation Lock, which makes a stolen Mac much harder to resell.
+
+**How to fix it:**
+
+1. Open System Settings and click your name at the top.
+2. Go to iCloud > Find My Mac (or "See All" > Find My Mac) and turn it on.
+3. Test it once at icloud.com/find from another device.
+
+## COULD NOT CHECK (1)
+
+- ! System Integrity Protection (`csrutil: command not found`)
+
+## ALREADY GOOD (1)
+
+- ✓ Gatekeeper checks the apps you open
+
+## NOT APPLICABLE TO YOUR PROFILE (1)
+
+- Lockdown Mode

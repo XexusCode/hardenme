@@ -15,7 +15,13 @@ import (
 type Env struct {
 	Runner  runner.Runner
 	Profile profile.Profile
+	// Ask gets the person's answer for ask probes. When nil, ask checks are
+	// reported as manual.
+	Ask func(Check) Answer
 }
+
+// Phone platforms have nothing hardenme can read, so their checks ask.
+var askOnly = map[string]bool{"ios": true, "android": true}
 
 // Builtin is a probe written in Go, for checks whose logic does not fit
 // declarative rules (thresholds that depend on the profile, several reads...).
@@ -37,8 +43,14 @@ func (c *Check) compile() error {
 	if p.Manual {
 		kinds++
 	}
+	if p.Ask {
+		kinds++
+	}
 	if kinds != 1 {
-		return errors.New("probe must set exactly one of command, builtin or manual")
+		return errors.New("probe must set exactly one of command, builtin, manual or ask")
+	}
+	if askOnly[c.Platform] && !p.Ask && !p.Manual {
+		return fmt.Errorf("%s checks can only use ask or manual probes", c.Platform)
 	}
 	if p.Builtin != "" {
 		if _, ok := Builtins[p.Builtin]; !ok {
@@ -77,8 +89,14 @@ func (c *Check) compile() error {
 	}
 	for _, lang := range []Lang{EN, ES} {
 		t, ok := c.Text[lang]
-		if !ok || t.TitlePass == "" || t.TitleFail == "" || t.Why == "" || len(t.FixSteps) == 0 {
+		if !ok || t.Title == "" || t.TitlePass == "" || t.TitleFail == "" || t.Why == "" || len(t.FixSteps) == 0 {
 			return fmt.Errorf("missing or incomplete %s text", lang)
+		}
+		if p.Ask != (t.Question != "") {
+			return fmt.Errorf("%s text: question is required with ask and only allowed with ask", lang)
+		}
+		if t.Where != "" && !p.Ask {
+			return fmt.Errorf("%s text: where is only allowed with ask", lang)
 		}
 	}
 	if len(c.References) == 0 {
@@ -169,6 +187,8 @@ func (c Check) Run(ctx context.Context, env Env) Result {
 	switch {
 	case c.Probe.Manual:
 		res = Result{Status: Manual}
+	case c.Probe.Ask:
+		res = c.ask(env)
 	case c.Probe.Builtin != "":
 		res = Builtins[c.Probe.Builtin](ctx, env)
 	default:
@@ -185,6 +205,22 @@ func (c Check) Run(ctx context.Context, env Env) Result {
 		res.Credit = 0.5
 	}
 	return res
+}
+
+func (c Check) ask(env Env) Result {
+	if env.Ask == nil {
+		return Result{Status: Manual}
+	}
+	switch env.Ask(c) {
+	case Yes:
+		return Result{Status: Pass}
+	case No:
+		return Result{Status: Fail}
+	case Quit:
+		return Result{Status: Skipped}
+	default:
+		return Result{Status: Manual}
+	}
 }
 
 func (c Check) runCommand(ctx context.Context, env Env) Result {

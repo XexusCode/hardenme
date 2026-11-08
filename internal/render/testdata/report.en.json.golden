@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "tool": "hardenme",
+  "language": "en",
+  "platform": "macos",
+  "os_version": "26.2",
+  "generated_at": "2026-11-08T10:00:00Z",
+  "profile": {
+    "portable": true,
+    "leaves_home": true,
+    "shared": false,
+    "sensitive_data": false,
+    "risk": "normal"
+  },
+  "score": {
+    "value": 39,
+    "grade": "F"
+  },
+  "entries": [
+    {
+      "id": "macos.admin_account",
+      "title": "Consider a standard account for everyday use",
+      "status": "warn",
+      "relevance": "optional",
+      "current": "staff everyone admin",
+      "fix_kind": "guided"
+    },
+    {
+      "id": "macos.filevault",
+      "title": "Turn on disk encryption (FileVault)",
+      "status": "fail",
+      "relevance": "essential",
+      "current": "FileVault is Off.",
+      "fix_kind": "guided"
+    },
+    {
+      "id": "macos.find_my",
+      "title": "Make sure Find My Mac is on",
+      "status": "manual",
+      "relevance": "essential",
+      "current": "could not confirm",
+      "fix_kind": "info"
+    },
+    {
+      "id": "macos.firewall_stealth",
+      "title": "Turn on the firewall's stealth mode",
+      "status": "fail",
+      "relevance": "recommended",
+      "current": "Firewall stealth mode is off",
+      "fix_kind": "auto"
+    },
+    {
+      "id": "macos.gatekeeper",
+      "title": "Gatekeeper checks the apps you open",
+      "status": "pass",
+      "relevance": "essential",
+      "current": "assessments enabled",
+      "fix_kind": "guided"
+    },
+    {
+      "id": "macos.lockdown_mode",
+      "title": "Lockdown Mode",
+      "status": "skipped",
+      "relevance": "not_applicable",
+      "fix_kind": "guided"
+    },
+    {
+      "id": "macos.sip",
+      "title": "System Integrity Protection",
+      "status": "unknown",
+      "relevance": "essential",
+      "current": "csrutil: command not found",
+      "fix_kind": "info"
+    }
+  ]
+}

@@ -99,8 +99,8 @@ type Rule struct {
 	re *regexp.Regexp
 }
 
-// Probe says how to read the state. Exactly one of Command, Builtin or
-// Manual is set.
+// Probe says how to read the state. Exactly one of Command, Builtin,
+// Manual or Ask is set.
 type Probe struct {
 	Command []string `yaml:"command" json:"command,omitempty"`
 	Rules   []Rule   `yaml:"rules" json:"rules,omitempty"`
@@ -109,7 +109,20 @@ type Probe struct {
 	Default Status `yaml:"default" json:"default,omitempty"`
 	Builtin string `yaml:"builtin" json:"builtin,omitempty"`
 	Manual  bool   `yaml:"manual" json:"manual,omitempty"`
+	// Ask means the state comes from the person's answer to Text.Question,
+	// for devices hardenme cannot read (phones).
+	Ask bool `yaml:"ask" json:"ask,omitempty"`
 }
+
+// Answer is a person's reply to an ask probe.
+type Answer string
+
+const (
+	Yes      Answer = "yes"
+	No       Answer = "no"
+	DontKnow Answer = "dont_know"
+	Quit     Answer = "quit" // stop the checklist; this and the rest are skipped
+)
 
 // Text is everything shown to the user about a check, in one language.
 type Text struct {
@@ -125,6 +138,10 @@ type Text struct {
 	// FixWarning is shown before hardenme applies the fix, e.g. "keep it on
 	// if you connect to this Mac from another computer".
 	FixWarning string `yaml:"fix_warning" json:"fix_warning,omitempty"`
+	// Question is asked for ask probes. "Yes" must be the safe answer.
+	Question string `yaml:"question" json:"question,omitempty"`
+	// Where is the menu path, shown with the question.
+	Where string `yaml:"where" json:"where,omitempty"`
 }
 
 // FixKind says how hardenme can fix a check.

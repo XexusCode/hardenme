@@ -30,8 +30,14 @@ type Report struct {
 // Scan runs every check that applies to the profile. Checks that do not
 // apply are kept in the report (as not applicable) but never run.
 func Scan(ctx context.Context, platform string, checks []check.Check, p profile.Profile, r runner.Runner) Report {
+	return ScanEnv(ctx, platform, checks, check.Env{Runner: r, Profile: p})
+}
+
+// ScanEnv is Scan with a full environment, e.g. one that can ask the
+// person (phone checklists). The profile is env.Profile.
+func ScanEnv(ctx context.Context, platform string, checks []check.Check, env check.Env) Report {
+	p := env.Profile
 	report := Report{Platform: platform, Profile: p, StartedAt: time.Now()}
-	env := check.Env{Runner: r, Profile: p}
 	for _, c := range checks {
 		rel := c.RelevanceFor(p)
 		entry := Entry{Check: c, Relevance: rel}

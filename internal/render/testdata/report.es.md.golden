@@ -1,0 +1,84 @@
+# hardenme · macOS 26.2
+
+**Perfil:** portátil, sale de casa, riesgo normal
+
+**Nota de seguridad: 39/100 (F, En riesgo)**
+
+2 por arreglar, 1 sugerencia, 1 para revisar tú
+
+_Cada punto pesa según tu perfil: esencial x3, recomendado x2, opcional x1. Lo que tienes que revisar tú no cuenta._
+
+## ARREGLA PRIMERO (esencial para ti) (1)
+
+### ✗ Activa el cifrado del disco (FileVault)
+
+**Ahora:** `FileVault is Off.`
+
+**Por qué importa:** Sin FileVault, quien robe tu Mac puede sacar el disco o arrancarlo desde otra unidad y leer todos tus archivos, contraseñas y fotos sin saber tu contraseña. Con FileVault activado, esos datos no sirven de nada sin ella.
+
+**Cómo arreglarlo:**
+
+1. Abre Ajustes del Sistema > Privacidad y seguridad.
+2. Baja hasta FileVault y pulsa "Activar".
+3. Guarda la clave de recuperación en un lugar seguro fuera del Mac (o deja que tu cuenta de Apple lo desbloquee).
+4. Puedes seguir usando el Mac mientras cifra; puede tardar unas horas.
+
+Abrir: `open "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension"`
+
+## RECOMENDADO (1)
+
+### ✗ Activa el modo invisible del cortafuegos
+
+**Ahora:** `Firewall stealth mode is off`
+
+**Por qué importa:** En modo invisible tu Mac no responde a los sondeos de "¿hay alguien ahí?", así que es más difícil encontrarlo en una red pública. Solo funciona con el cortafuegos activado.
+
+**Cómo arreglarlo:**
+
+1. Abre Ajustes del Sistema > Red > Cortafuegos > Opciones.
+2. Activa "Activar modo invisible".
+
+Abrir: `open "x-apple.systempreferences:com.apple.Network-Settings.extension"`
+
+O en Terminal: `sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on`
+
+## SUGERENCIAS (opcional para ti) (1)
+
+### · Plantéate usar una cuenta estándar para el día a día
+
+**Ahora:** `staff everyone admin`
+
+**Por qué importa:** Tu cuenta de todos los días es administradora. Cualquier cosa que ejecutes (incluida una app maliciosa que te engañen para abrir) puede pedir permisos de administrador con la misma contraseña que escribes a diario. Una cuenta de administrador aparte añade una barrera más. Es una sugerencia, no un problema urgente.
+
+**Cómo arreglarlo:**
+
+1. Abre Ajustes del Sistema > Usuarios y grupos y añade una cuenta nueva de tipo Administrador con otra contraseña.
+2. Inicia sesión una vez en esa cuenta para comprobar que funciona.
+3. Vuelve a Usuarios y grupos, abre tu cuenta habitual y desactiva "Permitir a este usuario administrar este ordenador".
+4. A partir de ahora, macOS te pedirá el nombre y la contraseña de la cuenta administradora cuando la necesite.
+
+Abrir: `open "x-apple.systempreferences:com.apple.Users-Groups-Settings.extension"`
+
+## REVÍSALO TÚ (1)
+
+### ? Comprueba que Buscar mi Mac está activado
+
+**Por qué importa:** Buscar te deja ver dónde está tu Mac, bloquearlo con un mensaje y borrarlo a distancia si te lo roban. También activa el Bloqueo de activación, que hace mucho más difícil revender un Mac robado.
+
+**Cómo arreglarlo:**
+
+1. Abre Ajustes del Sistema y pulsa tu nombre arriba del todo.
+2. Ve a iCloud > Buscar mi Mac (o "Ver todo" > Buscar mi Mac) y actívalo.
+3. Pruébalo una vez en icloud.com/find desde otro dispositivo.
+
+## NO SE HA PODIDO COMPROBAR (1)
+
+- ! Protección de la Integridad del Sistema (`csrutil: command not found`)
+
+## YA ESTÁ BIEN (1)
+
+- ✓ Gatekeeper revisa las apps que abres
+
+## NO APLICA A TU PERFIL (1)
+
+- Modo de aislamiento

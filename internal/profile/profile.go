@@ -62,6 +62,22 @@ func DefaultStore() (Store, error) {
 	return Store{Path: filepath.Join(dir, "hardenme", "profile.json")}, nil
 }
 
+// PhoneStore stores the phone's profile next to the computer's, in
+// profile-phone.json: a phone is used differently from the computer.
+func PhoneStore() (Store, error) {
+	dir, err := configDir()
+	if err != nil {
+		return Store{}, err
+	}
+	return Store{Path: filepath.Join(dir, "hardenme", "profile-phone.json")}, nil
+}
+
+// DefaultPhone is the cautious starting profile for a phone: it is portable
+// and goes outside.
+func DefaultPhone() Profile {
+	return Profile{Portable: true, LeavesHome: true, Risk: RiskNormal}
+}
+
 func configDir() (string, error) {
 	if xdg := os.Getenv("XDG_CONFIG_HOME"); xdg != "" {
 		return xdg, nil

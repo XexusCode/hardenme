@@ -100,6 +100,7 @@ Plan detallado: [`2026_11_07-hardenme_fix-plan.md`](../2026_11_07-hardenme_fix/2
 **Hecho cuando:** una persona no técnica hace doble clic, elige qué arreglar, escribe su contraseña una vez y ve la nota nueva. Y puede deshacerlo.
 
 ### Después (v0.3): el móvil, sin barreras técnicas
+Plan detallado: [`2026_11_08-hardenme_mobile-plan.md`](../2026_11_08-hardenme_mobile/2026_11_08-hardenme_mobile-plan.md).
 - [ ] **Checklist de móvil guiado, iOS y Android, en la CLI** (`hardenme checklist ios|android`). Preguntas sí/no con nota por perfil, usando los textos ya escritos en la investigación. Con esto se cubre lo más robado sin adb ni cables. Antes estaba en la fase 3; se adelanta.
 - [ ] **Historias de robo**: unir varios fallos en un riesgo concreto, por ejemplo "si te roban el Mac ahora mismo, podrían leer tus archivos y no podrías borrarlo".
 - [ ] Salidas `--format json|markdown` para compartir el informe.

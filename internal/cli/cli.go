@@ -60,7 +60,7 @@ func newRoot() *cobra.Command {
 		SilenceErrors: true,
 	}
 	root.PersistentFlags().StringVar(&opts.lang, "lang", defaultLang(), "language: en or es")
-	root.AddCommand(newScan(opts), newFix(opts), newProfile(opts), newGuide(opts))
+	root.AddCommand(newScan(opts), newFix(opts), newChecklist(opts), newProfile(opts), newGuide(opts))
 	return root
 }
 
@@ -156,7 +156,7 @@ func newScan(opts *options) *cobra.Command {
 			if err := render.Render(cmd.OutOrStdout(), report, f, lang); err != nil {
 				return err
 			}
-			if isTerminal(cmd.InOrStdin()) && os.Getenv("HARDENME_NO_FIX_HINT") == "" && len(fix.Candidates(report)) > 0 {
+			if f == render.Text && isTerminal(cmd.InOrStdin()) && os.Getenv("HARDENME_NO_FIX_HINT") == "" && len(fix.Candidates(report)) > 0 {
 				fmt.Fprintln(cmd.OutOrStdout(), t(lang, "scan_fix_hint"))
 			}
 			if code := report.ExitCode(); code != 0 {
@@ -165,7 +165,7 @@ func newScan(opts *options) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&format, "format", "text", "output format: text")
+	cmd.Flags().StringVar(&format, "format", "text", "output format: text, json or markdown")
 	cmd.Flags().StringVar(&only, "only", "", "comma-separated check IDs to run (e.g. filevault,firewall)")
 	return cmd
 }
@@ -305,7 +305,12 @@ func newProfile(opts *options) *cobra.Command {
 
 // askProfile asks the profile questions, using p's values as defaults.
 func askProfile(p profile.Profile, lang check.Lang, in io.Reader, out io.Writer) (profile.Profile, error) {
-	sc := bufio.NewScanner(in)
+	return askProfileWith(p, lang, bufio.NewScanner(in), out, false)
+}
+
+// askProfileWith asks the profile questions from sc. A phone is always
+// portable, so the phone version skips that question.
+func askProfileWith(p profile.Profile, lang check.Lang, sc *bufio.Scanner, out io.Writer, phone bool) (profile.Profile, error) {
 	ask := func(key string, def bool) (bool, error) {
 		hint := t(lang, "yes_no_default_no")
 		if def {
@@ -330,7 +335,9 @@ func askProfile(p profile.Profile, lang check.Lang, in io.Reader, out io.Writer)
 		}
 	}
 	var err error
-	if p.Portable, err = ask("q_portable", p.Portable); err != nil {
+	if phone {
+		p.Portable = true
+	} else if p.Portable, err = ask("q_portable", p.Portable); err != nil {
 		return p, err
 	}
 	if p.LeavesHome, err = ask("q_leaves_home", p.LeavesHome || p.Portable); err != nil {
