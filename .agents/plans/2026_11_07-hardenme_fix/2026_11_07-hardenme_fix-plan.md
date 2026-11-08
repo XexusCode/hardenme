@@ -124,16 +124,16 @@ fix:
 
 **Description:** Before writing the engine, confirm for each auto candidate that it works on macOS 26 from Terminal with administrator privileges, that the check passes afterwards, and that the undo restores the previous state.
 
-- [ ] For each auto candidate in the table, on the maintainer's Mac and with their go-ahead per change:
+- [x] For each auto candidate in the table, on the maintainer's Mac and with their go-ahead per change:
   - record the probe output;
   - apply;
   - run the probe again;
   - undo;
   - run the probe once more.
   Capture the outputs as fixtures. Check that the setting in System Settings matches.
-- [ ] Mark every candidate that needs Full Disk Access, a GUI confirmation or a reboot, or that macOS ignores, as `guided`.
-- [ ] Decide how to handle `screen_lock_delay` and the `remote_*` checks, from what was observed.
-- [ ] Write the results in this plan's implementation notes and update the fix-class table.
+- [x] Mark every candidate that needs Full Disk Access, a GUI confirmation or a reboot, or that macOS ignores, as `guided`.
+- [x] Decide how to handle `screen_lock_delay` and the `remote_*` checks, from what was observed.
+- [x] Write the results in this plan's implementation notes and update the fix-class table.
 - [ ] STOP. Present the table to the user before Phase 2.
 
 **Implementation notes (Phase 1, maintainer's MacBook, macOS 26.2, 2026-11-07):**
@@ -150,6 +150,7 @@ fix:
 | security_responses | not tested (same mechanism) | same, for `ConfigDataInstall` and `CriticalUpdateInstall` | the previous value | auto, admin, tested only on fixtures until checked |
 | auto_login | not testable: auto-login was not enabled | — | — | **guided** |
 | gatekeeper | not tested (the maintainer excluded it) | — | — | **guided** |
+| screen_lock_delay | started, not finished: `sysadminctl -screenLock immediate -password -` prompts on the TTY ("Enter password for …"), but the password was not entered | — | — | **guided** for now. If it is confirmed later, it can run as a user-level step in the launcher's Terminal, where sysadminctl reads the password itself |
 | remote_login, screen_sharing, file_sharing, remote_management | not tested (the maintainer uses this Mac and asked not to touch SSH) | — | — | **guided** |
 
 **Design consequences for Phase 2:**
