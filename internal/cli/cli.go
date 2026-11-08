@@ -23,6 +23,7 @@ import (
 	"github.com/XexusCode/hardenme/internal/render"
 	"github.com/XexusCode/hardenme/internal/runner"
 	"github.com/XexusCode/hardenme/internal/scan"
+	"github.com/XexusCode/hardenme/internal/story"
 )
 
 // ExitError carries a process exit code without printing an error.
@@ -153,6 +154,11 @@ func newScan(opts *options) *cobra.Command {
 			}
 			report := scan.Scan(ctx, platform, selected, p, r)
 			report.OSVersion = osVersion(ctx, r)
+			stories, err := story.Load(checks.FS, platform)
+			if err != nil {
+				return err
+			}
+			story.Add(&report, stories)
 			if err := render.Render(cmd.OutOrStdout(), report, f, lang); err != nil {
 				return err
 			}

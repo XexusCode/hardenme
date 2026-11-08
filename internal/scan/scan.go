@@ -25,6 +25,15 @@ type Report struct {
 	Profile   profile.Profile
 	StartedAt time.Time
 	Entries   []Entry
+	// Stories are the plain-language risks the failures add up to.
+	Stories []Story
+}
+
+// Story is a plain-language risk, e.g. "if your Mac is stolen, the thief
+// could read your files", in each language.
+type Story struct {
+	ID   string
+	Text map[check.Lang]string
 }
 
 // Scan runs every check that applies to the profile. Checks that do not

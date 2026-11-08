@@ -1,5 +1,6 @@
-// Package checks embeds the check definitions (checks/<platform>/*.yaml)
-// and their JSON Schema into the binary.
+// Package checks embeds the check definitions (checks/<platform>/*.yaml),
+// the theft stories (checks/stories/<platform>.yaml) and the JSON Schema
+// into the binary.
 package checks
 
 import "embed"

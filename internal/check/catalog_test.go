@@ -37,6 +37,9 @@ func TestEveryCheckMatchesTheSchema(t *testing.T) {
 		t.Fatal("no check files found")
 	}
 	for _, file := range files {
+		if path.Dir(file) == "stories" {
+			continue
+		}
 		t.Run(file, func(t *testing.T) {
 			data, _ := fs.ReadFile(checks.FS, file)
 			var raw any

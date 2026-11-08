@@ -17,6 +17,7 @@ import (
 	"github.com/XexusCode/hardenme/internal/render"
 	"github.com/XexusCode/hardenme/internal/runner"
 	"github.com/XexusCode/hardenme/internal/scan"
+	"github.com/XexusCode/hardenme/internal/story"
 )
 
 var update = flag.Bool("update", false, "rewrite the golden files")
@@ -49,6 +50,11 @@ func sampleReport(t *testing.T) scan.Report {
 	r := scan.Scan(context.Background(), "macos", selected, p, fake)
 	r.OSVersion = "26.2"
 	r.StartedAt = time.Date(2026, 11, 8, 10, 0, 0, 0, time.UTC)
+	stories, err := story.Load(checks.FS, "macos")
+	if err != nil {
+		t.Fatal(err)
+	}
+	story.Add(&r, stories)
 	return r
 }
 

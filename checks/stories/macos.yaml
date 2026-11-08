@@ -1,0 +1,31 @@
+# Theft stories: plain-language risks shown at the top of the report when
+# the listed checks fail. A story fires when every check in `all` fails or
+# warns and, if `any` is set, at least one of those does too. Checks that
+# were not read, are manual or do not apply to the profile never fire one.
+stories:
+  - id: macos.open_without_password
+    any: [macos.auto_login, macos.auto_lock, macos.screen_lock_delay]
+    text:
+      en: If someone grabs your Mac while it is open or asleep, they could get in without knowing your password.
+      es: Si alguien coge tu Mac mientras está abierto o en reposo, podría entrar sin saber tu contraseña.
+  - id: macos.readable_disk
+    all: [macos.filevault]
+    text:
+      en: If your Mac is stolen, the thief could read your files, saved passwords and photos without your password, by taking out the disk or starting the Mac from another drive.
+      es: Si te roban el Mac, quien lo tenga podría leer tus archivos, contraseñas guardadas y fotos sin tu contraseña, sacando el disco o arrancando el Mac desde otra unidad.
+  - id: macos.reachable_on_public_wifi
+    all: [macos.firewall]
+    any: [macos.remote_login, macos.screen_sharing, macos.file_sharing, macos.remote_management]
+    text:
+      en: On a public Wi-Fi network, other people could try to connect to your Mac, because remote access is on and the firewall is off.
+      es: En una wifi pública, otras personas podrían intentar conectarse a tu Mac, porque tiene el acceso remoto activado y el cortafuegos desactivado.
+  - id: macos.easier_malware
+    any: [macos.gatekeeper, macos.sip]
+    text:
+      en: A malicious app would find it easier to install itself and stay on your Mac, because some of macOS's own defences are off.
+      es: Una app maliciosa lo tendría más fácil para instalarse y quedarse en tu Mac, porque algunas defensas del propio macOS están desactivadas.
+  - id: macos.known_holes
+    any: [macos.pending_updates, macos.auto_updates]
+    text:
+      en: Your Mac may have security holes that are already public and already fixed by Apple, but not installed on it yet.
+      es: Tu Mac puede tener fallos de seguridad que ya son públicos y que Apple ya ha arreglado, pero que aún no están instalados.

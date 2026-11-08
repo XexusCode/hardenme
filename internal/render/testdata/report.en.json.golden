@@ -16,6 +16,12 @@
     "value": 39,
     "grade": "F"
   },
+  "stories": [
+    {
+      "id": "macos.readable_disk",
+      "text": "If your Mac is stolen, the thief could read your files, saved passwords and photos without your password, by taking out the disk or starting the Mac from another drive."
+    }
+  ],
   "entries": [
     {
       "id": "macos.admin_account",

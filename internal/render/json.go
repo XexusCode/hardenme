@@ -27,7 +27,14 @@ type JSONReport struct {
 	Profile       profile.Profile `json:"profile"`
 	// Score is null when nothing could be scored.
 	Score   *JSONScore  `json:"score"`
+	Stories []JSONStory `json:"stories"`
 	Entries []JSONEntry `json:"entries"`
+}
+
+// JSONStory is a plain-language risk.
+type JSONStory struct {
+	ID   string `json:"id"`
+	Text string `json:"text"`
 }
 
 // JSONScore is the weighted score.
@@ -56,7 +63,11 @@ func BuildJSON(r scan.Report, lang check.Lang) JSONReport {
 		OSVersion:     r.OSVersion,
 		GeneratedAt:   r.StartedAt.UTC().Truncate(time.Second),
 		Profile:       r.Profile,
+		Stories:       []JSONStory{},
 		Entries:       []JSONEntry{},
+	}
+	for _, st := range r.Stories {
+		out.Stories = append(out.Stories, JSONStory{ID: st.ID, Text: storyText(st, lang)})
 	}
 	if s := r.Score(); s.Value >= 0 {
 		out.Score = &JSONScore{Value: s.Value, Grade: s.Grade}

@@ -78,6 +78,13 @@ func (t *textWriter) report(r scan.Report) {
 	t.printf("%s\n", summaryLine(groups, t.lang))
 	t.printf("%s\n", wrap(msg(t.lang, "scoring_note"), width, ""))
 
+	if len(r.Stories) > 0 {
+		t.printf("\n%s\n", msg(t.lang, "sec_stories"))
+		for _, st := range r.Stories {
+			t.printf("→ %s\n", strings.TrimPrefix(wrap(storyText(st, t.lang), width, "  "), "  "))
+		}
+	}
+
 	for _, s := range sections {
 		t.section(s.key, s.mark, groups[s.group], s.detailed)
 	}
@@ -91,6 +98,13 @@ func (t *textWriter) report(r scan.Report) {
 }
 
 func isPhone(platform string) bool { return platform == "ios" || platform == "android" }
+
+func storyText(s scan.Story, lang check.Lang) string {
+	if text, ok := s.Text[lang]; ok {
+		return text
+	}
+	return s.Text[check.EN]
+}
 
 // summaryLine is "2 to fix, 1 suggestion, 1 to check yourself".
 func summaryLine(groups map[string][]scan.Entry, lang check.Lang) string {

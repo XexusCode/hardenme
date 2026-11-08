@@ -17,6 +17,7 @@ import (
 	"github.com/XexusCode/hardenme/internal/profile"
 	"github.com/XexusCode/hardenme/internal/render"
 	"github.com/XexusCode/hardenme/internal/scan"
+	"github.com/XexusCode/hardenme/internal/story"
 )
 
 // phonePlatforms are the devices covered by the guided checklist.
@@ -167,6 +168,11 @@ func (c *checklister) run(cmd *cobra.Command, selected []check.Check) (scan.Repo
 		return answer
 	}
 	report := scan.ScanEnv(cmd.Context(), c.platform, selected, check.Env{Profile: p, Ask: ask})
+	stories, err := story.Load(c.deps.catalog, c.platform)
+	if err != nil {
+		return scan.Report{}, err
+	}
+	story.Add(&report, stories)
 	if err := store.Save(saved); err != nil {
 		return scan.Report{}, err
 	}
