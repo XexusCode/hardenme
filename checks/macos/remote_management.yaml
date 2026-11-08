@@ -13,6 +13,7 @@ probe:
       status: fail
 text:
   en:
+    title: Remote Management
     title_pass: Remote Management is off
     title_fail: Turn off Remote Management if nobody manages your Mac
     why: >-
@@ -23,6 +24,7 @@ text:
       - Turn off "Remote Management".
     deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
   es:
+    title: Gestión remota
     title_pass: La gestión remota está desactivada
     title_fail: Desactiva la gestión remota si nadie administra tu Mac
     why: >-

@@ -94,35 +94,35 @@ id: macos.x
 platform: macos
 relevance: {default: essential}
 probe: {}
-text: {en: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
+text: {en: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
 references: [https://example.com]`,
 		"bad regex": `
 id: macos.x
 platform: macos
 relevance: {default: essential}
 probe: {command: [x], rules: [{match: "(", status: pass}]}
-text: {en: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
+text: {en: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
 references: [https://example.com]`,
 		"unknown builtin": `
 id: macos.x
 platform: macos
 relevance: {default: essential}
 probe: {builtin: nope}
-text: {en: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
+text: {en: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
 references: [https://example.com]`,
 		"missing spanish": `
 id: macos.x
 platform: macos
 relevance: {default: essential}
 probe: {manual: true}
-text: {en: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
+text: {en: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
 references: [https://example.com]`,
 		"no references": `
 id: macos.x
 platform: macos
 relevance: {default: essential}
 probe: {manual: true}
-text: {en: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}}`,
+text: {en: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}}`,
 	}
 	for name, body := range tests {
 		t.Run(name, func(t *testing.T) {
@@ -140,7 +140,7 @@ id: macos.x
 platform: macos
 relevance: {default: essential}
 probe: {manual: true}
-text: {en: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
+text: {en: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title: t, title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
 references: [https://example.com]
 `
 	tests := map[string]string{

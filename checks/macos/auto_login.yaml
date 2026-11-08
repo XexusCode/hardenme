@@ -23,6 +23,7 @@ probe:
       status: fail
 text:
   en:
+    title: Automatic login
     title_pass: The Mac asks for a password when it starts
     title_fail: Turn off automatic login
     why: >-
@@ -33,6 +34,7 @@ text:
       - Set "Automatically log in as" to "Off".
     deep_link: x-apple.systempreferences:com.apple.Users-Groups-Settings.extension
   es:
+    title: Inicio de sesión automático
     title_pass: El Mac pide contraseña al arrancar
     title_fail: Desactiva el inicio de sesión automático
     why: >-

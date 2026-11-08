@@ -17,6 +17,7 @@ probe:
   builtin: macos.screen_lock_delay
 text:
   en:
+    title: Password after sleep or the screen saver
     title_pass: Your Mac asks for the password as soon as it locks
     title_fail: Ask for the password right after sleep or the screen saver
     why: >-
@@ -28,6 +29,7 @@ text:
       - Set "Require password after screen saver begins or display is turned off" to "Immediately".
     deep_link: x-apple.systempreferences:com.apple.Lock-Screen-Settings.extension
   es:
+    title: Contraseña tras el reposo o el salvapantallas
     title_pass: Tu Mac pide la contraseña nada más bloquearse
     title_fail: Pide la contraseña justo después del reposo o el salvapantallas
     why: >-

@@ -83,7 +83,7 @@ Fecha: 2026-11-06, actualizado el 2026-11-07. Documento interno para decidir en 
   - [x] **README con la instalación paso a paso** (las capturas, cuando exista la primera release): cómo abrir Terminal, qué pegar y qué vas a ver. Con un enlace al script, para quien quiera leerlo antes.
   - [ ] **Homebrew** (`brew install XexusCode/tap/hardenme`) para usuarios técnicos. Solo necesita GitHub, que ya existe.
   - [ ] Probar la instalación en un Mac limpio, sin Go ni Homebrew, con una persona no técnica.
-- [ ] Arreglos pequeños: título neutro para "no se pudo comprobar" y concordancia de plurales.
+- [x] Arreglos pequeños: título neutro para "no se pudo comprobar" y "no aplica", y concordancia de plurales ("1 sugerencia").
 - [ ] Ejecutarlo en 2 o 3 Macs de personas no técnicas (amigos o familia, con macOS 14 y 15), sin ayuda, y anotar dónde se atascan.
 
 **Hecho cuando:** una persona no técnica instala hardenme siguiendo solo las instrucciones y entiende el informe sin ayuda.

@@ -18,6 +18,7 @@ probe:
       status: fail
 text:
   en:
+    title: Firewall stealth mode
     title_pass: Stealth mode is on
     title_fail: Turn on the firewall's stealth mode
     why: >-
@@ -29,6 +30,7 @@ text:
     deep_link: x-apple.systempreferences:com.apple.Network-Settings.extension
     command: sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
   es:
+    title: Modo invisible del cortafuegos
     title_pass: El modo invisible está activado
     title_fail: Activa el modo invisible del cortafuegos
     why: >-

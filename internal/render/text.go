@@ -64,7 +64,8 @@ func (t *textWriter) report(r scan.Report) {
 		t.printf("%s: %d/100 (%s, %s)\n", msg(t.lang, "score"), score.Value, score.Grade, msg(t.lang, "label_"+score.Grade))
 	}
 	toFix := len(groups[string(check.Essential)]) + len(groups[string(check.Recommended)])
-	t.printf(msg(t.lang, "summary")+"\n", toFix, len(groups[string(check.Optional)]), len(groups["manual"]))
+	suggestions := len(groups[string(check.Optional)])
+	t.printf(msg(t.lang, "summary")+"\n", toFix, suggestions, plural(t.lang, "suggestion", suggestions), len(groups["manual"]))
 	t.printf("%s\n", wrap(msg(t.lang, "scoring_note"), width, ""))
 
 	t.section("sec_essential", "✗", groups[string(check.Essential)], true)
@@ -109,8 +110,14 @@ func (t *textWriter) section(key, mark string, entries []scan.Entry, detailed bo
 	for _, e := range entries {
 		text := e.Check.TextFor(t.lang)
 		title := text.TitleFail
-		if e.Result.Status == check.Pass {
+		switch e.Result.Status {
+		case check.Pass:
 			title = text.TitlePass
+		case check.Unknown, check.Skipped:
+			title = text.Title
+		}
+		if e.Relevance == check.NotApplicable {
+			title = text.Title
 		}
 		if !detailed {
 			line := mark + " " + title

@@ -15,6 +15,7 @@ probe:
       status: fail
 text:
   en:
+    title: System Integrity Protection
     title_pass: System Integrity Protection is on
     title_fail: Turn System Integrity Protection back on
     why: >-
@@ -27,6 +28,7 @@ text:
       - Restart normally.
     command: csrutil enable
   es:
+    title: Protección de la Integridad del Sistema
     title_pass: La Protección de la Integridad del Sistema está activada
     title_fail: Vuelve a activar la Protección de la Integridad del Sistema
     why: >-

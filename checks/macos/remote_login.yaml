@@ -17,6 +17,7 @@ probe:
   default: pass
 text:
   en:
+    title: Remote Login (SSH)
     title_pass: Remote Login (SSH) is off
     title_fail: Turn off Remote Login (SSH) if you do not use it
     why: >-
@@ -28,6 +29,7 @@ text:
       - Turn off "Remote Login".
     deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
   es:
+    title: Inicio de sesión remoto (SSH)
     title_pass: El inicio de sesión remoto (SSH) está desactivado
     title_fail: Desactiva el inicio de sesión remoto (SSH) si no lo usas
     why: >-

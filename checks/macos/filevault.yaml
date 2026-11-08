@@ -28,6 +28,7 @@ probe:
       status: fail
 text:
   en:
+    title: Disk encryption (FileVault)
     title_pass: Your disk is encrypted (FileVault is on)
     title_fail: Turn on disk encryption (FileVault)
     why: >-
@@ -41,6 +42,7 @@ text:
       - Keep working while it encrypts; it can take a few hours.
     deep_link: x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension
   es:
+    title: Cifrado del disco (FileVault)
     title_pass: Tu disco está cifrado (FileVault activado)
     title_fail: Activa el cifrado del disco (FileVault)
     why: >-

@@ -13,6 +13,7 @@ probe:
   manual: true
 text:
   en:
+    title: Advanced Data Protection for iCloud
     title_pass: Advanced Data Protection for iCloud is on
     title_fail: Check whether Advanced Data Protection for iCloud is on
     why: >-
@@ -26,6 +27,7 @@ text:
       - Look at "Advanced Data Protection". If it is off and you want it, click it and follow the steps.
       - Set up a recovery contact or recovery key when asked, and keep the key somewhere safe.
   es:
+    title: Protección de datos avanzada de iCloud
     title_pass: La protección de datos avanzada de iCloud está activada
     title_fail: Comprueba si la protección de datos avanzada de iCloud está activada
     why: >-

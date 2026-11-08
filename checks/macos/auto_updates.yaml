@@ -8,6 +8,7 @@ probe:
   builtin: macos.auto_updates
 text:
   en:
+    title: Automatic macOS updates
     title_pass: macOS updates itself automatically
     title_fail: Turn on automatic macOS updates
     why: >-
@@ -21,6 +22,7 @@ text:
     fix_warning: >-
       Your Mac will restart by itself to install macOS updates, usually overnight. Save your work before you leave it.
   es:
+    title: Actualizaciones automáticas de macOS
     title_pass: macOS se actualiza solo
     title_fail: Activa las actualizaciones automáticas de macOS
     why: >-

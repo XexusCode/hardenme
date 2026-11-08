@@ -15,6 +15,7 @@ probe:
   builtin: macos.auto_lock_timeout
 text:
   en:
+    title: Automatic screen lock
     title_pass: The screen locks itself quickly when you walk away
     title_fail: Make the screen lock itself sooner
     why: >-
@@ -30,6 +31,7 @@ text:
     fix_warning: >-
       The screen will turn off and the screen saver will start after 5 minutes without use, on battery and on the power adapter.
   es:
+    title: Bloqueo automático de la pantalla
     title_pass: La pantalla se bloquea sola enseguida cuando te alejas
     title_fail: Haz que la pantalla se bloquee antes
     why: >-

@@ -8,6 +8,7 @@ probe:
   builtin: macos.security_responses
 text:
   en:
+    title: Automatic security responses
     title_pass: Security responses and system files install automatically
     title_fail: Turn on automatic security responses and system files
     why: >-
@@ -19,6 +20,7 @@ text:
       - Turn on "Install Security Responses and system files".
     deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
   es:
+    title: Respuestas de seguridad automáticas
     title_pass: Las respuestas de seguridad y archivos del sistema se instalan solos
     title_fail: Activa la instalación automática de respuestas de seguridad
     why: >-

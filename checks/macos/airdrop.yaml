@@ -19,6 +19,7 @@ probe:
       status: pass
 text:
   en:
+    title: AirDrop visibility
     title_pass: AirDrop is limited to your contacts
     title_fail: Limit AirDrop to your contacts
     why: >-
@@ -28,6 +29,7 @@ text:
       - Open Control Center (top-right of the menu bar) and click AirDrop.
       - Choose "Contacts Only" (or turn AirDrop off).
   es:
+    title: Visibilidad de AirDrop
     title_pass: AirDrop está limitado a tus contactos
     title_fail: Limita AirDrop a tus contactos
     why: >-

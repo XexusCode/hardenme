@@ -18,6 +18,7 @@ probe:
       status: fail
 text:
   en:
+    title: Lockdown Mode
     title_pass: Lockdown Mode is on
     title_fail: Consider turning on Lockdown Mode
     why: >-
@@ -31,6 +32,7 @@ text:
       - Turn it on on your iPhone and iPad too.
     deep_link: x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension
   es:
+    title: Modo de aislamiento
     title_pass: El modo de aislamiento está activado
     title_fail: Plantéate activar el modo de aislamiento
     why: >-

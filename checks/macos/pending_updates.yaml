@@ -8,6 +8,7 @@ probe:
   builtin: macos.pending_updates
 text:
   en:
+    title: Pending macOS updates
     title_pass: There are no pending macOS updates
     title_fail: Install the pending macOS update
     why: >-
@@ -20,6 +21,7 @@ text:
       - Click "Update Now" (or "Restart Now") and let the Mac restart.
     deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
   es:
+    title: Actualizaciones de macOS pendientes
     title_pass: No hay actualizaciones de macOS pendientes
     title_fail: Instala la actualización de macOS pendiente
     why: >-

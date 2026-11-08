@@ -13,6 +13,7 @@ probe:
       status: pass
 text:
   en:
+    title: Screen Sharing
     title_pass: Screen Sharing is off
     title_fail: Turn off Screen Sharing if you do not use it
     why: >-
@@ -24,6 +25,7 @@ text:
       - Turn off "Screen Sharing".
     deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
   es:
+    title: Compartir pantalla
     title_pass: Compartir pantalla está desactivado
     title_fail: Desactiva Compartir pantalla si no lo usas
     why: >-

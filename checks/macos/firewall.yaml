@@ -20,6 +20,7 @@ probe:
       status: fail
 text:
   en:
+    title: Firewall
     title_pass: The firewall is on
     title_fail: Turn on the firewall
     why: >-
@@ -32,6 +33,7 @@ text:
     deep_link: x-apple.systempreferences:com.apple.Network-Settings.extension
     command: sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
   es:
+    title: Cortafuegos
     title_pass: El cortafuegos está activado
     title_fail: Activa el cortafuegos
     why: >-

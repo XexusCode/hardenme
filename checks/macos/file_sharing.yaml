@@ -16,6 +16,7 @@ probe:
       status: pass
 text:
   en:
+    title: File Sharing
     title_pass: File Sharing is off
     title_fail: Turn off File Sharing if you do not use it
     why: >-
@@ -26,6 +27,7 @@ text:
       - Turn off "File Sharing".
     deep_link: x-apple.systempreferences:com.apple.Sharing-Settings.extension
   es:
+    title: Compartir archivos
     title_pass: Compartir archivos está desactivado
     title_fail: Desactiva Compartir archivos si no lo usas
     why: >-

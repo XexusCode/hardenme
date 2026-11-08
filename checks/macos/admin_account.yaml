@@ -19,6 +19,7 @@ probe:
   default: pass
 text:
   en:
+    title: Everyday account type
     title_pass: You use a standard (non-admin) account day to day
     title_fail: Consider a standard account for everyday use
     why: >-
@@ -33,6 +34,7 @@ text:
       - From now on, macOS will ask for the admin account's name and password when it needs to.
     deep_link: x-apple.systempreferences:com.apple.Users-Groups-Settings.extension
   es:
+    title: Tipo de cuenta del día a día
     title_pass: Usas una cuenta estándar (no administradora) en el día a día
     title_fail: Plantéate usar una cuenta estándar para el día a día
     why: >-

@@ -37,7 +37,7 @@ Required fields:
 | `severity` | How serious a failure is. |
 | `relevance` | Rules that turn the user's profile into `essential`, `recommended`, `optional` or `not_applicable`. |
 | `probe` | The command to run, how to parse it, the pass condition, and a default only where the OS really has one. |
-| `text.en`, `text.es` | `title_pass`, `title_fail`, `why`, `fix_steps[]`, and optional `deep_link` and `command`. |
+| `text.en`, `text.es` | `title`, `title_pass`, `title_fail`, `why`, `fix_steps[]`, and optional `deep_link`, `command` and `fix_warning`. |
 | `references` | **Required.** At least one link to official documentation (Apple, Google, Microsoft) that backs the check. |
 
 Optional fields include `min_os` / `max_os` and `credits` (see below).
@@ -47,6 +47,7 @@ Optional fields include `min_os` / `max_os` and `credits` (see below).
 Remember who reads it: someone who has never opened Terminal.
 
 - `title_pass` / `title_fail` change with the result: "Your firewall is on" / "Turn on your firewall".
+- `title` names the setting without judging it ("Firewall"). It is shown when the setting could not be read or does not apply to the profile.
 - `why` explains the real-world risk in one or two sentences, without jargon. Theft scenarios work well.
 - `fix_steps` are numbered, concrete steps that name the exact menu path. Add a `deep_link` (`x-apple.systempreferences:...`, `ms-settings:...`) when one exists.
 - The Spanish text must be natural Spain-Spanish, not a word-for-word translation. Use the real Spanish names of menus as they appear on the device.

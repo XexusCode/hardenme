@@ -13,6 +13,7 @@ probe:
   builtin: macos.find_my
 text:
   en:
+    title: Find My Mac
     title_pass: Find My Mac is on
     title_fail: Make sure Find My Mac is on
     why: >-
@@ -24,6 +25,7 @@ text:
       - Go to iCloud > Find My Mac (or "See All" > Find My Mac) and turn it on.
       - Test it once at icloud.com/find from another device.
   es:
+    title: Buscar mi Mac
     title_pass: Buscar mi Mac está activado
     title_fail: Comprueba que Buscar mi Mac está activado
     why: >-

@@ -16,7 +16,9 @@ var messages = map[check.Lang]map[string]string{
 		"risk_elevated":   "elevated risk",
 		"score":           "Security score",
 		"no_score":        "Security score: not enough data to score",
-		"summary":         "%d to fix, %d suggestions, %d to check yourself",
+		"summary":         "%d to fix, %d %s, %d to check yourself",
+		"suggestion_one":  "suggestion",
+		"suggestion":      "suggestions",
 		"sec_essential":   "FIX FIRST (essential for you)",
 		"sec_recommended": "RECOMMENDED",
 		"sec_optional":    "SUGGESTIONS (optional for you)",
@@ -49,7 +51,9 @@ var messages = map[check.Lang]map[string]string{
 		"risk_elevated":   "riesgo elevado",
 		"score":           "Nota de seguridad",
 		"no_score":        "Nota de seguridad: no hay datos suficientes para puntuar",
-		"summary":         "%d por arreglar, %d sugerencias, %d para revisar tú",
+		"summary":         "%d por arreglar, %d %s, %d para revisar tú",
+		"suggestion_one":  "sugerencia",
+		"suggestion":      "sugerencias",
 		"sec_essential":   "ARREGLA PRIMERO (esencial para ti)",
 		"sec_recommended": "RECOMENDADO",
 		"sec_optional":    "SUGERENCIAS (opcional para ti)",
@@ -77,4 +81,12 @@ func msg(lang check.Lang, key string) string {
 		return s
 	}
 	return messages[check.EN][key]
+}
+
+// plural returns the singular form (key + "_one") when n is 1.
+func plural(lang check.Lang, key string, n int) string {
+	if n == 1 {
+		return msg(lang, key+"_one")
+	}
+	return msg(lang, key)
 }

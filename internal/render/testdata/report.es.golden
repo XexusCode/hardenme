@@ -2,7 +2,7 @@ hardenme · macOS 26.2
 Perfil: portátil, sale de casa, riesgo normal
 
 Nota de seguridad: 39/100 (F, En riesgo)
-2 por arreglar, 1 sugerencias, 1 para revisar tú
+2 por arreglar, 1 sugerencia, 1 para revisar tú
 Cada punto pesa según tu perfil: esencial x3, recomendado x2, opcional x1. Lo
 que tienes que revisar tú no cuenta.
 
@@ -69,12 +69,12 @@ REVÍSALO TÚ (1)
     3. Pruébalo una vez en icloud.com/find desde otro dispositivo.
 
 NO SE HA PODIDO COMPROBAR (1)
-! Vuelve a activar la Protección de la Integridad del Sistema (csrutil: command not found)
+! Protección de la Integridad del Sistema (csrutil: command not found)
 
 YA ESTÁ BIEN (1)
 ✓ Gatekeeper revisa las apps que abres
 
 NO APLICA A TU PERFIL (1)
-- Plantéate activar el modo de aislamiento
+- Modo de aislamiento
 
 ¿No es correcto? Cambia tu perfil con: hardenme profile

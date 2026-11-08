@@ -23,6 +23,7 @@ probe:
       status: fail
 text:
   en:
+    title: Guest account
     title_pass: The guest account is off
     title_fail: Turn off the guest account
     why: >-
@@ -34,6 +35,7 @@ text:
       - Click the info button next to "Guest User" and turn off "Allow guests to log in to this computer".
     deep_link: x-apple.systempreferences:com.apple.Users-Groups-Settings.extension
   es:
+    title: Cuenta de invitado
     title_pass: La cuenta de invitado está desactivada
     title_fail: Desactiva la cuenta de invitado
     why: >-

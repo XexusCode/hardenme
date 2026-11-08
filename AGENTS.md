@@ -42,7 +42,7 @@ gofmt -l . && go vet ./... && go test ./...
 3. **Read effective state, not policy keys alone.** A missing key must map to the OS default, never silently to "pass".
 4. **A probe that cannot run is `unknown`, never `pass`.** `unknown`, `manual` and `skipped` do not count towards the score.
 5. **Every check needs:**
-   - EN and ES text: `title_pass`, `title_fail`, `why`, `fix_steps`;
+   - EN and ES text: `title` (neutral), `title_pass`, `title_fail`, `why`, `fix_steps`;
    - at least one `references` URL (official docs);
    - `credits` when adapted from another project.
 6. **Every check needs tests:** pass, fail and unknown cases, using `runner.Fake`. Label outputs captured on a real machine with the OS version (e.g. `"off 26.2"`). Never invent an output and present it as captured.

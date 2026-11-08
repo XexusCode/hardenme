@@ -113,6 +113,9 @@ type Probe struct {
 
 // Text is everything shown to the user about a check, in one language.
 type Text struct {
+	// Title names the setting without saying whether it is right, for
+	// results that could not be read.
+	Title     string   `yaml:"title" json:"title"`
 	TitlePass string   `yaml:"title_pass" json:"title_pass"`
 	TitleFail string   `yaml:"title_fail" json:"title_fail"`
 	Why       string   `yaml:"why" json:"why"`

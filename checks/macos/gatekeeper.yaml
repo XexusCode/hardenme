@@ -13,6 +13,7 @@ probe:
       status: fail
 text:
   en:
+    title: Gatekeeper
     title_pass: Gatekeeper checks the apps you open
     title_fail: Turn Gatekeeper back on
     why: >-
@@ -25,6 +26,7 @@ text:
     deep_link: x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension
     command: sudo spctl --global-enable
   es:
+    title: Gatekeeper
     title_pass: Gatekeeper revisa las apps que abres
     title_fail: Vuelve a activar Gatekeeper
     why: >-
