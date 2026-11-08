@@ -47,3 +47,8 @@ text:
 references:
   - https://support.apple.com/guide/mac-help/set-up-a-guest-user-mh11396/mac
 credits: [fort]
+fix:
+  steps:
+    - admin: true
+      apply: [/usr/sbin/sysadminctl, -guestAccount, "off"]
+      undo: [/usr/sbin/sysadminctl, -guestAccount, "on"]

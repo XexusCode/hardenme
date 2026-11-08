@@ -46,3 +46,8 @@ text:
 references:
   - https://support.apple.com/guide/mac-help/block-connections-to-your-mac-with-a-firewall-mh34041/mac
 credits: [fort, Lynis]
+fix:
+  steps:
+    - admin: true
+      apply: [/usr/libexec/ApplicationFirewall/socketfilterfw, --setglobalstate, "on"]
+      undo: [/usr/libexec/ApplicationFirewall/socketfilterfw, --setglobalstate, "off"]

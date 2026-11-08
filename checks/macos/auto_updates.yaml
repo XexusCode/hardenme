@@ -18,6 +18,8 @@ text:
       - Click the info button next to "Automatic updates".
       - Turn on "Check for updates", "Download new updates when available" and "Install macOS updates".
     deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
+    fix_warning: >-
+      Your Mac will restart by itself to install macOS updates, usually overnight. Save your work before you leave it.
   es:
     title_pass: macOS se actualiza solo
     title_fail: Activa las actualizaciones automáticas de macOS
@@ -30,6 +32,31 @@ text:
       - Pulsa el botón de información junto a "Actualizaciones automáticas".
       - Activa "Buscar actualizaciones", "Descargar actualizaciones nuevas cuando estén disponibles" e "Instalar actualizaciones de macOS".
     deep_link: x-apple.systempreferences:com.apple.Software-Update-Settings.extension
+    fix_warning: >-
+      Tu Mac se reiniciará solo para instalar actualizaciones de macOS, normalmente de noche. Guarda tu trabajo antes de dejarlo.
 references:
   - https://support.apple.com/guide/mac-help/keep-your-mac-up-to-date-mchlpx1065/mac
 credits: [fort, mSCP]
+fix:
+  steps:
+    - admin: true
+      read: [/usr/bin/defaults, read, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticCheckEnabled]
+      read_match: '^\s*(\S+)\s*$'
+      previous_map: {"1": "true", "0": "false"}
+      apply: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticCheckEnabled, -bool, "true"]
+      undo: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticCheckEnabled, -bool, "{previous}"]
+      undo_if_missing: [/usr/bin/defaults, delete, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticCheckEnabled]
+    - admin: true
+      read: [/usr/bin/defaults, read, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticDownload]
+      read_match: '^\s*(\S+)\s*$'
+      previous_map: {"1": "true", "0": "false"}
+      apply: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticDownload, -bool, "true"]
+      undo: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticDownload, -bool, "{previous}"]
+      undo_if_missing: [/usr/bin/defaults, delete, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticDownload]
+    - admin: true
+      read: [/usr/bin/defaults, read, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticallyInstallMacOSUpdates]
+      read_match: '^\s*(\S+)\s*$'
+      previous_map: {"1": "true", "0": "false"}
+      apply: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticallyInstallMacOSUpdates, -bool, "true"]
+      undo: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticallyInstallMacOSUpdates, -bool, "{previous}"]
+      undo_if_missing: [/usr/bin/defaults, delete, /Library/Preferences/com.apple.SoftwareUpdate, AutomaticallyInstallMacOSUpdates]

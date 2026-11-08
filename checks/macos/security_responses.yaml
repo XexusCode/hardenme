@@ -33,3 +33,19 @@ text:
 references:
   - https://support.apple.com/guide/deployment/about-software-updates-depc4c80847a/web
 credits: [mSCP]
+fix:
+  steps:
+    - admin: true
+      read: [/usr/bin/defaults, read, /Library/Preferences/com.apple.SoftwareUpdate, ConfigDataInstall]
+      read_match: '^\s*(\S+)\s*$'
+      previous_map: {"1": "true", "0": "false"}
+      apply: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, ConfigDataInstall, -bool, "true"]
+      undo: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, ConfigDataInstall, -bool, "{previous}"]
+      undo_if_missing: [/usr/bin/defaults, delete, /Library/Preferences/com.apple.SoftwareUpdate, ConfigDataInstall]
+    - admin: true
+      read: [/usr/bin/defaults, read, /Library/Preferences/com.apple.SoftwareUpdate, CriticalUpdateInstall]
+      read_match: '^\s*(\S+)\s*$'
+      previous_map: {"1": "true", "0": "false"}
+      apply: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, CriticalUpdateInstall, -bool, "true"]
+      undo: [/usr/bin/defaults, write, /Library/Preferences/com.apple.SoftwareUpdate, CriticalUpdateInstall, -bool, "{previous}"]
+      undo_if_missing: [/usr/bin/defaults, delete, /Library/Preferences/com.apple.SoftwareUpdate, CriticalUpdateInstall]

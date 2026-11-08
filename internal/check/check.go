@@ -119,6 +119,49 @@ type Text struct {
 	FixSteps  []string `yaml:"fix_steps" json:"fix_steps"`
 	DeepLink  string   `yaml:"deep_link" json:"deep_link,omitempty"`
 	Command   string   `yaml:"command" json:"command,omitempty"`
+	// FixWarning is shown before hardenme applies the fix, e.g. "keep it on
+	// if you connect to this Mac from another computer".
+	FixWarning string `yaml:"fix_warning" json:"fix_warning,omitempty"`
+}
+
+// FixKind says how hardenme can fix a check.
+type FixKind string
+
+const (
+	FixAuto   FixKind = "auto"   // hardenme applies it
+	FixGuided FixKind = "guided" // hardenme opens the setting and waits
+	FixInfo   FixKind = "info"   // only the written steps
+)
+
+// FixStep is one change. Commands are argv arrays with absolute paths and
+// never go through a shell. Undo may contain {previous}, replaced by the
+// value captured with Read and ReadMatch just before applying.
+type FixStep struct {
+	Admin bool     `yaml:"admin" json:"admin,omitempty"`
+	Read  []string `yaml:"read" json:"read,omitempty"`
+	// ReadMatch is a regexp with one group that extracts the previous value
+	// from Read's output. When it does not match, the step does not apply
+	// to this device and is skipped.
+	ReadMatch string `yaml:"read_match" json:"read_match,omitempty"`
+	// PreviousMap translates the value read into the form Undo needs, e.g.
+	// "1" -> "true". A value missing from the map makes the step unsafe to
+	// undo, so it is skipped.
+	PreviousMap map[string]string `yaml:"previous_map" json:"previous_map,omitempty"`
+	Apply       []string          `yaml:"apply" json:"apply"`
+	Undo        []string          `yaml:"undo" json:"undo"`
+	// UndoIfMissing is the undo when Read fails (the setting did not exist,
+	// so macOS was using its default).
+	UndoIfMissing []string `yaml:"undo_if_missing" json:"undo_if_missing,omitempty"`
+
+	re *regexp.Regexp
+}
+
+// Matcher returns the compiled ReadMatch, or nil.
+func (s FixStep) Matcher() *regexp.Regexp { return s.re }
+
+// Fix is how hardenme applies a check's fix automatically.
+type Fix struct {
+	Steps []FixStep `yaml:"steps" json:"steps"`
 }
 
 // Check is one security check, loaded from checks/<platform>/<name>.yaml.
@@ -132,6 +175,20 @@ type Check struct {
 	Text       map[Lang]Text `yaml:"text" json:"text"`
 	References []string      `yaml:"references" json:"references"`
 	Credits    []string      `yaml:"credits" json:"credits,omitempty"`
+	Fix        *Fix          `yaml:"fix" json:"fix,omitempty"`
+}
+
+// FixKind is auto when the check has fix steps, guided when it has a link
+// to the setting, and info otherwise.
+func (c Check) FixKind() FixKind {
+	switch {
+	case c.Fix != nil:
+		return FixAuto
+	case c.TextFor(EN).DeepLink != "":
+		return FixGuided
+	default:
+		return FixInfo
+	}
 }
 
 // RelevanceFor returns how much the check matters for p: the highest level

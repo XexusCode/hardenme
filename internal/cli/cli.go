@@ -18,6 +18,7 @@ import (
 	"github.com/XexusCode/hardenme/checks"
 	"github.com/XexusCode/hardenme/docs/guide"
 	"github.com/XexusCode/hardenme/internal/check"
+	"github.com/XexusCode/hardenme/internal/fix"
 	"github.com/XexusCode/hardenme/internal/profile"
 	"github.com/XexusCode/hardenme/internal/render"
 	"github.com/XexusCode/hardenme/internal/runner"
@@ -59,7 +60,7 @@ func newRoot() *cobra.Command {
 		SilenceErrors: true,
 	}
 	root.PersistentFlags().StringVar(&opts.lang, "lang", defaultLang(), "language: en or es")
-	root.AddCommand(newScan(opts), newProfile(opts), newGuide(opts))
+	root.AddCommand(newScan(opts), newFix(opts), newProfile(opts), newGuide(opts))
 	return root
 }
 
@@ -154,6 +155,9 @@ func newScan(opts *options) *cobra.Command {
 			report.OSVersion = osVersion(ctx, r)
 			if err := render.Render(cmd.OutOrStdout(), report, f, lang); err != nil {
 				return err
+			}
+			if isTerminal(cmd.InOrStdin()) && os.Getenv("HARDENME_NO_FIX_HINT") == "" && len(fix.Candidates(report)) > 0 {
+				fmt.Fprintln(cmd.OutOrStdout(), t(lang, "scan_fix_hint"))
 			}
 			if code := report.ExitCode(); code != 0 {
 				return ExitError{Code: code}

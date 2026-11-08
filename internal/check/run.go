@@ -84,6 +84,74 @@ func (c *Check) compile() error {
 	if len(c.References) == 0 {
 		return errors.New("at least one reference is required")
 	}
+	if c.Fix != nil {
+		if err := c.Fix.compile(); err != nil {
+			return fmt.Errorf("fix: %w", err)
+		}
+	}
+	return nil
+}
+
+// unsafeArg matches characters that have no business in a fix command.
+// Commands never go through a shell, but the admin batch is a script, so
+// this is a second line of defence on top of quoting.
+var unsafeArg = regexp.MustCompile("[$`;|&<>\\\n\r]")
+
+func (f *Fix) compile() error {
+	if len(f.Steps) == 0 {
+		return errors.New("needs at least one step")
+	}
+	for i := range f.Steps {
+		s := &f.Steps[i]
+		if err := checkArgv(s.Apply, false); err != nil {
+			return fmt.Errorf("step %d apply: %w", i, err)
+		}
+		if err := checkArgv(s.Undo, true); err != nil {
+			return fmt.Errorf("step %d undo: %w", i, err)
+		}
+		usesPrevious := strings.Contains(strings.Join(s.Undo, " "), "{previous}")
+		if usesPrevious && len(s.Read) == 0 {
+			return fmt.Errorf("step %d: undo uses {previous} but there is no read", i)
+		}
+		if len(s.Read) > 0 {
+			if err := checkArgv(s.Read, false); err != nil {
+				return fmt.Errorf("step %d read: %w", i, err)
+			}
+		}
+		if s.ReadMatch != "" {
+			re, err := regexp.Compile(s.ReadMatch)
+			if err != nil {
+				return fmt.Errorf("step %d read_match: %w", i, err)
+			}
+			if re.NumSubexp() != 1 {
+				return fmt.Errorf("step %d read_match needs exactly one group", i)
+			}
+			s.re = re
+		}
+		if len(s.UndoIfMissing) > 0 {
+			if err := checkArgv(s.UndoIfMissing, false); err != nil {
+				return fmt.Errorf("step %d undo_if_missing: %w", i, err)
+			}
+		}
+	}
+	return nil
+}
+
+func checkArgv(argv []string, allowPrevious bool) error {
+	if len(argv) == 0 {
+		return errors.New("is empty")
+	}
+	if !strings.HasPrefix(argv[0], "/") {
+		return fmt.Errorf("command %q must be an absolute path", argv[0])
+	}
+	for _, a := range argv {
+		if unsafeArg.MatchString(a) {
+			return fmt.Errorf("argument %q has unsafe characters", a)
+		}
+		if !allowPrevious && strings.Contains(a, "{previous}") {
+			return fmt.Errorf("argument %q cannot use {previous}", a)
+		}
+	}
 	return nil
 }
 

@@ -43,3 +43,8 @@ text:
 references:
   - https://support.apple.com/guide/mac-help/change-firewall-settings-on-mac-mh11783/mac
 credits: [drduh/macOS-Security-and-Privacy-Guide]
+fix:
+  steps:
+    - admin: true
+      apply: [/usr/libexec/ApplicationFirewall/socketfilterfw, --setstealthmode, "on"]
+      undo: [/usr/libexec/ApplicationFirewall/socketfilterfw, --setstealthmode, "off"]

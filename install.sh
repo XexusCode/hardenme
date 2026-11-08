@@ -7,7 +7,8 @@
 #   1. Downloads the latest hardenme release from GitHub with curl.
 #   2. Checks the download against the published SHA-256 checksum.
 #   3. Installs the program in ~/.local/bin (no sudo, nothing outside your user folder).
-#   4. Creates hardenme.app in Applications: double-click it to run a scan.
+#   4. Creates hardenme.app in Applications: double-click it to check your Mac
+#      and choose what to fix.
 # Uninstall:  curl -fsSL .../install.sh | sh -s -- --uninstall
 #
 # Options (environment variables):
@@ -98,8 +99,9 @@ tar -xzf "$TMP/$ARCHIVE" -C "$TMP"
 mkdir -p "$BIN_DIR" "$SHARE_DIR"
 install -m 0755 "$TMP/hardenme" "$BIN_DIR/hardenme"
 
-# The script Terminal runs when you double-click the app. hardenme picks
-# the language from the system settings each time it runs.
+# The script Terminal runs when you double-click the app: the scan, then
+# the menu to fix what it found. hardenme picks the language from the
+# system settings each time it runs.
 if [ "$LANG_ES" = 1 ]; then
 	CLOSE_MSG="Pulsa Intro para cerrar. "
 else
@@ -108,7 +110,9 @@ fi
 cat >"$SHARE_DIR/scan.command" <<EOF
 #!/bin/sh
 clear
-"$BIN_DIR/hardenme" scan
+HARDENME_NO_FIX_HINT=1 "$BIN_DIR/hardenme" scan
+echo
+"$BIN_DIR/hardenme" fix
 echo
 printf '%s' "$CLOSE_MSG"
 read -r _

@@ -27,6 +27,8 @@ text:
       - Optionally set "Start Screen Saver when inactive" to the same time or less.
       - Tip, lock it yourself when you leave it with Control-Command-Q.
     deep_link: x-apple.systempreferences:com.apple.Lock-Screen-Settings.extension
+    fix_warning: >-
+      The screen will turn off and the screen saver will start after 5 minutes without use, on battery and on the power adapter.
   es:
     title_pass: La pantalla se bloquea sola enseguida cuando te alejas
     title_fail: Haz que la pantalla se bloquee antes
@@ -40,6 +42,25 @@ text:
       - Si quieres, pon "Iniciar el salvapantallas si está inactivo" en el mismo tiempo o menos.
       - Truco, bloquéalo tú al levantarte con Control + Comando + Q.
     deep_link: x-apple.systempreferences:com.apple.Lock-Screen-Settings.extension
+    fix_warning: >-
+      La pantalla se apagará y saltará el salvapantallas tras 5 minutos sin usarlo, con batería y con el cargador.
 references:
   - https://support.apple.com/guide/mac-help/change-lock-screen-settings-mh11784/mac
 credits: [mSCP]
+fix:
+  steps:
+    - admin: true
+      read: [/usr/bin/pmset, -g, custom]
+      read_match: '(?s)AC Power:.*?displaysleep\s+(\d+)'
+      apply: [/usr/bin/pmset, -c, displaysleep, "5"]
+      undo: [/usr/bin/pmset, -c, displaysleep, "{previous}"]
+    - admin: true
+      read: [/usr/bin/pmset, -g, custom]
+      read_match: '(?s)Battery Power:.*?displaysleep\s+(\d+)'
+      apply: [/usr/bin/pmset, -b, displaysleep, "5"]
+      undo: [/usr/bin/pmset, -b, displaysleep, "{previous}"]
+    - read: [/usr/bin/defaults, -currentHost, read, com.apple.screensaver, idleTime]
+      read_match: '^\s*(\d+)\s*$'
+      apply: [/usr/bin/defaults, -currentHost, write, com.apple.screensaver, idleTime, -int, "300"]
+      undo: [/usr/bin/defaults, -currentHost, write, com.apple.screensaver, idleTime, -int, "{previous}"]
+      undo_if_missing: [/usr/bin/defaults, -currentHost, delete, com.apple.screensaver, idleTime]

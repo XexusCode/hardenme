@@ -133,3 +133,32 @@ text: {en: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title_pa
 		})
 	}
 }
+
+func TestLoadRejectsUnsafeFixes(t *testing.T) {
+	head := `
+id: macos.x
+platform: macos
+relevance: {default: essential}
+probe: {manual: true}
+text: {en: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}, es: {title_pass: a, title_fail: b, why: c, fix_steps: [d]}}
+references: [https://example.com]
+`
+	tests := map[string]string{
+		"relative command":         `fix: {steps: [{apply: [pmset, x], undo: [/usr/bin/pmset, y]}]}`,
+		"no undo":                  `fix: {steps: [{apply: [/usr/bin/pmset, x]}]}`,
+		"shell characters":         `fix: {steps: [{apply: [/bin/sh, "x; rm -rf /"], undo: [/bin/true]}]}`,
+		"dollar":                   `fix: {steps: [{apply: [/bin/echo, "$HOME"], undo: [/bin/true]}]}`,
+		"previous without read":    `fix: {steps: [{apply: [/bin/a], undo: [/bin/b, "{previous}"]}]}`,
+		"previous in apply":        `fix: {steps: [{read: [/bin/r], apply: [/bin/a, "{previous}"], undo: [/bin/b]}]}`,
+		"read_match without group": `fix: {steps: [{read: [/bin/r], read_match: "x", apply: [/bin/a], undo: [/bin/b]}]}`,
+		"no steps":                 `fix: {steps: []}`,
+	}
+	for name, fix := range tests {
+		t.Run(name, func(t *testing.T) {
+			fsys := memFS(map[string]string{"macos/x.yaml": head + fix})
+			if _, err := check.Load(fsys, "macos"); err == nil {
+				t.Fatal("expected an error")
+			}
+		})
+	}
+}
