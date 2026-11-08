@@ -1,0 +1,39 @@
+id: ios.safety_check
+platform: ios
+category: privacy
+severity: medium
+relevance:
+  default: not_applicable
+  rules:
+    - when: { shared: true }
+      level: recommended
+    - when: { risk: elevated }
+      level: recommended
+probe:
+  ask: true
+text:
+  en:
+    title: "Safety Check"
+    title_pass: "You have reviewed what you share with Safety Check"
+    title_fail: "Review who can see your location and data with Safety Check"
+    question: "Have you used Safety Check recently to review who can see your location and data?"
+    where: "Settings > Privacy & Security > Safety Check"
+    why: "It shows and removes location sharing, shared albums and notes, and app permissions that an ex-partner or someone else may still have. In an emergency, Emergency Reset stops all sharing at once."
+    fix_steps:
+      - "Open Settings > Privacy & Security > Safety Check > Manage Sharing & Access."
+      - "Review people and apps and stop what you no longer want."
+      - "If you are in danger, the other person may notice when sharing stops: plan for that first."
+  es:
+    title: "Comprobaci\u00f3n de seguridad"
+    title_pass: "Has revisado lo que compartes con la Comprobaci\u00f3n de seguridad"
+    title_fail: "Revisa qui\u00e9n ve tu ubicaci\u00f3n y tus datos con la Comprobaci\u00f3n de seguridad"
+    question: "\u00bfHas usado hace poco la Comprobaci\u00f3n de seguridad para revisar qui\u00e9n ve tu ubicaci\u00f3n y tus datos?"
+    where: "Ajustes > Privacidad y seguridad > Comprobaci\u00f3n de seguridad"
+    why: "Muestra y quita la ubicaci\u00f3n compartida, los \u00e1lbumes y notas compartidos y los permisos de apps que una expareja u otra persona pueda seguir teniendo. En una emergencia, el Restablecimiento de emergencia corta todo a la vez."
+    fix_steps:
+      - "Abre Ajustes > Privacidad y seguridad > Comprobaci\u00f3n de seguridad > Gestionar accesos y datos compartidos."
+      - "Revisa personas y apps y quita lo que ya no quieras compartir."
+      - "Si est\u00e1s en peligro, la otra persona puede notar que dejas de compartir: tenlo en cuenta antes."
+references:
+  - https://support.apple.com/guide/iphone/manage-information-sharing-with-safety-check-iph42f0b2d53/ios
+  - https://support.apple.com/es-es/guide/iphone/iph42f0b2d53/ios

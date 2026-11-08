@@ -1,0 +1,39 @@
+id: ios.notification_previews
+platform: ios
+category: privacy
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { sensitive_data: true }
+      level: essential
+    - when: { risk: elevated }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Notification previews"
+    title_pass: "Notification previews show only when unlocked"
+    title_fail: "Show notification previews only when the iPhone is unlocked"
+    question: "Is Show Previews set to \"When Unlocked\" or \"Never\"?"
+    where: "Settings > Notifications > Show Previews"
+    why: "Codes sent by text message and message previews on the Lock Screen let someone read your verification codes and reset your accounts without unlocking the iPhone."
+    fix_steps:
+      - "Open Settings > Notifications > Show Previews."
+      - "Choose \"When Unlocked\"."
+      - "Check the apps that have their own preview setting, such as Messages or WhatsApp."
+  es:
+    title: "Previsualizaciones de notificaciones"
+    title_pass: "Las previsualizaciones solo se ven con el iPhone desbloqueado"
+    title_fail: "Muestra las previsualizaciones solo con el iPhone desbloqueado"
+    question: "\u00bfMostrar previsualizaciones est\u00e1 en \"Si est\u00e1 desbloqueado\" o \"Nunca\"?"
+    where: "Ajustes > Notificaciones > Mostrar previsualizaciones"
+    why: "Los c\u00f3digos que llegan por SMS y las vistas previas de mensajes en la pantalla bloqueada permiten leer tus c\u00f3digos de verificaci\u00f3n y recuperar tus cuentas sin desbloquear el iPhone."
+    fix_steps:
+      - "Abre Ajustes > Notificaciones > Mostrar previsualizaciones."
+      - "Elige \"Si est\u00e1 desbloqueado\"."
+      - "Revisa las apps que tienen su propio ajuste de previsualizaci\u00f3n, como Mensajes o WhatsApp."
+references:
+  - https://support.apple.com/guide/iphone/change-notification-settings-iph7c3d96bab/ios
+  - https://support.apple.com/es-es/guide/iphone/iph7c3d96bab/ios

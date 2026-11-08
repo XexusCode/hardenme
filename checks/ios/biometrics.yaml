@@ -1,0 +1,37 @@
+id: ios.biometrics
+platform: ios
+category: theft
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { leaves_home: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Face ID or Touch ID"
+    title_pass: "Face ID or Touch ID is set up"
+    title_fail: "Set up Face ID or Touch ID"
+    question: "Is Face ID or Touch ID set up to unlock your iPhone?"
+    where: "Settings > Face ID & Passcode"
+    why: "With your face or fingerprint you rarely type the passcode in public, so it is much harder for someone to see it. Stolen Device Protection also needs it."
+    fix_steps:
+      - "Open Settings > Face ID & Passcode > Set Up Face ID (or Settings > Touch ID & Passcode)."
+      - "Follow the steps, then check that iPhone Unlock is on under \"Use Face ID For\"."
+  es:
+    title: "Face ID o Touch ID"
+    title_pass: "Face ID o Touch ID est\u00e1 configurado"
+    title_fail: "Configura Face ID o Touch ID"
+    question: "\u00bfTienes Face ID o Touch ID configurado para desbloquear el iPhone?"
+    where: "Ajustes > Face ID y c\u00f3digo"
+    why: "Con tu cara o tu huella casi nunca tecleas el c\u00f3digo en p\u00fablico, as\u00ed que es mucho m\u00e1s dif\u00edcil que alguien lo vea. Adem\u00e1s, la Protecci\u00f3n en caso de robo del dispositivo lo necesita."
+    fix_steps:
+      - "Abre Ajustes > Face ID y c\u00f3digo > Configurar Face ID (o Ajustes > Touch ID y c\u00f3digo)."
+      - "Sigue los pasos y comprueba que el desbloqueo del iPhone est\u00e1 activado en \"Usar Face ID para\"."
+references:
+  - https://support.apple.com/guide/iphone/set-up-face-id-iph6d162927a/ios
+  - https://support.apple.com/es-es/guide/iphone/iph6d162927a/ios
+  - https://support.apple.com/en-us/108411
+  - https://support.apple.com/es-es/108411

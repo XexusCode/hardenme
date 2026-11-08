@@ -1,0 +1,36 @@
+id: ios.stolen_device_protection
+platform: ios
+category: theft
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Stolen Device Protection"
+    title_pass: "Stolen Device Protection is on"
+    title_fail: "Turn on Stolen Device Protection"
+    question: "Is Stolen Device Protection on?"
+    where: "Settings > Face ID & Passcode > Stolen Device Protection"
+    why: "If a thief has seen you type your passcode, they still need your face or fingerprint to change your Apple Account password or turn off Find My, and some changes wait an hour when the iPhone is away from familiar places."
+    fix_steps:
+      - "Open Settings > Face ID & Passcode (or Touch ID & Passcode) and enter your passcode."
+      - "Tap Stolen Device Protection and turn it on."
+      - "For the most protection, set Require Security Delay to \"Always\"."
+      - "It needs iOS 17.3 or later, Find My and two-factor authentication."
+  es:
+    title: "Protecci\u00f3n en caso de robo del dispositivo"
+    title_pass: "La Protecci\u00f3n en caso de robo del dispositivo est\u00e1 activada"
+    title_fail: "Activa la Protecci\u00f3n en caso de robo del dispositivo"
+    question: "\u00bfEst\u00e1 activada la Protecci\u00f3n en caso de robo del dispositivo?"
+    where: "Ajustes > Face ID y c\u00f3digo > Protecci\u00f3n en caso de robo del dispositivo"
+    why: "Si un ladr\u00f3n te ha visto teclear el c\u00f3digo, aun as\u00ed necesita tu cara o tu huella para cambiar la contrase\u00f1a de tu cuenta de Apple o desactivar Buscar, y algunos cambios esperan una hora cuando el iPhone est\u00e1 lejos de tus sitios habituales."
+    fix_steps:
+      - "Abre Ajustes > Face ID y c\u00f3digo (o Touch ID y c\u00f3digo) e introduce tu c\u00f3digo."
+      - "Toca Protecci\u00f3n en caso de robo del dispositivo y act\u00edvala."
+      - "Para m\u00e1s protecci\u00f3n, pon \"Requerir Tiempo de Espera de Seguridad\" en \"Siempre\"."
+      - "Necesita iOS 17.3 o posterior, Buscar y la autenticaci\u00f3n de doble factor."
+references:
+  - https://support.apple.com/en-us/120340
+  - https://support.apple.com/es-es/120340

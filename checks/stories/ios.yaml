@@ -1,0 +1,22 @@
+# Theft stories for iPhone. See macos.yaml for how they fire.
+stories:
+  - id: ios.passcode_takeover
+    all: [ios.stolen_device_protection]
+    text:
+      en: If someone sees you type your passcode and then steals your iPhone, they could change your Apple Account password, turn off Find My and lock you out.
+      es: Si alguien te ve teclear el código y luego te roba el iPhone, podría cambiar la contraseña de tu cuenta de Apple, desactivar Buscar y dejarte fuera.
+  - id: ios.airplane_mode
+    any: [ios.control_center_locked, ios.find_my]
+    text:
+      en: If your iPhone is stolen, the thief could make it disappear from Find My (for example with Airplane Mode from the Lock Screen), so you could not locate or erase it.
+      es: Si te roban el iPhone, el ladrón podría hacer que desaparezca de Buscar (por ejemplo, con el modo avión desde la pantalla bloqueada), y no podrías localizarlo ni borrarlo.
+  - id: ios.easy_passcode
+    any: [ios.strong_passcode]
+    text:
+      en: Your passcode is short, so it is easy to guess or to see over your shoulder, and with it a thief gets almost everything.
+      es: Tu código es corto, así que es fácil de adivinar o de ver por encima del hombro, y con él un ladrón consigue casi todo.
+  - id: ios.account_takeover
+    any: [ios.sim_pin, ios.notification_previews]
+    text:
+      en: A thief could read the codes that arrive by text message, from the Lock Screen or with your SIM in another phone, and use them to take over your accounts.
+      es: Un ladrón podría leer los códigos que llegan por SMS, desde la pantalla bloqueada o con tu SIM en otro móvil, y usarlos para quedarse con tus cuentas.

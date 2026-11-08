@@ -1,0 +1,35 @@
+id: ios.lockdown_mode
+platform: ios
+category: malware
+severity: low
+relevance:
+  default: not_applicable
+  rules:
+    - when: { risk: elevated }
+      level: recommended
+probe:
+  ask: true
+text:
+  en:
+    title: "Lockdown Mode"
+    title_pass: "Lockdown Mode is on"
+    title_fail: "Consider turning on Lockdown Mode"
+    question: "Is Lockdown Mode on?"
+    where: "Settings > Privacy & Security > Lockdown Mode"
+    why: "It is extreme protection for the very few people targeted by sophisticated spyware, such as journalists or activists. Some apps, websites and features stop working as usual."
+    fix_steps:
+      - "Open Settings > Privacy & Security > Lockdown Mode."
+      - "Tap Turn On Lockdown Mode, then Turn On & Restart."
+  es:
+    title: "Modo de aislamiento"
+    title_pass: "El modo de aislamiento est\u00e1 activado"
+    title_fail: "Plant\u00e9ate activar el modo de aislamiento"
+    question: "\u00bfEst\u00e1 activado el modo de aislamiento?"
+    where: "Ajustes > Privacidad y seguridad > Modo de aislamiento"
+    why: "Es una protecci\u00f3n extrema para las pocas personas a las que ataca un programa esp\u00eda avanzado, como periodistas o activistas. Algunas apps, webs y funciones dejan de funcionar como siempre."
+    fix_steps:
+      - "Abre Ajustes > Privacidad y seguridad > Modo de aislamiento."
+      - "Toca Activar el modo de aislamiento y luego Activar y reiniciar."
+references:
+  - https://support.apple.com/en-us/105120
+  - https://support.apple.com/es-es/105120

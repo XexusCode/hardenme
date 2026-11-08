@@ -47,7 +47,7 @@ func newChecklistEnv(t *testing.T) checklistEnv {
 		catalog: fstest.MapFS{
 			"ios/aaa.yaml": {Data: []byte(phoneCheck("aaa", "essential", "Uno"))},
 			"ios/bbb.yaml": {Data: []byte(phoneCheck("bbb", "recommended", "Dos"))},
-			"ios/ccc.yaml": {Data: []byte(phoneCheck("ccc", "optional", "Tres"))},
+			"ios/abc.yaml": {Data: []byte(phoneCheck("abc", "optional", "Tres"))},
 		},
 		answers:  func(string) (answers.Store, error) { return e.answers, nil },
 		profile:  func() (profile.Store, error) { return e.profile, nil },
@@ -109,7 +109,7 @@ func TestChecklistFirstRunThenOnlyAsksWhatWasNotRight(t *testing.T) {
 		t.Errorf("phone profile not saved: %v", err)
 	}
 	saved, _ := e.answers.Load()
-	if saved["ios.aaa"].Answer != check.Yes || saved["ios.bbb"].Answer != check.No || saved["ios.ccc"].Answer != check.DontKnow {
+	if saved["ios.aaa"].Answer != check.Yes || saved["ios.bbb"].Answer != check.No || saved["ios.abc"].Answer != check.DontKnow {
 		t.Errorf("saved answers: %v", saved)
 	}
 

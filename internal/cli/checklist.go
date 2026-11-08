@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"sort"
 	"strings"
 	"time"
 
@@ -138,15 +139,26 @@ func (c *checklister) run(cmd *cobra.Command, selected []check.Check) (scan.Repo
 		return scan.Report{}, err
 	}
 
+	// Ask the most important questions first, so someone who stops halfway
+	// has answered what matters most for them.
+	selected = append([]check.Check(nil), selected...)
+	sort.SliceStable(selected, func(i, j int) bool {
+		return selected[i].RelevanceFor(p).Weight() > selected[j].RelevanceFor(p).Weight()
+	})
+
 	// Count the questions first so each one can say "3/12".
-	total := 0
+	total, reused := 0, 0
 	for _, ch := range selected {
-		a, ok := saved[ch.ID]
-		if ch.RelevanceFor(p) != check.NotApplicable && (c.opts.again || !answers.Reusable(a, ok)) {
+		if ch.RelevanceFor(p) == check.NotApplicable {
+			continue
+		}
+		if a, ok := saved[ch.ID]; !c.opts.again && answers.Reusable(a, ok) {
+			reused++
+		} else {
 			total++
 		}
 	}
-	if total < len(selected) && !c.opts.again {
+	if reused > 0 {
 		c.say("checklist_reusing")
 	}
 

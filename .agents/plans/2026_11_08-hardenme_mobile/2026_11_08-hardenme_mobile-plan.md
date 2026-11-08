@@ -92,11 +92,11 @@ This is v0.3 in the [roadmap](../2026_11_06-hardenme_security_auditor/roadmap.md
 
 **Description:** Add the `ask` probe, the answer store, the phone profile and `hardenme checklist ios` with the iOS checks from the research.
 
-- [ ] `ask` probe, `question` and `where` text, schema rules and `check.Env.Ask`, with tests.
-- [ ] `internal/answers` with tests.
-- [ ] Phone profile (questions and store) with tests.
-- [ ] `hardenme checklist <platform>` (`--again`, `--only`, `--lang`) with EN/ES prompts and CLI tests.
-- [ ] iOS checks as YAML (`checks/ios/`) from the research table, with official Apple references (EN and ES pages) opened once each:
+- [x] `ask` probe, `question` and `where` text, schema rules and `check.Env.Ask`, with tests.
+- [x] `internal/answers` with tests.
+- [x] Phone profile (questions and store) with tests.
+- [x] `hardenme checklist <platform>` (`--again`, `--only`, `--lang`) with EN/ES prompts and CLI tests.
+- [x] iOS checks as YAML (`checks/ios/`) from the research table, with official Apple references (EN and ES pages) opened once each:
   - Stolen Device Protection;
   - strong passcode;
   - Face ID / Touch ID;
@@ -111,15 +111,15 @@ This is v0.3 in the [roadmap](../2026_11_06-hardenme_security_auditor/roadmap.md
   - Safety Check;
   - automatic updates;
   - two-factor authentication and recovery.
-- [ ] Mark every Spanish path not checked against Apple ES as unverified in the plan notes, never in user text.
-- [ ] Verify with `gofmt -l . && go vet ./... && go test ./...`.
+- [x] Mark every Spanish path not checked against Apple ES as unverified in the plan notes, never in user text.
+- [x] Verify with `gofmt -l . && go vet ./... && go test ./...`.
 - [ ] STOP. Show the questions in EN/ES to the user before Phase 2.
 
 ### Phase 2: The Android checklist
 
 **Description:** Write the Android checks as `ask` YAML and check the paths against Google's help pages.
 
-- [ ] Android checks (`checks/android/`):
+- [x] Android checks (`checks/android/`):
   - screen lock;
   - auto-lock time;
   - lock-screen notifications;
@@ -132,28 +132,28 @@ This is v0.3 in the [roadmap](../2026_11_06-hardenme_security_auditor/roadmap.md
   - Smart Lock / Extend Unlock;
   - SIM PIN;
   - Google account 2-Step Verification.
-- [ ] Stock / Pixel paths, plus the manufacturer note. References from `support.google.com`.
-- [ ] Tests and verification command.
+- [x] Stock / Pixel paths, plus the manufacturer note. References from `support.google.com`.
+- [x] Tests and verification command.
 - [ ] STOP. Show the questions to the user.
 
 ### Phase 3: Theft stories
 
 **Description:** Join failing checks into plain-language risks, for the Mac and the phones, at the top of the report.
 
-- [ ] `checks/stories/<platform>.yaml` and its schema. `internal/story` with tests.
-- [ ] Two to four stories per platform, for example:
+- [x] `checks/stories/<platform>.yaml` and its schema. `internal/story` with tests.
+- [x] Two to four stories per platform, for example:
   - Mac: FileVault off and Find My unknown → "could read your files and you could not erase it".
   - iPhone: Control Center on the lock screen and Stolen Device Protection off → "could turn off Find My and change your Apple ID password with your passcode".
-- [ ] Render the stories in text (and later in JSON/Markdown). Golden files.
+- [x] Render the stories in text (and later in JSON/Markdown). Golden files.
 - [ ] STOP.
 
 ### Phase 4: JSON and Markdown output
 
 **Description:** Let the person save or share the report, and let other tools read it.
 
-- [ ] `render.JSON` with `schema_version: 1`: platform, OS version, profile, score, grade, stories and entries (id, title, status, relevance, current, fix kind). No paths from the home directory and no device name, so sharing the report is safe.
-- [ ] `render.Markdown`.
-- [ ] Golden files and a round-trip test. README usage.
+- [x] `render.JSON` with `schema_version: 1`: platform, OS version, profile, score, grade, stories and entries (id, title, status, relevance, current, fix kind). No paths from the home directory and no device name, so sharing the report is safe.
+- [x] `render.Markdown`.
+- [x] Golden files and a round-trip test. README usage.
 - [ ] STOP.
 
 ### Phase 5: Check on real devices and release
@@ -167,6 +167,40 @@ This is v0.3 in the [roadmap](../2026_11_06-hardenme_security_auditor/roadmap.md
 
 **Done when:** someone checks their phone's security with hardenme, understands what a thief could do today, and knows what to change.
 
+## 📝 Implementation notes (phases 1 to 4, 2026-11-08)
+
+- **Done in one go** at the maintainer's request ("sigue con más fases"). The STOP points of phases 1 to 4 are folded into one review: the questions are shown to the maintainer before release.
+- **Checklist:**
+  - Questions are asked by relevance (essential first), so stopping halfway still covers what matters most.
+  - The phone profile skips "is it a laptop?". It asks the other four questions, with "goes outside" defaulting to yes.
+  - `--profile` asks the phone questions again.
+  - Only a saved "yes" is reused. A "no" or "?" is asked again next time.
+- **References:** every Apple and Google URL in `checks/ios` and `checks/android` was downloaded by a research agent on 2026-11-08, in EN and in ES (`es-es` / `?hl=es`). Paths follow those pages.
+- **Unverified on a device (Phase 5):**
+  - iOS:
+    - the "Centro de control" toggle name inside "Permitir acceso al estar bloqueado" (Apple ES names the section, not the toggle);
+    - "Wired Accessories" options on Lightning iPhones;
+    - "Mejoras de seguridad en segundo plano" exists only on iOS 26+.
+  - Android:
+    - the lock-after-timeout option (Google does not give its exact label);
+    - the ES path of "System > Software updates" (the text says "search for it");
+    - Samsung paths (texts say to search in Settings).
+  - The "3 months" patch rule is hardenme's own threshold, not Google's.
+- **Deviations from the research table:**
+  - "USB Accessories when locked" became `wired_accessories` (Settings > Privacy & Security > Wired Accessories, Apple 111806).
+  - "Security Responses" no longer exists by that name, so it is merged into `ios.auto_updates` (System Files and Background Security Improvements).
+  - Apple account 2FA and recovery are split into `apple_2fa` (essential) and `account_recovery` (recommended).
+- **Stories:**
+  - Mac: 5;
+  - iOS: 4;
+  - Android: 4.
+  - A test checks that every story points at real check IDs.
+- **Formats:**
+  - JSON is `schema_version: 1` with stories.
+  - Markdown collapses blank lines.
+  - Both replace the home folder with `~`.
+  - The `scan` fix hint is printed only in text format, so it never breaks JSON.
+
 ## ⏭️ Next step
 
-Phase 1: the `ask` probe and the iOS checklist.
+Phase 5: walk both checklists on real phones with the maintainer, then release v0.3.0 when asked (after v0.2.0).

@@ -1,0 +1,35 @@
+id: ios.erase_data
+platform: ios
+category: theft
+severity: low
+relevance:
+  default: optional
+  rules:
+    - when: { risk: elevated }
+      level: recommended
+probe:
+  ask: true
+text:
+  en:
+    title: "Erase data after 10 failed passcodes"
+    title_pass: "The iPhone erases itself after 10 wrong passcodes"
+    title_fail: "Consider erasing data after 10 wrong passcodes"
+    question: "Is Erase Data (after 10 failed passcode attempts) on?"
+    where: "Settings > Face ID & Passcode > Erase Data (at the bottom)"
+    why: "Someone trying passcodes one after another cannot reach your data. But it erases everything: avoid it if small children play with the iPhone, and make sure your backups are on first."
+    fix_steps:
+      - "Check that iCloud Backup is on."
+      - "Open Settings > Face ID & Passcode (or Touch ID & Passcode), scroll to the bottom and turn on Erase Data."
+  es:
+    title: "Borrar datos tras 10 c\u00f3digos fallidos"
+    title_pass: "El iPhone se borra tras 10 c\u00f3digos fallidos"
+    title_fail: "Plant\u00e9ate borrar los datos tras 10 c\u00f3digos fallidos"
+    question: "\u00bfEst\u00e1 activado Borrar datos (tras 10 intentos fallidos de c\u00f3digo)?"
+    where: "Ajustes > Face ID y c\u00f3digo > Borrar datos (al final)"
+    why: "Quien pruebe c\u00f3digos uno tras otro no llegar\u00e1 a tus datos. Pero lo borra todo: ev\u00edtalo si hay ni\u00f1os peque\u00f1os que juegan con el iPhone, y comprueba antes que tienes copias de seguridad."
+    fix_steps:
+      - "Comprueba que la copia de seguridad de iCloud est\u00e1 activada."
+      - "Abre Ajustes > Face ID y c\u00f3digo (o Touch ID y c\u00f3digo), baja hasta el final y activa Borrar datos."
+references:
+  - https://support.apple.com/guide/iphone/set-a-passcode-iph14a867ae/ios
+  - https://support.apple.com/es-es/guide/iphone/iph14a867ae/ios

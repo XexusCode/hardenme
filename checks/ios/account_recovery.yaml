@@ -1,0 +1,39 @@
+id: ios.account_recovery
+platform: ios
+category: accounts
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { sensitive_data: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Apple Account recovery"
+    title_pass: "You can get back into your Apple Account if you lose access"
+    title_fail: "Add a recovery contact to your Apple Account"
+    question: "Does your Apple Account have a recovery contact (or a recovery key you keep written down)?"
+    where: "Settings > [your name] > Sign-In & Security > Account Recovery"
+    why: "If your iPhone is stolen and you forget your password, a recovery contact helps you get back into your account, so the thief does not end up with more access than you."
+    fix_steps:
+      - "Open Settings, tap your name, then Sign-In & Security > Recovery Contacts > Add Recovery Contact."
+      - "Choose someone you trust; they must accept in Messages."
+      - "A recovery key is also possible, but if you lose it while locked out, you lose the account for good."
+  es:
+    title: "Recuperaci\u00f3n de tu cuenta de Apple"
+    title_pass: "Puedes recuperar tu cuenta de Apple si pierdes el acceso"
+    title_fail: "A\u00f1ade un contacto de recuperaci\u00f3n a tu cuenta de Apple"
+    question: "\u00bfTu cuenta de Apple tiene un contacto de recuperaci\u00f3n (o una clave de recuperaci\u00f3n que guardas apuntada)?"
+    where: "Ajustes > [tu nombre] > Inicio de sesi\u00f3n y seguridad > Contactos de recuperaci\u00f3n"
+    why: "Si te roban el iPhone y olvidas la contrase\u00f1a, un contacto de recuperaci\u00f3n te ayuda a volver a entrar en tu cuenta, para que el ladr\u00f3n no acabe con m\u00e1s acceso que t\u00fa."
+    fix_steps:
+      - "Abre Ajustes, toca tu nombre y luego Inicio de sesi\u00f3n y seguridad > Contactos de recuperaci\u00f3n > A\u00f1adir contacto de recuperaci\u00f3n."
+      - "Elige a alguien de confianza; tendr\u00e1 que aceptar en Mensajes."
+      - "Tambi\u00e9n existe la clave de recuperaci\u00f3n, pero si la pierdes estando bloqueado, pierdes la cuenta para siempre."
+references:
+  - https://support.apple.com/en-us/102641
+  - https://support.apple.com/es-es/102641
+  - https://support.apple.com/en-us/109345
+  - https://support.apple.com/es-es/109345

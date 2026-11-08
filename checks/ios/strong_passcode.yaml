@@ -1,0 +1,36 @@
+id: ios.strong_passcode
+platform: ios
+category: theft
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "iPhone passcode"
+    title_pass: "Your passcode is 6 digits or longer"
+    title_fail: "Use a passcode of 6 digits or more"
+    question: "Is your iPhone passcode at least 6 digits long (or made of letters and numbers)?"
+    where: "Settings > Face ID & Passcode > Change Passcode > Passcode Options"
+    why: "The passcode protects your data and unlocks almost every security change. A 4-digit code is easy to guess or to see over your shoulder on the bus."
+    fix_steps:
+      - "Open Settings > Face ID & Passcode (or Touch ID & Passcode) > Change Passcode."
+      - "Tap Passcode Options and choose a 6-digit code, or Custom Alphanumeric Code if you hold work or banking data."
+      - "Type it out of sight in public places."
+  es:
+    title: "C\u00f3digo del iPhone"
+    title_pass: "Tu c\u00f3digo tiene 6 cifras o m\u00e1s"
+    title_fail: "Usa un c\u00f3digo de 6 cifras o m\u00e1s"
+    question: "\u00bfEl c\u00f3digo de tu iPhone tiene al menos 6 cifras (o letras y n\u00fameros)?"
+    where: "Ajustes > Face ID y c\u00f3digo > Cambiar c\u00f3digo > Opciones de c\u00f3digo"
+    why: "El c\u00f3digo protege tus datos y permite casi cualquier cambio de seguridad. Un c\u00f3digo de 4 cifras es f\u00e1cil de adivinar o de ver por encima del hombro en el autob\u00fas."
+    fix_steps:
+      - "Abre Ajustes > Face ID y c\u00f3digo (o Touch ID y c\u00f3digo) > Cambiar c\u00f3digo."
+      - "Toca Opciones de c\u00f3digo y elige un c\u00f3digo de 6 cifras, o C\u00f3digo alfanum\u00e9rico personalizado si tienes datos del trabajo o del banco."
+      - "Tecl\u00e9alo a escondidas en sitios p\u00fablicos."
+references:
+  - https://support.apple.com/guide/iphone/set-a-passcode-iph14a867ae/ios
+  - https://support.apple.com/es-es/guide/iphone/iph14a867ae/ios
+  - https://support.apple.com/en-us/119586
+  - https://support.apple.com/es-es/119586

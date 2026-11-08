@@ -1,0 +1,37 @@
+id: ios.icloud_adp
+platform: ios
+category: privacy
+severity: low
+relevance:
+  default: optional
+  rules:
+    - when: { sensitive_data: true }
+      level: recommended
+    - when: { risk: elevated }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Advanced Data Protection for iCloud"
+    title_pass: "Advanced Data Protection for iCloud is on"
+    title_fail: "Consider Advanced Data Protection for iCloud"
+    question: "Is Advanced Data Protection for iCloud on?"
+    where: "Settings > [your name] > iCloud > Advanced Data Protection"
+    why: "It encrypts most of your iCloud data so that only your devices can read it, not even Apple or someone who breaks into iCloud. Apple cannot help you recover the data, so you need a recovery contact or key first."
+    fix_steps:
+      - "Set up a recovery contact or recovery key first."
+      - "Open Settings, tap your name, then iCloud > Advanced Data Protection > Turn on Advanced Data Protection."
+  es:
+    title: "Protecci\u00f3n de datos avanzada de iCloud"
+    title_pass: "La protecci\u00f3n de datos avanzada de iCloud est\u00e1 activada"
+    title_fail: "Plant\u00e9ate activar la protecci\u00f3n de datos avanzada de iCloud"
+    question: "\u00bfEst\u00e1 activada la protecci\u00f3n de datos avanzada de iCloud?"
+    where: "Ajustes > [tu nombre] > iCloud > Protecci\u00f3n de datos avanzada"
+    why: "Cifra la mayor\u00eda de tus datos de iCloud para que solo tus dispositivos puedan leerlos, ni siquiera Apple ni quien entre en iCloud. Apple no puede ayudarte a recuperarlos, as\u00ed que antes necesitas un contacto o una clave de recuperaci\u00f3n."
+    fix_steps:
+      - "Configura antes un contacto o una clave de recuperaci\u00f3n."
+      - "Abre Ajustes, toca tu nombre y luego iCloud > Protecci\u00f3n de datos avanzada > Activar la protecci\u00f3n de datos avanzada."
+references:
+  - https://support.apple.com/en-us/108756
+  - https://support.apple.com/es-es/108756

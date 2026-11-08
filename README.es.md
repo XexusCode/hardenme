@@ -70,6 +70,15 @@ hardenme fix
 hardenme fix --dry-run      # enseña los comandos exactos, no cambia nada
 hardenme fix --undo         # deshace la última tanda de cambios
 
+# Revisa tu móvil contestando unas preguntas (desde la v0.3)
+hardenme checklist ios
+hardenme checklist android
+hardenme checklist ios --again    # pregunta todo otra vez, no solo lo que estaba mal
+
+# Guarda o comparte el informe (desde la v0.3)
+hardenme scan --format markdown > mi-mac.md
+hardenme scan --format json
+
 # Lee las guías sobre robos en la terminal
 hardenme guide theft-before --lang es
 hardenme guide theft-after --lang es

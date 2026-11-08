@@ -1,0 +1,34 @@
+id: ios.find_my
+platform: ios
+category: theft
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Find My iPhone"
+    title_pass: "Find My iPhone is on"
+    title_fail: "Turn on Find My iPhone and Send Last Location"
+    question: "Are Find My iPhone, Find My network and Send Last Location all on?"
+    where: "Settings > [your name] > Find My > Find My iPhone"
+    why: "Find My lets you see where your iPhone is, lock it and erase it from another device. The Find My network finds it even without internet, and Activation Lock stops a thief from setting it up again."
+    fix_steps:
+      - "Open Settings, tap your name, then Find My > Find My iPhone."
+      - "Turn on Find My iPhone, Find My network and Send Last Location."
+      - "Try it once at icloud.com/find from another device."
+  es:
+    title: "Buscar mi iPhone"
+    title_pass: "Buscar mi iPhone est\u00e1 activado"
+    title_fail: "Activa Buscar mi iPhone y Enviar \u00faltima ubicaci\u00f3n"
+    question: "\u00bfEst\u00e1n activados Buscar mi iPhone, la red de Buscar y Enviar \u00faltima ubicaci\u00f3n?"
+    where: "Ajustes > [tu nombre] > Buscar > Buscar mi iPhone"
+    why: "Buscar te deja ver d\u00f3nde est\u00e1 tu iPhone, bloquearlo y borrarlo desde otro dispositivo. La red de Buscar lo encuentra aunque no tenga internet, y el Bloqueo de activaci\u00f3n impide que un ladr\u00f3n lo vuelva a configurar."
+    fix_steps:
+      - "Abre Ajustes, toca tu nombre y luego Buscar > Buscar mi iPhone."
+      - "Activa Buscar mi iPhone, la red de Buscar y Enviar \u00faltima ubicaci\u00f3n."
+      - "Pru\u00e9balo una vez en icloud.com/find desde otro dispositivo."
+references:
+  - https://support.apple.com/en-us/102648
+  - https://support.apple.com/es-es/102648

@@ -1,0 +1,32 @@
+id: ios.apple_2fa
+platform: ios
+category: accounts
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Two-factor authentication for your Apple Account"
+    title_pass: "Your Apple Account has two-factor authentication"
+    title_fail: "Turn on two-factor authentication for your Apple Account"
+    question: "Is two-factor authentication on for your Apple Account?"
+    where: "Settings > [your name] > Sign-In & Security"
+    why: "Your Apple Account controls Find My, your iCloud backups and your photos. With two-factor authentication, a stolen password alone is not enough to get in."
+    fix_steps:
+      - "Open Settings, tap your name, then Sign-In & Security."
+      - "Turn on two-factor authentication if it says Off."
+  es:
+    title: "Autenticaci\u00f3n de doble factor de tu cuenta de Apple"
+    title_pass: "Tu cuenta de Apple tiene autenticaci\u00f3n de doble factor"
+    title_fail: "Activa la autenticaci\u00f3n de doble factor de tu cuenta de Apple"
+    question: "\u00bfTienes activada la autenticaci\u00f3n de doble factor en tu cuenta de Apple?"
+    where: "Ajustes > [tu nombre] > Inicio de sesi\u00f3n y seguridad"
+    why: "Tu cuenta de Apple controla Buscar, tus copias de iCloud y tus fotos. Con la autenticaci\u00f3n de doble factor, una contrase\u00f1a robada no basta para entrar."
+    fix_steps:
+      - "Abre Ajustes, toca tu nombre y luego Inicio de sesi\u00f3n y seguridad."
+      - "Activa la autenticaci\u00f3n de doble factor si aparece desactivada."
+references:
+  - https://support.apple.com/en-us/102660
+  - https://support.apple.com/es-es/102660

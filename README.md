@@ -70,6 +70,15 @@ hardenme fix
 hardenme fix --dry-run      # show the exact commands, change nothing
 hardenme fix --undo         # undo the last batch of changes
 
+# Check your phone by answering a few questions (from v0.3)
+hardenme checklist ios
+hardenme checklist android
+hardenme checklist ios --again    # ask everything again, not only what was wrong
+
+# Save or share the report (from v0.3)
+hardenme scan --format markdown > my-mac.md
+hardenme scan --format json
+
 # Read the theft guides in your terminal
 hardenme guide theft-before
 hardenme guide theft-after --lang es

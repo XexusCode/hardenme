@@ -1,0 +1,36 @@
+id: ios.auto_updates
+platform: ios
+category: updates
+severity: high
+relevance:
+  default: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Automatic iOS updates"
+    title_pass: "iOS updates itself automatically"
+    title_fail: "Turn on automatic iOS updates"
+    question: "Are automatic updates set to install iOS updates by themselves?"
+    where: "Settings > General > Software Update > Automatic Updates"
+    why: "Most real attacks use flaws that Apple has already fixed. With automatic updates, the fixes arrive overnight while the iPhone charges, without you having to remember."
+    fix_steps:
+      - "Open Settings > General > Software Update > Automatic Updates."
+      - "Turn on Automatically Install for iOS updates and for System Files."
+      - "On iOS 26 or later, also open Settings > Privacy & Security > Background Security Improvements and turn on Automatically Install."
+  es:
+    title: "Actualizaciones autom\u00e1ticas de iOS"
+    title_pass: "iOS se actualiza solo"
+    title_fail: "Activa las actualizaciones autom\u00e1ticas de iOS"
+    question: "\u00bfLas actualizaciones autom\u00e1ticas instalan solas las actualizaciones de iOS?"
+    where: "Ajustes > General > Actualizaci\u00f3n de Software > Actualizaciones autom\u00e1ticas"
+    why: "La mayor\u00eda de los ataques reales usan fallos que Apple ya ha arreglado. Con las actualizaciones autom\u00e1ticas, los arreglos llegan por la noche mientras el iPhone carga, sin que tengas que acordarte."
+    fix_steps:
+      - "Abre Ajustes > General > Actualizaci\u00f3n de Software > Actualizaciones autom\u00e1ticas."
+      - "Activa la instalaci\u00f3n autom\u00e1tica de las actualizaciones de iOS y de los Archivos del sistema."
+      - "En iOS 26 o posterior, abre tambi\u00e9n Ajustes > Privacidad y seguridad > Mejoras de seguridad en segundo plano y activa Instalar autom\u00e1ticamente."
+references:
+  - https://support.apple.com/en-us/118575
+  - https://support.apple.com/es-es/118575
+  - https://support.apple.com/guide/iphone/update-ios-iph3e504502/ios
+  - https://support.apple.com/es-es/guide/iphone/iph3e504502/ios

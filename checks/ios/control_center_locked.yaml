@@ -1,0 +1,37 @@
+id: ios.control_center_locked
+platform: ios
+category: theft
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { leaves_home: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Control Center on the Lock Screen"
+    title_pass: "Control Center is off on the Lock Screen"
+    title_fail: "Turn off Control Center on the Lock Screen"
+    question: "Is Control Center turned off under \"Allow Access When Locked\"?"
+    where: "Settings > Face ID & Passcode > Allow Access When Locked"
+    why: "With Control Center on the Lock Screen, a thief can turn on Airplane Mode without unlocking the iPhone, so you cannot see where it is."
+    fix_steps:
+      - "Open Settings > Face ID & Passcode (or Touch ID & Passcode) and enter your passcode."
+      - "Under Allow Access When Locked, turn off Control Center."
+      - "You will need to unlock the iPhone to open Control Center."
+  es:
+    title: "Centro de control con el iPhone bloqueado"
+    title_pass: "El centro de control no se abre con el iPhone bloqueado"
+    title_fail: "Desactiva el centro de control en la pantalla bloqueada"
+    question: "\u00bfEst\u00e1 desactivado el centro de control en \"Permitir acceso al estar bloqueado\"?"
+    where: "Ajustes > Face ID y c\u00f3digo > Permitir acceso al estar bloqueado"
+    why: "Con el centro de control disponible en la pantalla bloqueada, un ladr\u00f3n puede activar el modo avi\u00f3n sin desbloquear el iPhone, y dejar\u00edas de ver d\u00f3nde est\u00e1."
+    fix_steps:
+      - "Abre Ajustes > Face ID y c\u00f3digo (o Touch ID y c\u00f3digo) e introduce tu c\u00f3digo."
+      - "En Permitir acceso al estar bloqueado, desactiva el centro de control."
+      - "Tendr\u00e1s que desbloquear el iPhone para abrir el centro de control."
+references:
+  - https://support.apple.com/guide/iphone/turn-on-lock-screen-features-iph9a2a69136/ios
+  - https://support.apple.com/es-es/guide/iphone/iph9a2a69136/ios

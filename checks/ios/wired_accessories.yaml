@@ -1,0 +1,37 @@
+id: ios.wired_accessories
+platform: ios
+category: theft
+severity: low
+relevance:
+  default: optional
+  rules:
+    - when: { sensitive_data: true }
+      level: recommended
+    - when: { risk: elevated }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Wired accessories"
+    title_pass: "Locked iPhones do not talk to cable accessories"
+    title_fail: "Stop accessories from connecting while the iPhone is locked"
+    question: "Is Wired Accessories set to anything other than \"Always Allow\"?"
+    where: "Settings > Privacy & Security > Wired Accessories"
+    why: "It stops tools plugged into the port from talking to the iPhone while it is locked, which is how some data-extraction tools work."
+    fix_steps:
+      - "Open Settings > Privacy & Security and tap Wired Accessories."
+      - "Choose \"Ask for New Accessories\" (or \"Automatically Allow When Unlocked\" on Lightning iPhones). Avoid \"Always Allow\"."
+  es:
+    title: "Accesorios con cable"
+    title_pass: "El iPhone bloqueado no se comunica con accesorios por cable"
+    title_fail: "Impide que los accesorios se conecten con el iPhone bloqueado"
+    question: "\u00bfAccesorios con cable est\u00e1 en algo distinto de \"Permitir siempre\"?"
+    where: "Ajustes > Privacidad y seguridad > Accesorios con cable"
+    why: "Impide que un aparato conectado al puerto se comunique con el iPhone mientras est\u00e1 bloqueado, que es como funcionan algunas herramientas para sacar datos."
+    fix_steps:
+      - "Abre Ajustes > Privacidad y seguridad y toca Accesorios con cable."
+      - "Elige \"Preguntar con nuevos accesorios\" (o \"Permitir autom\u00e1ticamente cuando est\u00e1 desbloqueado\" en iPhone con Lightning). Evita \"Permitir siempre\"."
+references:
+  - https://support.apple.com/en-us/111806
+  - https://support.apple.com/es-es/111806

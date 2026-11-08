@@ -1,0 +1,37 @@
+id: ios.sim_pin
+platform: ios
+category: theft
+severity: medium
+relevance:
+  default: recommended
+  rules:
+    - when: { leaves_home: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "SIM PIN"
+    title_pass: "The SIM has a PIN"
+    title_fail: "Lock the SIM with a PIN"
+    question: "Does your iPhone ask for the SIM PIN when it starts?"
+    where: "Settings > Cellular > SIM PIN"
+    why: "Without a SIM PIN, a thief can put your SIM in another phone, receive your text-message codes and calls, and use them to reset your accounts. It also works for eSIM."
+    fix_steps:
+      - "Open Settings > Cellular > SIM PIN (with two SIMs, tap the number first) and turn it on."
+      - "If you never set one, use your carrier's default PIN, then tap Change PIN."
+      - "Never guess the PIN: too many wrong tries lock the SIM and you will need your carrier's PUK."
+  es:
+    title: "PIN de la SIM"
+    title_pass: "La SIM tiene PIN"
+    title_fail: "Protege la SIM con un PIN"
+    question: "\u00bfTu iPhone pide el PIN de la SIM al encenderse?"
+    where: "Ajustes > Red m\u00f3vil > PIN de la SIM"
+    why: "Sin PIN en la SIM, un ladr\u00f3n puede meter tu tarjeta en otro m\u00f3vil, recibir tus SMS con c\u00f3digos y tus llamadas, y usarlos para recuperar tus cuentas. Tambi\u00e9n sirve para la eSIM."
+    fix_steps:
+      - "Abre Ajustes > Red m\u00f3vil > PIN de la SIM (con dos SIM, toca antes el n\u00famero) y act\u00edvalo."
+      - "Si nunca pusiste uno, usa el PIN de f\u00e1brica de tu operador y luego toca Cambiar PIN."
+      - "No lo adivines: varios intentos fallidos bloquean la SIM y necesitar\u00e1s el PUK de tu operador."
+references:
+  - https://support.apple.com/en-us/118228
+  - https://support.apple.com/es-es/118228
