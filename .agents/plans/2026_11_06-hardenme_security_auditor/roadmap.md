@@ -1,5 +1,7 @@
 # hardenme: estado actual y roadmap
 
+> **Sustituido** el 2026-11-12 por el [roadmap v2](../2026_11_12-hardenme_roadmap_v2/roadmap.md). Se conserva como historial.
+
 Fecha: 2026-11-06, actualizado el 2026-11-07. Documento interno para decidir en qué centrarse. Revisado con el mantenedor.
 
 ## 1. Lo que tenemos
