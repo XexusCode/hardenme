@@ -35,7 +35,7 @@ No hace falta saber programar. Solo usarás Terminal **una vez**, para pegar una
 2. **Copia esta línea, pégala en esa ventana y pulsa `Intro`:**
 
    ```sh
-   curl -fsSL https://raw.githubusercontent.com/XexusCode/hardenme/main/install.sh | sh
+   curl -fsSL https://github.com/XexusCode/hardenme/releases/latest/download/install.sh | sh
    ```
 
 3. **Espera unos segundos.** Verás cuatro pasos (descargar, comprobar, instalar y crear la app) y después "¡Listo!". No pide tu contraseña y no instala nada fuera de tu carpeta de usuario o de Aplicaciones.
@@ -48,7 +48,7 @@ A partir de ahí, abre **hardenme** desde Aplicaciones o Spotlight cuando quiera
 **Desinstalar:**
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/XexusCode/hardenme/main/install.sh | sh -s -- --uninstall
+curl -fsSL https://github.com/XexusCode/hardenme/releases/latest/download/install.sh | sh -s -- --uninstall
 ```
 
 **Para desarrolladores:** `go install github.com/XexusCode/hardenme@latest`, o clona el repositorio y ejecuta `go run . scan`.

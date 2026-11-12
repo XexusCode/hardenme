@@ -1,7 +1,7 @@
 #!/bin/sh
 # hardenme installer for macOS.
 #
-#   curl -fsSL https://raw.githubusercontent.com/XexusCode/hardenme/main/install.sh | sh
+#   curl -fsSL https://github.com/XexusCode/hardenme/releases/latest/download/install.sh | sh
 #
 # What it does, step by step (read it before running it, it is short):
 #   1. Downloads the latest hardenme release from GitHub with curl.

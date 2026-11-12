@@ -1,5 +1,7 @@
 # hardenme: roadmap v2
 
+> Actualizado el 2026-11-12 (segunda revisión): la interfaz "mágica" y el contenido sobre robo de móvil pasan al frente.
+
 Fecha: 2026-11-12. Sustituye a [`roadmap.md` del 2026-11-06](../2026_11_06-hardenme_security_auditor/roadmap.md). Documento interno, sin fechas ni duraciones: se ordena por prioridad y cada etapa tiene su "hecho cuando".
 
 ## 1. Finalidad
@@ -14,6 +16,7 @@ La segunda pregunta es nueva. Hasta ahora hardenme solo miraba ajustes.
 
 ## 2. Principios
 
+- **Que parezca magia.** Ver todos los fallos y arreglarlos en un par de clics. Si hace falta leer un manual, no está terminado.
 - **Fácil antes que completo.** Si una persona no técnica no puede usarlo sola, no cuenta como hecho.
 - **Automático donde el sistema lo permite, y honesto donde no.** Lo que no se puede leer se pregunta, y nunca se da por bueno.
 - **Siempre el porqué.** Ningún aviso sin explicación y sin pasos.
@@ -42,7 +45,6 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 - **Sin verificar:** el `fix` real en un Mac, los menús en móviles reales, y nadie no técnico lo ha probado.
 
 ## 5. Etapas
-
 ### Etapa 0: publicar lo que ya está hecho
 
 **Qué:**
@@ -55,11 +57,62 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 **Análisis:**
 - El bloqueo es un acoplamiento: el instalador de `main` llama a `fix`, que la versión publicada no tiene. Apuntar al instalador de la release lo elimina para siempre.
 - La prueba real necesita tres ventanas de contraseña del mantenedor. No hay forma de evitarlo sin una máquina virtual.
-- Riesgo: publicar la revisión del móvil con menús sin comprobar. Se mitiga marcándola como "beta" en el README hasta la etapa 1.
+- Riesgo: publicar la revisión del móvil con menús sin comprobar. Se mitiga marcándola como "beta" en el README hasta la etapa 3.
 
 **Hecho cuando:** quien instale hoy recibe `fix`, la revisión del móvil y las historias, y `main` se puede actualizar sin romper instalaciones.
 
-### Etapa 1: probarlo con personas reales
+### Etapa 1: el momento "mágico" en el Mac
+
+**Qué:** al hacer doble clic, hardenme abre una página en el navegador, servida por el propio programa, donde todo pasa en un par de clics:
+- la nota en grande y "lo que podría pasar hoy";
+- todos los fallos, cada uno con su porqué;
+- **un botón "Arréglalo todo"**: una sola ventana de contraseña de macOS, y la nota sube a la vista;
+- **los arreglos manuales se marcan solos**: hardenme abre el ajuste exacto y vuelve a comprobar cada pocos segundos; cuando cambias el interruptor, la casilla se pone en verde sin pulsar nada;
+- un botón para deshacer.
+
+**Por qué:** es lo que hace que alguien diga "no sabía que una app podía hacer esto". Hoy hay que leer texto en una ventana negra y escribir "1,3".
+
+**Análisis:**
+- **Casi todo existe:** el motor de `fix`, el registro para deshacer, el informe en JSON y las historias. Falta la página y un servidor pequeño.
+- **Alternativas descartadas:**
+  - menú mejorado en Terminal: sigue siendo Terminal;
+  - app nativa (Wails, Tauri): necesita firma para no asustar, y eso exige altas.
+- **La misma página servirá** para Windows y para la revisión web del móvil.
+- **Riesgo de seguridad:** un servidor local es superficie de ataque, y este puede cambiar ajustes.
+  - Escucha solo en `127.0.0.1`, en un puerto al azar.
+  - Cada petición lleva un código secreto de un solo uso, y se comprueba la cabecera `Host`.
+  - Solo ejecuta arreglos del catálogo, nunca comandos que lleguen de la página.
+  - Se cierra solo cuando se cierra la pestaña.
+- **Límite de la magia:** hoy solo 6 ajustes se arreglan solos. FileVault y Buscar mi Mac nunca serán de un clic; para ellos la magia es la casilla que se marca sola.
+- **Después, sobre esta base:**
+  - historias con datos reales del equipo ("tienes 4 claves SSH y sesión abierta en...");
+  - revisión semanal con aviso si la nota baja;
+  - más arreglos automáticos verificados (Gatekeeper, servicios remotos, bloqueo de pantalla).
+
+**Hecho cuando:** una persona hace doble clic, ve su nota, pulsa "Arréglalo todo", escribe su contraseña una vez y ve subir la nota, sin ver la Terminal.
+
+### Etapa 2: "si te roban el móvil"
+
+**Qué:**
+- Cuatro páginas nuevas en la guía, en español e inglés:
+  - qué pueden hacer con tu móvil bloqueado;
+  - si pueden llegar a desbloquearlo;
+  - huella y cara: cuánto protegen;
+  - si es seguro tener la app del banco en el móvil.
+- **Simulador de robo:** después de la revisión del móvil, la respuesta para tu caso. "Si te roban este móvil ahora, bloqueado pueden leer tus códigos SMS y usar tu SIM; no pueden entrar en tu banco." Cada frase sale de lo que contestaste.
+- Preguntas nuevas sobre el banco: clave distinta a la del móvil, límites, avisos de movimientos.
+
+**Por qué:** la gente no busca "ajustes de seguridad"; busca "qué pasa si me roban el móvil". Es la puerta de entrada al producto.
+
+**Análisis:**
+- **Viabilidad:** alta. El simulador es una ampliación de las historias de robo: añade historias "tranquilizadoras" (lo que no pueden hacer) junto a las de riesgo.
+- **Riesgo: dar datos falsos o que caducan.** Cada afirmación se comprueba con fuentes oficiales (Apple, Google, INCIBE, Banco de España) y la página las enlaza.
+- **Riesgo: asustar o tranquilizar de más.** Se dice lo que hace un ladrón de calle y, aparte, lo que solo hace alguien con medios forenses.
+- **No es asesoramiento bancario:** se explican riesgos y se remite a cada banco para sus límites y bloqueos.
+
+**Hecho cuando:** alguien que no sabe de seguridad lee la respuesta a "¿qué pasa si me roban el móvil ahora?" con su propia configuración y sabe qué tres cosas cambiar.
+
+### Etapa 3: probarlo con personas reales
 
 **Qué:**
 - 2 o 3 personas no técnicas instalan y usan hardenme en su Mac sin ayuda.
@@ -70,12 +123,12 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 
 **Análisis:**
 - Es el punto pendiente más antiguo y no cuesta código.
-- Lo que salga aquí puede reordenar las etapas 3 y 4. Por eso va antes que ellas.
+- Lo que salga aquí puede cambiar la interfaz y los textos. Va después de la etapa 1 para probar ya con la interfaz nueva.
 - Riesgo: que se quede sin hacer otra vez porque depende de terceros. Basta con una sola persona para empezar.
 
 **Hecho cuando:** hay una lista escrita de atascos reales, y los menús del móvil están corregidos o confirmados.
 
-### Etapa 2: señales de compromiso en el Mac
+### Etapa 4: señales de compromiso en el Mac
 
 **Qué:** una sección nueva del informe, "Cosas que conviene que reconozcas", con lo que hay en el Mac y no suele estar:
 - programas que arrancan solos (LaunchAgents, LaunchDaemons, ítems de inicio) que no son de Apple ni de una app conocida y firmada;
@@ -100,25 +153,7 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 
 **Hecho cuando:** en un Mac limpio la sección sale vacía o con muy pocos elementos, y en uno con una herramienta de acceso remoto y un perfil instalados, los dos aparecen con su explicación.
 
-### Etapa 3: una interfaz que no sea la Terminal
-
-**Qué:** al hacer doble clic, hardenme abre una página en el navegador, servida por el propio programa en el ordenador, con la nota, las historias, los avisos y botones para arreglar.
-
-**Por qué:** hoy hay que leer texto en una ventana negra y escribir "1,3". Para el público objetivo eso ya es una barrera, y en Windows lo será más.
-
-**Análisis:**
-- **Alternativas:**
-  - menú mejorado en Terminal (librería `huh`): barato, pero sigue siendo Terminal;
-  - app nativa (Wails, Tauri): necesita firma para no asustar, y eso exige altas;
-  - **página local en el navegador: la misma interfaz vale para Mac y Windows, sin firmar nada.** Es la recomendada.
-- **Reutiliza** el informe en JSON que ya existe, y la misma página sirve para la etapa 4.
-- **Riesgo de seguridad:** un servidor local es superficie de ataque. Tiene que escuchar solo en `127.0.0.1`, con un código de un solo uso en la dirección, y cerrarse al terminar.
-- La Terminal se queda para quien la prefiera.
-- Depende de la etapa 1: si las personas reales se manejan bien con la Terminal, esta etapa baja de prioridad.
-
-**Hecho cuando:** una persona hace doble clic, ve su nota y sus avisos en el navegador y arregla uno con un botón, sin ver la Terminal.
-
-### Etapa 4: revisión del móvil en una página web
+### Etapa 5: revisión del móvil en una página web
 
 **Qué:** la revisión guiada de iPhone y Android como página estática, generada desde los mismos YAML y alojada en GitHub Pages. Se abre en el propio móvil.
 
@@ -129,11 +164,11 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 - **Sin altas:** GitHub Pages va con la cuenta que ya existe.
 - **Privacidad:** todo en el navegador, sin servidor ni analítica. Las respuestas se guardan solo en el móvil.
 - **Límite honesto:** no es automática. Es la mejor opción posible en iPhone, y la opción sin altas en Android.
-- Comparte interfaz con la etapa 3, así que el orden entre las dos es flexible.
+- Comparte interfaz con la etapa 1.
 
 **Hecho cuando:** alguien abre un enlace en su móvil, contesta, y ve su nota, sus historias de robo y qué cambiar, sin instalar nada.
 
-### Etapa 5: Windows
+### Etapa 6: Windows
 
 **Qué:** la misma revisión que en Mac: ajustes, señales de compromiso y porqués.
 - Ajustes: cifrado (BitLocker), Defender, cortafuegos, actualizaciones, bloqueo de pantalla, control de cuentas, escritorio remoto, arranque seguro, cuenta administradora de diario.
@@ -149,11 +184,11 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
   - Para probar la experiencia completa hace falta una máquina virtual o un PC prestado.
 - **Instalación:** un `.exe` descargado con el navegador lo frena SmartScreen ("Windows protegió su PC"). Lo descargado con PowerShell no suele llevar esa marca, igual que `curl` en Mac. **Hay que verificarlo.**
 - **Arreglos automáticos:** después, y solo los verificados, como en Mac.
-- Va después de la etapa 3 porque la Terminal de Windows es todavía menos amigable que la del Mac.
+- Reutiliza la interfaz de la etapa 1, así que nace sin Terminal.
 
 **Hecho cuando:** una persona no técnica instala hardenme en su PC siguiendo solo las instrucciones y entiende su informe.
 
-### Etapa 6: Android automático
+### Etapa 7: Android automático
 
 **Qué:** leer el móvil de verdad en vez de preguntar: bloqueo, cifrado, fecha del parche, Play Protect, apps de fuera de Play, y señales de vigilancia (apps con accesibilidad, administradores de dispositivo, lectores de notificaciones).
 
@@ -173,7 +208,7 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 
 **Hecho cuando:** con el móvil conectado, las preguntas que hardenme puede contestar solo desaparecen de la revisión, y las apps con permisos de vigilancia salen listadas con su porqué.
 
-### Etapa 7: iPhone por cable
+### Etapa 8: iPhone por cable
 
 **Qué:** con el iPhone conectado al ordenador, leer lo poco que Apple deja: versión de iOS, si tiene código, si la copia está cifrada, perfiles instalados y si está supervisado.
 
@@ -198,7 +233,6 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 ## 6. Decisiones que son tuyas
 
 1. **Android:** ¿aceptas un alta en Google Play para tener una app fácil, o se queda en página web y cable?
-2. **Interfaz:** ¿te parece bien la página local en el navegador como interfaz principal en Mac y Windows?
 3. **Señales de compromiso:** ¿lista corta y conservadora (pocos avisos, alguno se escapa) o lista amplia (más avisos, más ruido)? Recomiendo la corta.
 4. **Windows:** ¿tienes acceso a un PC o prefieres una máquina virtual?
 
@@ -213,8 +247,8 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 ## 8. Revisión crítica de este roadmap
 
 - **Promete más de lo que la finalidad permite en iPhone.** "Automático" ahí no existe. Está dicho en el apartado 3, pero conviene decirlo también en el README para no decepcionar.
-- **Las señales de compromiso son la parte más arriesgada.** Un falso positivo asusta y una falsa tranquilidad es peor. Si la etapa 2 no consigue una sección casi vacía en un Mac normal, hay que recortarla en vez de publicarla.
+- **Las señales de compromiso son la parte más arriesgada.** Un falso positivo asusta y una falsa tranquilidad es peor. Si la etapa 4 no consigue una sección casi vacía en un Mac normal, hay que recortarla en vez de publicarla.
 - **Son cinco superficies** (Mac, Windows, web, adb, cable de iPhone) para una sola persona. El principio de "uno publicado antes del siguiente" es lo único que lo hace viable; si se rompe, nada queda terminado.
-- **La etapa 3 es una apuesta.** Si la etapa 1 muestra que el problema no es la Terminal sino los textos o la instalación, hay que cambiarla por eso.
+- **La etapa 1 es una apuesta.** Si las pruebas con personas (etapa 3) muestran que el problema son los textos o la instalación, hay que corregir ahí antes de seguir.
 - **Windows sin máquina propia** es el mayor riesgo de calidad. Sin una forma de probar la experiencia completa, no debería publicarse como estable.
-- **Orden discutible:** Windows llega tarde para ser el primer sistema de la finalidad. Va detrás porque sin interfaz fácil y sin máquina de pruebas saldría peor que el Mac. Si consigues un PC pronto, puede adelantarse a la etapa 3.
+- **Orden discutible:** Windows llega tarde para ser el primer sistema de la finalidad. Va detrás porque sin interfaz fácil y sin máquina de pruebas saldría peor que el Mac. Si consigues un PC pronto, puede adelantarse a la etapa 4.
