@@ -168,6 +168,10 @@ Algunas comprobaciones dan puntos a medias. Las que no se han podido leer (**des
 
 - [Antes de que te roben el dispositivo](docs/guide/es/theft-before.md)
 - [Me han robado el dispositivo: qué hago ahora](docs/guide/es/theft-after.md)
+- [Qué pueden hacer con tu móvil bloqueado](docs/guide/es/phone-locked.md)
+- [¿Pueden desbloquear mi móvil?](docs/guide/es/phone-unlock.md)
+- [Huella y cara: cuánto protegen](docs/guide/es/biometrics.md)
+- [¿Es seguro tener la app del banco en el móvil?](docs/guide/es/bank-app.md)
 
 ## Hoja de ruta
 

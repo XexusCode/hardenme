@@ -168,6 +168,10 @@ Some checks give partial credit. Checks that could not be read (**unknown**) or 
 
 - [Before your device is stolen](docs/guide/en/theft-before.md)
 - [My device was stolen: what to do now](docs/guide/en/theft-after.md)
+- [What a thief can do with your phone while it is locked](docs/guide/en/phone-locked.md)
+- [Can they unlock my phone?](docs/guide/en/phone-unlock.md)
+- [Fingerprint and face unlock: how much they protect](docs/guide/en/biometrics.md)
+- [Is it safe to have your bank's app on your phone?](docs/guide/en/bank-app.md)
 
 ## Roadmap
 
