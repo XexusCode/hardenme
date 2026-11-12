@@ -24,6 +24,7 @@ In scope:
 
 - Anything that makes `hardenme scan` **change** settings, files or state on the device, or that makes `hardenme fix` change something the user did not pick and confirm.
 - Anything that makes it **send data** over the network or write data outside its own files (the profile in `~/.config/hardenme/profile.json` and the change log in `~/.local/state/hardenme/changes.json`).
+- Anything that lets a **web page, another program or another user** talk to the local page server of `hardenme ui`, or make it run anything other than the embedded fixes.
 - Anything that makes it **request or use elevated privileges** (sudo, admin) outside a `hardenme fix` the user confirmed, or that lets anything other than the embedded fix commands run as administrator (for example through the change log).
 - Command injection or unsafe execution through check data, profile files or command-line arguments.
 - Vulnerabilities in the build or release pipeline, or in dependencies as used by hardenme.
@@ -42,5 +43,6 @@ These are promises the code must keep. A change that breaks any of them is a sec
 1. **The audit is read-only.** `hardenme scan` never changes settings. If a setting cannot be read without elevated privileges, the check is marked as skipped or manual.
 2. **Fixes only with consent.** `hardenme fix` changes only what the user picks, after showing what will change. It runs only commands embedded in the binary, as argument lists with absolute paths. Admin changes go through one native macOS password dialog; hardenme never asks for, sees or stores the password. Every automatic change is logged with its undo, and `--undo` only runs commands that match the embedded catalog.
 3. **No network.** hardenme makes no network connections during an audit. No telemetry, no update checks, no cloud features.
-4. **No data collection.** Nothing about you or your device leaves your machine. The only files it writes are your profile and the log of changes made by `hardenme fix`. It never reads privacy-protected data such as macOS TCC-protected stores.
-5. **Never a false pass by design.** A check that cannot run is reported as unknown and is never counted as passing.
+4. **The browser page is local and locked down.** `hardenme ui` listens only on `127.0.0.1`, on a random port, for the time the page is open. Every request needs the secret of that run, and requests with another `Host` or `Origin` are refused. The page loads nothing from the internet, and what it sends is only ever a check ID looked up in the embedded catalog, never a command.
+5. **No data collection.** Nothing about you or your device leaves your machine. The only files it writes are your profile and the log of changes made by `hardenme fix`. It never reads privacy-protected data such as macOS TCC-protected stores.
+6. **Never a false pass by design.** A check that cannot run is reported as unknown and is never counted as passing.

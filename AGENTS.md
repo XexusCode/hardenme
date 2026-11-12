@@ -21,7 +21,8 @@ gofmt -l . && go vet ./... && go test ./...
 | Path | What it holds |
 |---|---|
 | `main.go` | Entry point |
-| `internal/cli` | Cobra commands (`scan`, `fix`, `checklist`, `profile`, `guide`) and their EN/ES prompts |
+| `internal/cli` | Cobra commands (`scan`, `fix`, `ui`, `checklist`, `profile`, `guide`) and their EN/ES prompts |
+| `internal/ui` | The local browser page (`hardenme ui`): loopback-only server with a per-run token, one embedded `page.html` with no remote resources, fix-all, self-ticking guided fixes, undo |
 | `internal/runner` | `Runner` interface: `Exec` runs real commands, `Fake` replays captured outputs in tests |
 | `internal/profile` | `Profile`, its JSON `Store`, and laptop detection |
 | `internal/check` | Check model, catalogue loading and validation, probe execution, Go builtins (`builtins_<platform>.go`) |

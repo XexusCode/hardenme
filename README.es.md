@@ -39,7 +39,7 @@ No hace falta saber programar. Solo usarás Terminal **una vez**, para pegar una
    ```
 
 3. **Espera unos segundos.** Verás cuatro pasos (descargar, comprobar, instalar y crear la app) y después "¡Listo!". No pide tu contraseña y no instala nada fuera de tu carpeta de usuario o de Aplicaciones.
-4. **Se abre una ventana del Finder con hardenme seleccionado. Haz doble clic.** Se abre Terminal, te hace unas preguntas sobre cómo usas tu Mac y te enseña tu nota. Después te enseña lo que se puede mejorar: escribe los números de lo que quieres arreglar, o pulsa `Intro` para dejarlo todo como está.
+4. **Se abre una ventana del Finder con hardenme seleccionado. Haz doble clic.** Se abre una página en tu navegador con tu nota, lo que podría pasar hoy y todo lo que se puede mejorar, cada cosa con su porqué. Un botón arregla lo que hardenme puede cambiar por ti (macOS te pide la contraseña una vez). Para lo demás, te abre el ajuste exacto y lo marca solo cuando lo cambias.
 
 A partir de ahí, abre **hardenme** desde Aplicaciones o Spotlight cuando quieras revisar otra vez.
 
@@ -65,7 +65,10 @@ hardenme scan
 hardenme scan --lang es
 hardenme scan --only filevault,firewall
 
-# Elige las mejoras y deja que hardenme las aplique (desde la v0.2)
+# Mira tu nota en el navegador y arregla las cosas en un par de clics (desde la v0.2)
+hardenme ui
+
+# O hazlo en Terminal: elige las mejoras y deja que hardenme las aplique
 hardenme fix
 hardenme fix --dry-run      # enseña los comandos exactos, no cambia nada
 hardenme fix --undo         # deshace la última tanda de cambios

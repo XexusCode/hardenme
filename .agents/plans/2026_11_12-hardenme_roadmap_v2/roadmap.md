@@ -48,7 +48,7 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 ### Etapa 0: publicar lo que ya está hecho
 
 **Qué:**
-- El README instala desde el `install.sh` de la última release, no desde `main`.
+- El README instala desde el `install.sh` de la última release, no desde `main`. **Hecho.**
 - Prueba real de `hardenme fix` (aplicar y deshacer) en el Mac del mantenedor.
 - Una sola versión con todo lo pendiente.
 
@@ -90,6 +90,11 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
   - más arreglos automáticos verificados (Gatekeeper, servicios remotos, bloqueo de pantalla).
 
 **Hecho cuando:** una persona hace doble clic, ve su nota, pulsa "Arréglalo todo", escribe su contraseña una vez y ve subir la nota, sin ver la Terminal.
+
+**Estado (2026-11-12):** primera versión hecha (`hardenme ui`, sin publicar).
+- Probado en el Mac del mantenedor: la página con datos reales, guardar el perfil, cerrar, y el doble clic sin Terminal.
+- Probado solo con tests, no en real: el botón "Arréglalo todo", deshacer y la casilla que se marca sola. Necesitan el visto bueno del mantenedor porque cambian ajustes.
+- Pendiente: historias con datos reales, revisión semanal y más arreglos automáticos.
 
 ### Etapa 2: "si te roban el móvil"
 

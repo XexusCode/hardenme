@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>hardenme</title>
+<style>
+:root {
+  --bg: #f4f5f7; --card: #ffffff; --ink: #14181f; --muted: #5d6675; --line: #e3e6eb;
+  --good: #1f9d55; --warn: #d98a00; --bad: #d64545; --accent: #2563eb; --accent-ink: #ffffff;
+  --soft-bad: #fdecec; --soft-good: #e8f6ee; --soft-accent: #e8effd;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1216; --card: #191d24; --ink: #eef1f5; --muted: #9aa4b2; --line: #2a303a;
+    --good: #3ecf7c; --warn: #f0b23c; --bad: #f26d6d; --accent: #5b8def; --accent-ink: #0f1216;
+    --soft-bad: #3a1f22; --soft-good: #17301f; --soft-accent: #1b2740;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+header h1 { font-size: 18px; margin: 0; letter-spacing: .2px; }
+header span { color: var(--muted); font-size: 14px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+.hero { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+.ring { position: relative; width: 148px; height: 148px; flex: none; }
+.ring svg { transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 12; }
+.ring .track { stroke: var(--line); }
+.ring .bar { stroke: var(--bad); stroke-linecap: round; transition: stroke-dashoffset .9s ease, stroke .9s ease; }
+.ring .num { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.ring .num b { font-size: 44px; line-height: 1; font-variant-numeric: tabular-nums; }
+.ring .num small { color: var(--muted); font-size: 13px; }
+.hero-text { flex: 1; min-width: 240px; }
+.hero-text h2 { margin: 0 0 4px; font-size: 26px; }
+.hero-text p { margin: 0 0 14px; color: var(--muted); }
+button { font: inherit; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 10px 16px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:disabled { opacity: .5; cursor: default; }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; padding: 12px 20px; }
+button.link { border: 0; background: none; color: var(--muted); padding: 4px 0; text-decoration: underline; }
+.note { margin-top: 12px; padding: 10px 14px; border-radius: 12px; background: var(--soft-accent); }
+.note.good { background: var(--soft-good); }
+.stories { border-color: var(--bad); background: var(--soft-bad); }
+.stories h3, section > h3 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); }
+.stories ul { margin: 0; padding-left: 20px; }
+.stories li { margin: 6px 0; }
+section { margin-top: 24px; }
+details.item { background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; overflow: hidden; }
+details.item summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+details.item summary::-webkit-details-marker { display: none; }
+.dot { width: 22px; height: 22px; border-radius: 50%; flex: none; display: grid; place-content: center; color: #fff; font-size: 13px; font-weight: 700; background: var(--muted); }
+.dot.fail { background: var(--bad); } .dot.warn { background: var(--warn); } .dot.pass { background: var(--good); }
+.item .t { flex: 1; font-weight: 600; }
+.badge { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--soft-accent); color: var(--accent); white-space: nowrap; }
+.body { padding: 0 16px 16px 50px; }
+.body h4 { margin: 12px 0 4px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+.body p { margin: 0; }
+.body ol { margin: 0; padding-left: 20px; }
+.body .now { font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: var(--muted); }
+.body .actions { margin-top: 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.watch { color: var(--muted); font-size: 14px; }
+.item.done { border-color: var(--good); }
+.plain { padding: 10px 16px; display: flex; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); }
+.plain:last-child { border-bottom: 0; }
+.group { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.profile label { display: flex; gap: 10px; align-items: center; padding: 6px 0; }
+.profile p { margin: 0 0 8px; color: var(--muted); }
+footer { margin-top: 32px; color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center; }
+dialog { border: 1px solid var(--line); border-radius: 16px; background: var(--card); color: var(--ink); max-width: 520px; padding: 24px; }
+dialog::backdrop { background: rgba(0, 0, 0, .45); }
+dialog h3 { margin: 0 0 10px; }
+dialog ul { padding-left: 20px; }
+dialog li small { display: block; color: var(--warn); }
+dialog .row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+.center { text-align: center; padding: 64px 16px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main id="app"><p class="center" id="boot">hardenme</p></main>
+<dialog id="dlg"></dialog>
+<script>
+"use strict";
+const token = new URLSearchParams(location.search).get("t") || "";
+history.replaceState(null, "", "/"); // keep the secret out of the address bar and history
+let S = null, T = {}, shown = null, watching = {}, alive = true, banner = null;
+const open = new Set();
+
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") n.className = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat()) if (kid != null && kid !== false) n.append(kid);
+  return n;
+}
+function svg(tag, attrs) {
+  const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  return n;
+}
+async function api(path, body) {
+  if (!alive) return null;
+  try {
+    const res = await fetch(path, {
+      method: body === undefined ? "GET" : "POST",
+      headers: { "X-Hardenme-Token": token, "Content-Type": "application/json" },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(String(res.status));
+    return res.status === 204 ? {} : await res.json();
+  } catch (e) {
+    alive = false;
+    document.getElementById("app").replaceChildren(el("p", { class: "center" }, T.lost || "hardenme is no longer running."));
+    return null;
+  }
+}
+function take(reply) {
+  if (!reply || !reply.state) return;
+  const before = S && S.score ? S.score.value : null;
+  S = reply.state; T = S.strings;
+  document.documentElement.lang = S.lang;
+  const after = S.score ? S.score.value : null;
+  if (reply.message) banner = { text: reply.message, good: false };
+  else if (before != null && after != null && after > before) banner = { text: T.score_up.replace("{a}", before).replace("{b}", after), good: true };
+  render();
+}
+function color(v) { return v >= 80 ? "var(--good)" : v >= 60 ? "var(--warn)" : "var(--bad)"; }
+
+function ring() {
+  const R = 62, C = 2 * Math.PI * R, box = el("div", { class: "ring" });
+  const s = svg("svg", { width: 148, height: 148, viewBox: "0 0 148 148" });
+  s.append(svg("circle", { class: "track", cx: 74, cy: 74, r: R }));
+  const bar = svg("circle", { class: "bar", cx: 74, cy: 74, r: R, "stroke-dasharray": C, "stroke-dashoffset": C });
+  s.append(bar);
+  const num = el("b", {}, "0");
+  box.append(s, el("div", { class: "num" }, num, el("small", {}, T.score_of)));
+  const target = S.score ? S.score.value : 0, from = shown == null ? 0 : shown;
+  requestAnimationFrame(() => {
+    bar.style.strokeDashoffset = C * (1 - target / 100);
+    bar.style.stroke = color(target);
+  });
+  const t0 = performance.now();
+  (function tick(now) {
+    const k = Math.min(1, (now - t0) / 900);
+    num.textContent = Math.round(from + (target - from) * k);
+    if (k < 1) requestAnimationFrame(tick);
+  })(t0);
+  shown = target;
+  return box;
+}
+
+function hero() {
+  const n = S.auto_fixes;
+  const line = n === 0 ? T.fix_all_none : n === 1 ? T.fix_all_one : T.fix_all_many.replace("{n}", n);
+  const text = el("div", { class: "hero-text" },
+    el("h2", {}, S.score ? S.score.label : T.no_score),
+    el("p", {}, line),
+    n > 0 && el("button", { class: "primary", onclick: confirmFix }, T.fix_all),
+    S.can_undo && el("div", {}, el("button", { class: "link", onclick: confirmUndo }, T.undo)),
+    banner && el("div", { class: "note" + (banner.good ? " good" : "") }, banner.text));
+  return el("div", { class: "card hero" }, S.score ? ring() : null, text);
+}
+
+function item(it) {
+  const mark = { fail: "!", warn: "!", pass: "✓", manual: "?", unknown: "?" }[it.status] || "·";
+  const badge = it.fix === "auto" ? T.badge_auto : it.can_open && it.status !== "manual" ? T.badge_guided : null;
+  const body = el("div", { class: "body" },
+    it.current && it.status !== "manual" && el("p", { class: "now" }, T.now + ": " + it.current),
+    el("h4", {}, T.why), el("p", {}, it.why),
+    el("h4", {}, T.how), el("ol", {}, it.steps.map(s => el("li", {}, s))),
+    it.status === "manual" && el("p", { class: "watch" }, T.cannot_read),
+    el("div", { class: "actions" },
+      it.can_open && el("button", { onclick: () => openSetting(it) }, T.open),
+      watching[it.id] && el("span", { class: "watch" }, T.watching)));
+  const d = el("details", { class: "item", open: open.has(it.id) },
+    el("summary", {}, el("span", { class: "dot " + it.status }, mark), el("span", { class: "t" }, it.title), badge && el("span", { class: "badge" }, badge)),
+    body);
+  d.addEventListener("toggle", () => d.open ? open.add(it.id) : open.delete(it.id));
+  return d;
+}
+
+function render() {
+  const by = {};
+  for (const it of S.items) (by[it.section] = by[it.section] || []).push(it);
+  const out = [
+    el("header", {}, el("h1", {}, "hardenme · " + T.title), el("span", {}, "macOS " + S.os_version)),
+    hero(),
+    S.stories.length > 0 && el("div", { class: "card stories" }, el("h3", {}, T.stories), el("ul", {}, S.stories.map(s => el("li", {}, s)))),
+  ];
+  for (const sec of ["essential", "recommended", "optional", "manual"]) {
+    if (!by[sec]) continue;
+    out.push(el("section", {}, el("h3", {}, T["sec_" + sec] + " (" + by[sec].length + ")"), by[sec].map(item)));
+  }
+  for (const sec of ["unknown", "pass", "na"]) {
+    if (!by[sec]) continue;
+    const mark = sec === "pass" ? "✓" : sec === "unknown" ? "?" : "·";
+    out.push(el("section", {}, el("h3", {}, T["sec_" + sec] + " (" + by[sec].length + ")"),
+      el("div", { class: "group" }, by[sec].map(it => el("div", { class: "plain" }, el("span", { class: "dot " + (sec === "pass" ? "pass" : "") }, mark), el("span", {}, it.title))))));
+  }
+  out.push(profileCard(), el("footer", {}, el("span", {}, T.private),
+    el("span", {}, el("button", { class: "link", onclick: rescan }, T.rescan), " · ", el("button", { class: "link", onclick: quit }, T.quit))));
+  document.getElementById("app").replaceChildren(...out.filter(Boolean));
+}
+
+function profileCard() {
+  const p = Object.assign({}, S.profile);
+  const box = (key, label, get, set) => el("label", {}, el("input", { type: "checkbox", checked: get(), onchange: e => set(e.target.checked) }), label);
+  return el("section", {}, el("h3", {}, T.profile), el("div", { class: "card profile" },
+    el("p", {}, T.profile_intro),
+    box("portable", T.p_portable, () => p.portable, v => p.portable = v),
+    box("leaves_home", T.p_leaves_home, () => p.leaves_home, v => p.leaves_home = v),
+    box("shared", T.p_shared, () => p.shared, v => p.shared = v),
+    box("sensitive", T.p_sensitive, () => p.sensitive_data, v => p.sensitive_data = v),
+    box("risk", T.p_risk, () => p.risk === "elevated", v => p.risk = v ? "elevated" : "normal"),
+    el("div", { class: "actions" }, el("button", { onclick: async () => { banner = null; take(await api("/api/profile", p)); } }, T.save))));
+}
+
+function ask(title, lines, note, go, action) {
+  const dlg = document.getElementById("dlg");
+  dlg.replaceChildren(
+    el("h3", {}, title),
+    lines.length > 0 && el("ul", {}, lines.map(l => el("li", {}, l.text, l.warn && el("small", {}, l.warn)))),
+    note && el("p", {}, note),
+    el("div", { class: "row" }, el("button", { onclick: () => dlg.close() }, T.cancel),
+      el("button", { class: "primary", onclick: () => { dlg.close(); action(); } }, go)));
+  dlg.showModal();
+}
+function confirmFix() {
+  const lines = S.items.filter(it => it.fix === "auto" && (it.status === "fail" || it.status === "warn") && it.section !== "na")
+    .map(it => ({ text: it.title, warn: it.warning }));
+  ask(T.confirm_title, lines, T.confirm_password, T.confirm_go, async () => { busy(); take(await api("/api/fix", {})); });
+}
+function confirmUndo() {
+  ask(T.undo, [], T.undo_confirm, T.confirm_go, async () => { busy(); take(await api("/api/undo", {})); });
+}
+function busy() {
+  banner = { text: T.working, good: false };
+  render();
+  banner = null;
+}
+async function rescan() {
+  banner = null;
+  document.getElementById("app").replaceChildren(el("p", { class: "center" }, T.loading));
+  take(await api("/api/state?fresh=1"));
+}
+async function quit() {
+  await api("/api/quit", {});
+  alive = false;
+  document.getElementById("app").replaceChildren(el("p", { class: "center" }, T.closed));
+}
+
+// Open the setting, then read it again every few seconds: when the person
+// flips the switch, the item ticks itself.
+async function openSetting(it) {
+  open.add(it.id);
+  await api("/api/open", { id: it.id });
+  if (it.status === "manual" || watching[it.id]) return;
+  watching[it.id] = true;
+  render();
+  const until = Date.now() + 5 * 60 * 1000;
+  while (alive && watching[it.id] && Date.now() < until) {
+    await new Promise(r => setTimeout(r, 2500));
+    const reply = await api("/api/recheck", { id: it.id });
+    if (!reply) return;
+    const now = reply.state.items.find(x => x.id === it.id);
+    if (now && now.status === "pass") {
+      delete watching[it.id];
+      open.delete(it.id);
+      banner = null;
+      take(reply);
+      return;
+    }
+  }
+  delete watching[it.id];
+  if (alive) render();
+}
+
+setInterval(() => { if (alive) api("/api/ping"); }, 30000);
+(async () => { take(await api("/api/state")); })();
+</script>
+</body>
+</html>
