@@ -17,6 +17,7 @@ There are great security tools out there, but none of them combines all of this:
 - **Cross-platform**: one tool for your Mac, your Windows laptop and your phone.
 - **Made for non-technical people**: no jargon, clear steps, links straight to the right setting.
 - **A score weighted by your profile**: what matters for a commuter's laptop is not what matters for a family desktop.
+- **Signs of compromise**: on a Mac it also lists things you should recognise, such as remote access apps, unsigned programs that start by themselves, configuration profiles or extra administrators. They are questions with their reason, not verdicts, and hardenme is not an antivirus.
 - **Focus on theft**: what to set up before your device is stolen, and what to do in the first minutes, hours and days after.
 - **In English and Spanish.**
 

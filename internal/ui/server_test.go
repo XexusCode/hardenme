@@ -16,6 +16,7 @@ import (
 	"github.com/XexusCode/hardenme/internal/fix"
 	"github.com/XexusCode/hardenme/internal/profile"
 	"github.com/XexusCode/hardenme/internal/runner"
+	"github.com/XexusCode/hardenme/internal/scan"
 	"github.com/XexusCode/hardenme/internal/story"
 	"github.com/XexusCode/hardenme/internal/ui"
 )
@@ -85,7 +86,10 @@ func newEnv(t *testing.T) *env {
 	srv := ui.New(ui.Deps{
 		Platform: "macos", OSVersion: "26.2", Lang: check.ES, Catalog: catalog, Stories: stories,
 		Probe: e.probe, Apply: e.apply,
-		Log:      func() (fix.Log, error) { return e.log, nil },
+		Log: func() (fix.Log, error) { return e.log, nil },
+		Findings: func(context.Context) []scan.Finding {
+			return []scan.Finding{{Kind: "remote_tool", Items: []string{"AnyDesk"}}}
+		},
 		Profiles: e.prof, Fallback: profile.Default(true),
 		Now: func() time.Time { return time.Date(2026, 11, 12, 10, 0, 0, 0, time.UTC) },
 	}, host, token)
@@ -168,6 +172,9 @@ func TestStateShowsScoreStoriesAndFixKinds(t *testing.T) {
 	}
 	if len(st.Stories) != 1 || !strings.Contains(st.Stories[0], "Si te roban el Mac") {
 		t.Errorf("stories %v", st.Stories)
+	}
+	if len(st.Findings) != 1 || !strings.HasSuffix(st.Findings[0].Title, "?") || st.Findings[0].Items[0] != "AnyDesk" || st.Findings[0].Do == "" {
+		t.Errorf("findings %+v", st.Findings)
 	}
 	if st.AutoFixes != 1 || st.CanUndo || st.ProfileSaved {
 		t.Errorf("auto %d undo %v saved %v", st.AutoFixes, st.CanUndo, st.ProfileSaved)

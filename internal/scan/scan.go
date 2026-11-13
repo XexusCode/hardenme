@@ -27,6 +27,19 @@ type Report struct {
 	Entries   []Entry
 	// Stories are the plain-language risks the failures add up to.
 	Stories []Story
+	// Findings are things on the device worth recognising (signs of
+	// compromise). They never count towards the score.
+	Findings []Finding
+	// FindingsChecked is true when hardenme looked for them, so an empty
+	// list can be reported as "nothing unusual seen".
+	FindingsChecked bool
+}
+
+// Finding is one kind of unusual thing and the items found, e.g. the
+// remote-access tools installed.
+type Finding struct {
+	Kind  string
+	Items []string
 }
 
 // Story is a plain-language risk, e.g. "if your Mac is stolen, the thief

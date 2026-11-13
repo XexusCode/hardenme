@@ -17,6 +17,7 @@ Hay herramientas de seguridad muy buenas, pero ninguna junta todo esto:
 - **Multiplataforma**: una sola herramienta para tu Mac, tu portátil con Windows y tu móvil.
 - **Pensada para gente no técnica**: sin jerga, con pasos claros y enlaces directos al ajuste que hay que tocar.
 - **Una nota que tiene en cuenta tu perfil**: lo que importa en el portátil de alguien que va en metro cada día no es lo mismo que en el ordenador familiar del salón.
+- **Señales de compromiso**: en el Mac también te enseña cosas que conviene que reconozcas, como apps de acceso remoto, programas sin firma que arrancan solos, perfiles de configuración o administradores de más. Son preguntas con su porqué, no veredictos, y hardenme no es un antivirus.
 - **Centrada en el robo**: qué preparar antes de que te roben el dispositivo, y qué hacer en los primeros minutos, horas y días después.
 - **En español y en inglés.**
 

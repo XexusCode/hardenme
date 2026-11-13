@@ -160,3 +160,32 @@ func TestSafeStoriesHaveTheirOwnSection(t *testing.T) {
 		}
 	}
 }
+
+func TestFindingsAreQuestionsOutsideTheScore(t *testing.T) {
+	r := sampleReport(t)
+	before := r.Score()
+	r.FindingsChecked = true
+	for _, f := range []render.Format{render.Text, render.Markdown} {
+		var buf bytes.Buffer
+		if err := render.Render(&buf, r, f, check.ES); err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(buf.String(), "No he visto nada raro") || !strings.Contains(buf.String(), "no es un antivirus") {
+			t.Errorf("%s: an empty result must say it is no guarantee:\n%s", f, buf.String()[:500])
+		}
+	}
+	r.Findings = []scan.Finding{{Kind: "remote_tool", Items: []string{"AnyDesk"}}}
+	if r.Score() != before {
+		t.Error("findings changed the score")
+	}
+	for _, f := range []render.Format{render.Text, render.Markdown, render.JSON} {
+		var buf bytes.Buffer
+		if err := render.Render(&buf, r, f, check.ES); err != nil {
+			t.Fatal(err)
+		}
+		out := buf.String()
+		if !strings.Contains(out, "¿Instalaste tú estas apps de acceso remoto?") || !strings.Contains(out, "AnyDesk") {
+			t.Errorf("%s: finding missing:\n%s", f, out[:500])
+		}
+	}
+}

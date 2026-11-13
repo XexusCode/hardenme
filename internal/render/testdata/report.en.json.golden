@@ -23,6 +23,7 @@
       "safe": false
     }
   ],
+  "findings": null,
   "entries": [
     {
       "id": "macos.admin_account",

@@ -18,6 +18,7 @@ import (
 	"github.com/XexusCode/hardenme/internal/fix"
 	"github.com/XexusCode/hardenme/internal/profile"
 	"github.com/XexusCode/hardenme/internal/runner"
+	"github.com/XexusCode/hardenme/internal/scan"
 	"github.com/XexusCode/hardenme/internal/story"
 	"github.com/XexusCode/hardenme/internal/ui"
 )
@@ -73,6 +74,12 @@ func newUI(opts *options) *cobra.Command {
 				Catalog: all, Stories: stories,
 				Probe: probe, Apply: runner.Exec{Timeout: 5 * time.Minute},
 				Log: fix.DefaultLog, Profiles: store, Fallback: profile.Default(portable),
+				Findings: func(ctx context.Context) []scan.Finding {
+					var r scan.Report
+					r.Platform = platform
+					addFindings(ctx, probe, &r)
+					return r.Findings
+				},
 				Now: time.Now,
 			}, host, token)
 			httpSrv := &http.Server{Handler: srv.Handler(), ReadHeaderTimeout: 10 * time.Second}

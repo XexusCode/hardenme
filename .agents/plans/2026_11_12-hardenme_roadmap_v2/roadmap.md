@@ -161,6 +161,12 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 - **Fuera:** leer los permisos de privacidad (macOS no deja sin acceso total al disco) y analizar programas en ejecución como un antivirus.
 - **Modelo de datos:** hace falta un tipo nuevo, "hallazgo", distinto de "comprobación": puede devolver varios elementos, cada uno con nombre, ruta y motivo.
 
+**Estado (2026-11-13):** primera versión hecha, con la lista corta.
+- Busca: apps de acceso remoto y de vigilancia, programas de arranque sin firma o que lanzan un script, perfiles, gestión remota, administradores de más, claves SSH, proxy y redirecciones en `hosts`.
+- En el Mac del mantenedor (8 programas de arranque, todos firmados) la sección sale vacía, que era el criterio.
+- El caso contrario solo está probado con tests. El formato de `profiles list` con un perfil instalado no se ha capturado en un Mac real.
+- Fuera por ahora: extensiones del sistema y antigüedad de XProtect.
+
 **Hecho cuando:** en un Mac limpio la sección sale vacía o con muy pocos elementos, y en uno con una herramienta de acceso remoto y un perfil instalados, los dos aparecen con su explicación.
 
 ### Etapa 5: revisión del móvil en una página web

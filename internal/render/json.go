@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/XexusCode/hardenme/internal/check"
+	"github.com/XexusCode/hardenme/internal/findings"
 	"github.com/XexusCode/hardenme/internal/profile"
 	"github.com/XexusCode/hardenme/internal/scan"
 )
@@ -28,7 +29,18 @@ type JSONReport struct {
 	// Score is null when nothing could be scored.
 	Score   *JSONScore  `json:"score"`
 	Stories []JSONStory `json:"stories"`
-	Entries []JSONEntry `json:"entries"`
+	// Findings is null when hardenme did not look for signs of compromise,
+	// and an empty list when it looked and saw nothing unusual.
+	Findings []JSONFinding `json:"findings"`
+	Entries  []JSONEntry   `json:"entries"`
+}
+
+// JSONFinding is one kind of thing worth recognising. It is a question for
+// the person, not a verdict.
+type JSONFinding struct {
+	Kind  string   `json:"kind"`
+	Title string   `json:"title"`
+	Items []string `json:"items"`
 }
 
 // JSONStory is a plain-language risk.
@@ -68,6 +80,16 @@ func BuildJSON(r scan.Report, lang check.Lang) JSONReport {
 		Profile:       r.Profile,
 		Stories:       []JSONStory{},
 		Entries:       []JSONEntry{},
+	}
+	if r.FindingsChecked {
+		out.Findings = []JSONFinding{}
+		for _, f := range r.Findings {
+			items := make([]string, len(f.Items))
+			for i, item := range f.Items {
+				items[i] = scrub(item)
+			}
+			out.Findings = append(out.Findings, JSONFinding{Kind: f.Kind, Title: findings.TextFor(f.Kind, lang).Title, Items: items})
+		}
 	}
 	for _, st := range r.Stories {
 		out.Stories = append(out.Stories, JSONStory{ID: st.ID, Text: storyText(st, lang), Safe: st.Safe})

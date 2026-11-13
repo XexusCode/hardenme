@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/XexusCode/hardenme/internal/check"
+	"github.com/XexusCode/hardenme/internal/findings"
 	"github.com/XexusCode/hardenme/internal/scan"
 )
 
@@ -54,6 +55,24 @@ func (m *markdownWriter) report(r scan.Report) {
 		m.printf("\n## %s\n\n", msg(m.lang, storyKey(part.key, r.Platform)))
 		for _, st := range part.stories {
 			m.printf("- %s\n", mdEscape(storyText(st, m.lang)))
+		}
+	}
+
+	if r.FindingsChecked {
+		m.printf("\n## %s\n\n", msg(m.lang, "sec_findings"))
+		if len(r.Findings) == 0 {
+			m.printf("%s\n", msg(m.lang, "findings_none"))
+		}
+		for _, f := range r.Findings {
+			text := findings.TextFor(f.Kind, m.lang)
+			m.printf("### ? %s\n\n", mdEscape(text.Title))
+			for _, item := range f.Items {
+				m.printf("- `%s`\n", scrub(item))
+			}
+			m.printf("\n**%s:** %s\n\n**%s:** %s\n\n", msg(m.lang, "why"), mdEscape(text.Why), msg(m.lang, "findings_do"), mdEscape(text.Do))
+		}
+		if len(r.Findings) > 0 {
+			m.printf("_%s_\n", msg(m.lang, "findings_note"))
 		}
 	}
 

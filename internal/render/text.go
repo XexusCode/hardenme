@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/XexusCode/hardenme/internal/check"
+	"github.com/XexusCode/hardenme/internal/findings"
 	"github.com/XexusCode/hardenme/internal/profile"
 	"github.com/XexusCode/hardenme/internal/scan"
 )
@@ -92,6 +93,8 @@ func (t *textWriter) report(r scan.Report) {
 		}
 	}
 
+	t.findings(r)
+
 	for _, s := range sections {
 		t.section(s.key, s.mark, groups[s.group], s.detailed)
 	}
@@ -105,6 +108,29 @@ func (t *textWriter) report(r scan.Report) {
 }
 
 func isPhone(platform string) bool { return platform == "ios" || platform == "android" }
+
+// findings prints the things worth recognising, or says that none were
+// seen and that this is no guarantee.
+func (t *textWriter) findings(r scan.Report) {
+	if !r.FindingsChecked {
+		return
+	}
+	if len(r.Findings) == 0 {
+		t.printf("\n%s\n%s\n", msg(t.lang, "sec_findings"), strings.Replace(wrap("✓ "+msg(t.lang, "findings_none"), width, "  "), "  ✓", "✓", 1))
+		return
+	}
+	t.printf("\n%s (%d)\n", msg(t.lang, "sec_findings"), len(r.Findings))
+	for _, f := range r.Findings {
+		text := findings.TextFor(f.Kind, t.lang)
+		t.printf("\n? %s\n", text.Title)
+		for _, item := range f.Items {
+			t.printf("    - %s\n", scrub(item))
+		}
+		t.printf("  %s:\n%s\n", msg(t.lang, "why"), wrap(text.Why, width, "    "))
+		t.printf("  %s:\n%s\n", msg(t.lang, "findings_do"), wrap(text.Do, width, "    "))
+	}
+	t.printf("\n%s\n", wrap(msg(t.lang, "findings_note"), width, ""))
+}
 
 // storyKey picks the heading of a stories section. Phones get the theft
 // simulator's wording: "if this phone is stolen today".

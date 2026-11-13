@@ -45,4 +45,5 @@ These are promises the code must keep. A change that breaks any of them is a sec
 3. **No network.** hardenme makes no network connections during an audit. No telemetry, no update checks, no cloud features.
 4. **The browser page is local and locked down.** `hardenme ui` listens only on `127.0.0.1`, on a random port, for the time the page is open. Every request needs the secret of that run, and requests with another `Host` or `Origin` are refused. The page loads nothing from the internet, and what it sends is only ever a check ID looked up in the embedded catalog, never a command.
 5. **No data collection.** Nothing about you or your device leaves your machine. The only files it writes are your profile and the log of changes made by `hardenme fix`. It never reads privacy-protected data such as macOS TCC-protected stores.
-6. **Never a false pass by design.** A check that cannot run is reported as unknown and is never counted as passing.
+6. **Signs, not verdicts.** The "things you should recognise" section lists unusual things as questions. It never says a device is infected, and an empty list always says it is no guarantee. It reads only names and settings, never the content of your files, and never key material.
+7. **Never a false pass by design.** A check that cannot run is reported as unknown and is never counted as passing.

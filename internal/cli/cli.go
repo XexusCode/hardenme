@@ -18,6 +18,7 @@ import (
 	"github.com/XexusCode/hardenme/checks"
 	"github.com/XexusCode/hardenme/docs/guide"
 	"github.com/XexusCode/hardenme/internal/check"
+	"github.com/XexusCode/hardenme/internal/findings"
 	"github.com/XexusCode/hardenme/internal/fix"
 	"github.com/XexusCode/hardenme/internal/profile"
 	"github.com/XexusCode/hardenme/internal/render"
@@ -159,6 +160,9 @@ func newScan(opts *options) *cobra.Command {
 				return err
 			}
 			story.Add(&report, stories)
+			if only == "" {
+				addFindings(ctx, r, &report)
+			}
 			if err := render.Render(cmd.OutOrStdout(), report, f, lang); err != nil {
 				return err
 			}
@@ -198,6 +202,24 @@ func filterChecks(all []check.Check, only string) ([]check.Check, error) {
 		}
 	}
 	return out, nil
+}
+
+// addFindings looks for signs of compromise (things the person should
+// recognise) and adds them to the report. They never change the score.
+func addFindings(ctx context.Context, r runner.Runner, report *scan.Report) {
+	if report.Platform != "macos" {
+		return
+	}
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return
+	}
+	name := ""
+	if out, err := r.Run(ctx, "/usr/bin/id", "-un"); err == nil {
+		name = strings.TrimSpace(out.Stdout)
+	}
+	report.Findings = findings.Scan(ctx, findings.Env{Runner: r, Home: home, User: name})
+	report.FindingsChecked = true
 }
 
 func osVersion(ctx context.Context, r runner.Runner) string {

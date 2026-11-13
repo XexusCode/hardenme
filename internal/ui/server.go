@@ -19,6 +19,7 @@ import (
 	"time"
 
 	"github.com/XexusCode/hardenme/internal/check"
+	"github.com/XexusCode/hardenme/internal/findings"
 	"github.com/XexusCode/hardenme/internal/fix"
 	"github.com/XexusCode/hardenme/internal/profile"
 	"github.com/XexusCode/hardenme/internal/runner"
@@ -39,7 +40,9 @@ type Deps struct {
 	Probe     runner.Runner // reads state
 	Apply     runner.Runner // applies changes; waits for the password dialog
 	Log       func() (fix.Log, error)
-	Profiles  profile.Store
+	// Findings looks for signs of compromise. Nil skips that part.
+	Findings func(context.Context) []scan.Finding
+	Profiles profile.Store
 	// Fallback is the profile used until the person saves one.
 	Fallback profile.Profile
 	Now      func() time.Time
@@ -155,11 +158,22 @@ type State struct {
 	Score        *Score          `json:"score"`
 	Stories      []string        `json:"stories"`
 	// Safe lists what a thief could not do, thanks to the settings that are right.
-	Safe      []string          `json:"safe"`
+	Safe []string `json:"safe"`
+	// Findings are the things worth recognising. They are questions, not
+	// verdicts, and stay out of the score.
+	Findings  []Finding         `json:"findings"`
 	Items     []Item            `json:"items"`
 	AutoFixes int               `json:"auto_fixes"`
 	CanUndo   bool              `json:"can_undo"`
 	Strings   map[string]string `json:"strings"`
+}
+
+// Finding is one kind of thing worth recognising, with its explanation.
+type Finding struct {
+	Title string   `json:"title"`
+	Items []string `json:"items"`
+	Why   string   `json:"why"`
+	Do    string   `json:"do"`
 }
 
 // Score is the weighted score with its label.
@@ -190,6 +204,10 @@ func (s *Server) rescan(ctx context.Context) {
 	p, _ := s.profile()
 	s.report = scan.Scan(ctx, s.deps.Platform, s.deps.Catalog, p, s.deps.Probe)
 	s.report.OSVersion = s.deps.OSVersion
+	if s.deps.Findings != nil {
+		s.report.Findings = s.deps.Findings(ctx)
+		s.report.FindingsChecked = true
+	}
 	s.scanned = true
 }
 
@@ -200,7 +218,7 @@ func (s *Server) state() State {
 	st := State{
 		Lang: s.deps.Lang, Platform: s.deps.Platform, OSVersion: s.deps.OSVersion,
 		Profile: p, ProfileSaved: saved,
-		Stories: []string{}, Safe: []string{}, Items: []Item{}, Strings: strs[s.deps.Lang],
+		Stories: []string{}, Safe: []string{}, Findings: []Finding{}, Items: []Item{}, Strings: strs[s.deps.Lang],
 	}
 	if sc := s.report.Score(); sc.Value >= 0 {
 		st.Score = &Score{Value: sc.Value, Grade: sc.Grade, Label: strs[s.deps.Lang]["label_"+sc.Grade]}
@@ -215,6 +233,10 @@ func (s *Server) state() State {
 		} else {
 			st.Stories = append(st.Stories, text)
 		}
+	}
+	for _, f := range s.report.Findings {
+		text := findings.TextFor(f.Kind, s.deps.Lang)
+		st.Findings = append(st.Findings, Finding{Title: text.Title, Items: f.Items, Why: text.Why, Do: text.Do})
 	}
 	for _, e := range s.report.Entries {
 		text := e.Check.TextFor(s.deps.Lang)

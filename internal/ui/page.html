@@ -195,6 +195,7 @@ function render() {
     S.stories.length > 0 && el("div", { class: "card stories" }, el("h3", {}, T.stories), el("ul", {}, S.stories.map(s => el("li", {}, s)))),
     S.safe.length > 0 && el("div", { class: "card stories safe" }, el("h3", {}, T.safe), el("ul", {}, S.safe.map(s => el("li", {}, s)))),
   ];
+  out.push(findingsSection());
   for (const sec of ["essential", "recommended", "optional", "manual"]) {
     if (!by[sec]) continue;
     out.push(el("section", {}, el("h3", {}, T["sec_" + sec] + " (" + by[sec].length + ")"), by[sec].map(item)));
@@ -208,6 +209,26 @@ function render() {
   out.push(profileCard(), el("footer", {}, el("span", {}, T.private),
     el("span", {}, el("button", { class: "link", onclick: rescan }, T.rescan), " · ", el("button", { class: "link", onclick: quit }, T.quit))));
   document.getElementById("app").replaceChildren(...out.filter(Boolean));
+}
+
+function findingsSection() {
+  if (S.findings.length === 0) {
+    return el("section", {}, el("h3", {}, T.findings), el("div", { class: "group" },
+      el("div", { class: "plain" }, el("span", { class: "dot pass" }, "✓"), el("span", {}, T.findings_none))));
+  }
+  return el("section", {}, el("h3", {}, T.findings + " (" + S.findings.length + ")"),
+    S.findings.map((f, i) => {
+      const id = "finding-" + i;
+      const d = el("details", { class: "item", open: open.has(id) },
+        el("summary", {}, el("span", { class: "dot warn" }, "?"), el("span", { class: "t" }, f.title)),
+        el("div", { class: "body" },
+          el("ul", {}, f.items.map(x => el("li", { class: "now" }, x))),
+          el("h4", {}, T.why), el("p", {}, f.why),
+          el("h4", {}, T.findings_do), el("p", {}, f.do)));
+      d.addEventListener("toggle", () => d.open ? open.add(id) : open.delete(id));
+      return d;
+    }),
+    el("p", { class: "watch" }, T.findings_note));
 }
 
 function profileCard() {
