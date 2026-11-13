@@ -41,8 +41,15 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 ## 4. Dónde estamos
 
 - **Publicado:** v0.1.1, revisión del Mac con instalador.
-- **Hecho y sin publicar** (10 commits locales): `hardenme fix`, revisión guiada de iPhone y Android, historias de robo, informes en JSON y Markdown.
-- **Sin verificar:** el `fix` real en un Mac, los menús en móviles reales, y nadie no técnico lo ha probado.
+- **Hecho y sin publicar** (commits locales, a 2026-11-13):
+  - `hardenme fix`, revisión guiada de iPhone y Android, informes en JSON y Markdown;
+  - la página del navegador en el Mac (etapa 1);
+  - la guía de robo, el simulador y las preguntas del banco (etapa 2);
+  - las señales de compromiso en el Mac, lista corta (etapa 4);
+  - la revisión del móvil como página web (etapa 5);
+  - CI con análisis estático, vulnerabilidades y revisión del instalador.
+- **Sin empezar:** etapas 3, 6, 7 y 8.
+- **Sin verificar:** el `fix` real en un Mac (también desde la página), los menús en móviles reales, la página web en un móvil, y nadie no técnico lo ha probado.
 
 ## 5. Etapas
 ### Etapa 0: publicar lo que ya está hecho
@@ -251,6 +258,11 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 - CI: análisis estático, vulnerabilidades de dependencias, revisión del instalador, y `scan` en ejecutores con macOS 14, 15 y actual, y Windows.
 - Atestación de las descargas, para que el binario se pueda verificar.
 - Cada sistema nuevo (iOS, macOS, Android) abre una tarea de revisión de menús.
+
+**Estado (2026-11-13):**
+- Hecho: el CI pasa `staticcheck`, `govulncheck` y `shellcheck`, también una vez por semana. Los tres salen limpios en local.
+- `govulncheck` encontró un fallo de la librería estándar (GO-2026-6859, en `net/http`) que afectaba a la página local. Corregido subiendo Go a 1.27.4.
+- Pendiente: revisión de enlaces, `scan` en varias versiones de macOS, atestación de las descargas y la fecha de verificación por comprobación.
 
 ## 6. Decisiones que son tuyas
 
