@@ -40,14 +40,15 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 
 ## 4. Dónde estamos
 
-- **Publicado:** v0.1.1, revisión del Mac con instalador.
-- **Hecho y sin publicar** (commits locales, a 2026-11-13):
+- **Publicado:** v0.3.0 (2026-11-13). `fix` y la revisión del móvil van marcados como beta en el README.
+- **Incluido en la v0.3.0:**
   - `hardenme fix`, revisión guiada de iPhone y Android, informes en JSON y Markdown;
   - la página del navegador en el Mac (etapa 1);
   - la guía de robo, el simulador y las preguntas del banco (etapa 2);
   - las señales de compromiso en el Mac, lista corta (etapa 4);
   - la revisión del móvil como página web (etapa 5);
   - CI con análisis estático, vulnerabilidades y revisión del instalador.
+- **Sin publicar:** la página web del móvil, hasta que se active GitHub Pages.
 - **Sin empezar:** etapas 3, 6, 7 y 8.
 - **Sin verificar:** el `fix` real en un Mac (también desde la página), los menús en móviles reales, la página web en un móvil, y nadie no técnico lo ha probado.
 

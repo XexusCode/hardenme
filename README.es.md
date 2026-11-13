@@ -10,8 +10,6 @@ La nota depende de **tu situación**. Cifrar el disco es imprescindible en un po
 
 > **Estado del proyecto: en desarrollo inicial, solo macOS.** Android, Windows e iOS están en la [hoja de ruta](#hoja-de-ruta).
 >
-> **Esta página describe el código de `main`, que va por delante de la última versión publicada (v0.1.1).** El instalador te da la v0.1.1: la revisión en Terminal, sin la página del navegador, sin `fix` y sin la revisión del móvil. Eso llega con la próxima versión.
->
 > **Beta: los arreglos automáticos.** `hardenme fix` y el botón "Arréglalo todo" están cubiertos por tests automáticos, pero aplicarlos y deshacerlos todavía no se ha probado en un Mac real. `hardenme fix --dry-run` enseña los comandos exactos sin cambiar nada. La revisión del móvil también es beta: las rutas de los menús salen de las páginas de ayuda de Apple y de Google y no se han recorrido en móviles reales.
 
 ## Por qué
@@ -180,9 +178,11 @@ Algunas comprobaciones dan puntos a medias. Las que no se han podido leer (**des
 
 ## Hoja de ruta
 
-- **v0.1 (ahora):** revisión de macOS, nota según tu perfil, guías sobre robos en español e inglés, e instalador de una línea con app de doble clic.
-- **v0.2:** eliges qué mejoras quieres y hardenme las aplica. Escribes tu contraseña una vez en la ventana de macOS, ves tu nota nueva y puedes deshacerlo todo. Los ajustes que te toca cambiar a ti (como FileVault) te los abre en la página exacta y los comprueba cuando terminas.
-- **v0.3:** lista guiada para iPhone y Android, "historias de robo" que explican qué podría hacer un ladrón con tu configuración actual, y resultados en JSON y Markdown.
+- **v0.1:** revisión de macOS, nota según tu perfil, guías sobre robos en español e inglés, e instalador de una línea con app de doble clic.
+- **v0.3 (ahora):** todo lo siguiente, publicado a la vez.
+  - Eliges qué mejoras quieres y hardenme las aplica. Escribes tu contraseña una vez en la ventana de macOS, ves tu nota nueva y puedes deshacerlo todo. Los ajustes que te toca cambiar a ti (como FileVault) te los abre en la página exacta y los comprueba cuando terminas.
+  - Lista guiada para iPhone y Android, "historias de robo" que explican qué podría hacer un ladrón con tu configuración actual, y resultados en JSON y Markdown.
+  - Una página en tu navegador en vez de la Terminal, y una lista de cosas de tu Mac que conviene que reconozcas (herramientas de acceso remoto, programas de arranque sin firma, perfiles).
 - **v0.4:** revisión automática de Android por USB (`adb`, sin root) para usuarios avanzados.
 - **Más adelante:** revisión de Windows, lectura de ajustes del iPhone por USB y fórmula de Homebrew.
 

@@ -10,8 +10,6 @@ The score depends on **your situation**. Disk encryption is essential on a lapto
 
 > **Project status: early development, macOS only.** Android, Windows and iOS are on the [roadmap](#roadmap).
 >
-> **This page describes the code in `main`, which is ahead of the latest release (v0.1.1).** The installer gives you v0.1.1: the check in Terminal, without the browser page, `fix` or the phone checklist. Those arrive with the next release.
->
 > **Beta: the automatic fixes.** `hardenme fix` and the "Fix everything" button are covered by automated tests, but applying and undoing them has not yet been tried on a real Mac. `hardenme fix --dry-run` shows the exact commands without changing anything. The phone checklist is also beta: its menu paths come from Apple's and Google's help pages and have not been walked on real phones.
 
 ## Why
@@ -180,9 +178,11 @@ Some checks give partial credit. Checks that could not be read (**unknown**) or 
 
 ## Roadmap
 
-- **v0.1 (now):** macOS audit, profile-weighted score, theft guides in EN/ES, one-line installer with a double-click app.
-- **v0.2:** pick the improvements you want and hardenme applies them. You type your password once in the macOS dialog, see your new score, and can undo everything. For the settings only you should change (like FileVault), it opens the right page and checks again when you are done.
-- **v0.3:** guided checklist for iPhone and Android, "theft stories" that explain what a thief could do with your current settings, JSON and Markdown output.
+- **v0.1:** macOS audit, profile-weighted score, theft guides in EN/ES, one-line installer with a double-click app.
+- **v0.3 (now):** everything below, released together.
+  - Pick the improvements you want and hardenme applies them. You type your password once in the macOS dialog, see your new score, and can undo everything. For the settings only you should change (like FileVault), it opens the right page and checks again when you are done.
+  - Guided checklist for iPhone and Android, "theft stories" that explain what a thief could do with your current settings, JSON and Markdown output.
+  - A page in your browser instead of Terminal, and a list of things on your Mac you should recognise (remote access tools, startup programs without a signature, profiles).
 - **v0.4:** automatic Android audit over USB (`adb`, no root) for advanced users.
 - **Later:** Windows audit, reading iPhone settings over USB, Homebrew tap.
 
