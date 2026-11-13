@@ -9,6 +9,10 @@
 La nota depende de **tu situación**. Cifrar el disco es imprescindible en un portátil que llevas a todas partes, pero opcional en un ordenador de sobremesa que nunca sale de casa. `hardenme` te hace unas pocas preguntas sencillas y le da a cada comprobación el peso que le toca.
 
 > **Estado del proyecto: en desarrollo inicial, solo macOS.** Android, Windows e iOS están en la [hoja de ruta](#hoja-de-ruta).
+>
+> **Esta página describe el código de `main`, que va por delante de la última versión publicada (v0.1.1).** El instalador te da la v0.1.1: la revisión en Terminal, sin la página del navegador, sin `fix` y sin la revisión del móvil. Eso llega con la próxima versión.
+>
+> **Beta: los arreglos automáticos.** `hardenme fix` y el botón "Arréglalo todo" están cubiertos por tests automáticos, pero aplicarlos y deshacerlos todavía no se ha probado en un Mac real. `hardenme fix --dry-run` enseña los comandos exactos sin cambiar nada. La revisión del móvil también es beta: las rutas de los menús salen de las páginas de ayuda de Apple y de Google y no se han recorrido en móviles reales.
 
 ## Por qué
 

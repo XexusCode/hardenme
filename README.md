@@ -9,6 +9,10 @@
 The score depends on **your situation**. Disk encryption is essential on a laptop you carry around, but optional on a desktop that never leaves home. `hardenme` asks a few simple questions and weighs every check accordingly.
 
 > **Project status: early development, macOS only.** Android, Windows and iOS are on the [roadmap](#roadmap).
+>
+> **This page describes the code in `main`, which is ahead of the latest release (v0.1.1).** The installer gives you v0.1.1: the check in Terminal, without the browser page, `fix` or the phone checklist. Those arrive with the next release.
+>
+> **Beta: the automatic fixes.** `hardenme fix` and the "Fix everything" button are covered by automated tests, but applying and undoing them has not yet been tried on a real Mac. `hardenme fix --dry-run` shows the exact commands without changing anything. The phone checklist is also beta: its menu paths come from Apple's and Google's help pages and have not been walked on real phones.
 
 ## Why
 
