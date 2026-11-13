@@ -19,8 +19,21 @@ type Story struct {
 	// All must fail or warn.
 	All []string `yaml:"all"`
 	// When set, at least one of Any must fail or warn too.
-	Any  []string              `yaml:"any"`
+	Any []string `yaml:"any"`
+	// Pass makes this a reassuring story ("they could not..."): it shows
+	// when every check listed passes. It cannot be mixed with All or Any.
+	Pass []string              `yaml:"pass"`
 	Text map[check.Lang]string `yaml:"text"`
+}
+
+// Safe reports whether the story reassures instead of warning.
+func (s Story) Safe() bool { return len(s.Pass) > 0 }
+
+// Checks lists every check the story depends on.
+func (s Story) Checks() []string {
+	out := append([]string{}, s.All...)
+	out = append(out, s.Any...)
+	return append(out, s.Pass...)
 }
 
 // Load reads stories/<platform>.yaml from fsys. A platform without stories
@@ -46,8 +59,10 @@ func Load(fsys fs.FS, platform string) ([]Story, error) {
 			return nil, fmt.Errorf("stories/%s.yaml: a story has no id", platform)
 		case seen[s.ID]:
 			return nil, fmt.Errorf("stories/%s.yaml: duplicate story %q", platform, s.ID)
-		case len(s.All) == 0 && len(s.Any) == 0:
-			return nil, fmt.Errorf("stories/%s.yaml: %s needs all or any", platform, s.ID)
+		case len(s.All) == 0 && len(s.Any) == 0 && len(s.Pass) == 0:
+			return nil, fmt.Errorf("stories/%s.yaml: %s needs all, any or pass", platform, s.ID)
+		case len(s.Pass) > 0 && len(s.All)+len(s.Any) > 0:
+			return nil, fmt.Errorf("stories/%s.yaml: %s mixes pass with all or any", platform, s.ID)
 		case s.Text[check.EN] == "" || s.Text[check.ES] == "":
 			return nil, fmt.Errorf("stories/%s.yaml: %s needs en and es text", platform, s.ID)
 		}
@@ -56,23 +71,42 @@ func Load(fsys fs.FS, platform string) ([]Story, error) {
 	return file.Stories, nil
 }
 
-// Add fills r.Stories with the stories that the report's failures make true.
+// Add fills r.Stories with the stories the report makes true: the risks its
+// failures add up to, and the reassurances its passes earn.
 func Add(r *scan.Report, stories []Story) {
-	failing := map[string]bool{}
+	failing, passing := map[string]bool{}, map[string]bool{}
 	for _, e := range r.Entries {
 		if e.Relevance == check.NotApplicable {
 			continue
 		}
-		if e.Result.Status == check.Fail || e.Result.Status == check.Warn {
+		switch e.Result.Status {
+		case check.Fail, check.Warn:
 			failing[e.Check.ID] = true
+		case check.Pass:
+			passing[e.Check.ID] = true
 		}
 	}
 	r.Stories = nil
 	for _, s := range stories {
+		if s.Safe() {
+			if allIn(s.Pass, passing) {
+				r.Stories = append(r.Stories, scan.Story{ID: s.ID, Text: s.Text, Safe: true})
+			}
+			continue
+		}
 		if fires(s, failing) {
 			r.Stories = append(r.Stories, scan.Story{ID: s.ID, Text: s.Text})
 		}
 	}
+}
+
+func allIn(ids []string, set map[string]bool) bool {
+	for _, id := range ids {
+		if !set[id] {
+			return false
+		}
+	}
+	return true
 }
 
 func fires(s Story, failing map[string]bool) bool {

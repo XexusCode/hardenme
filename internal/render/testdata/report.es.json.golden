@@ -19,7 +19,8 @@
   "stories": [
     {
       "id": "macos.readable_disk",
-      "text": "Si te roban el Mac, quien lo tenga podría leer tus archivos, contraseñas guardadas y fotos sin tu contraseña, sacando el disco o arrancando el Mac desde otra unidad."
+      "text": "Si te roban el Mac, quien lo tenga podría leer tus archivos, contraseñas guardadas y fotos sin tu contraseña, sacando el disco o arrancando el Mac desde otra unidad.",
+      "safe": false
     }
   ],
   "entries": [

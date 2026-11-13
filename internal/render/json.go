@@ -35,6 +35,9 @@ type JSONReport struct {
 type JSONStory struct {
 	ID   string `json:"id"`
 	Text string `json:"text"`
+	// Safe is true for a reassurance ("they could not...") and false for
+	// a risk.
+	Safe bool `json:"safe"`
 }
 
 // JSONScore is the weighted score.
@@ -67,7 +70,7 @@ func BuildJSON(r scan.Report, lang check.Lang) JSONReport {
 		Entries:       []JSONEntry{},
 	}
 	for _, st := range r.Stories {
-		out.Stories = append(out.Stories, JSONStory{ID: st.ID, Text: storyText(st, lang)})
+		out.Stories = append(out.Stories, JSONStory{ID: st.ID, Text: storyText(st, lang), Safe: st.Safe})
 	}
 	if s := r.Score(); s.Value >= 0 {
 		out.Score = &JSONScore{Value: s.Value, Grade: s.Grade}

@@ -1,0 +1,37 @@
+id: android.bank_app_lock
+platform: android
+category: accounts
+severity: high
+relevance:
+  default: recommended
+  rules:
+    - when: { sensitive_data: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Lock on your banking app"
+    title_pass: "Your banking app asks who you are every time"
+    title_fail: "Make your banking app ask for your face, fingerprint or its own PIN"
+    question: "Does your bank's app ask for your face, your fingerprint or its own PIN every time you open it? (If you have no banking app, answer ?)"
+    where: "Inside your bank's app: Settings or Security"
+    why: "If someone takes your phone while it is unlocked, an app that opens without asking anything gives them your accounts. With its own lock, they also need your face, your fingerprint or the app's PIN."
+    fix_steps:
+      - "Open your bank's app and look for Security or Sign-in in its settings."
+      - "Turn on sign-in with your face or fingerprint, or a PIN for the app."
+      - "On Android 15 or later you can also put the app in the \"Private space\", with a different lock from the phone's."
+  es:
+    title: "Bloqueo de la app del banco"
+    title_pass: "La app de tu banco te pide identificarte cada vez"
+    title_fail: "Haz que la app del banco pida tu cara, tu huella o su propia clave"
+    question: "¿La app de tu banco pide tu cara, tu huella o una clave propia cada vez que la abres? (Si no tienes app del banco, contesta ?)"
+    where: "Dentro de la app de tu banco: Ajustes o Seguridad"
+    why: "Si alguien te quita el móvil desbloqueado, una app que se abre sin pedir nada le da tus cuentas. Con su propio bloqueo, además necesita tu cara, tu huella o la clave de la app."
+    fix_steps:
+      - "Abre la app de tu banco y busca Seguridad o Inicio de sesión en sus ajustes."
+      - "Activa el acceso con tu cara o tu huella, o una clave para la app."
+      - "En Android 15 o posterior también puedes poner la app en el \"Espacio privado\", con un bloqueo distinto al del móvil."
+references:
+  - https://support.google.com/android/answer/15341885?hl=en
+  - https://support.google.com/android/answer/15146908?hl=es

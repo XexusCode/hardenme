@@ -43,9 +43,16 @@ func (m *markdownWriter) report(r scan.Report) {
 	m.printf("%s\n\n", summaryLine(groups, m.lang))
 	m.printf("_%s_\n", msg(m.lang, "scoring_note"))
 
-	if len(r.Stories) > 0 {
-		m.printf("\n## %s\n\n", msg(m.lang, "sec_stories"))
-		for _, st := range r.Stories {
+	risks, safe := splitStories(r.Stories)
+	for _, part := range []struct {
+		key     string
+		stories []scan.Story
+	}{{"sec_stories", risks}, {"sec_safe", safe}} {
+		if len(part.stories) == 0 {
+			continue
+		}
+		m.printf("\n## %s\n\n", msg(m.lang, storyKey(part.key, r.Platform)))
+		for _, st := range part.stories {
 			m.printf("- %s\n", mdEscape(storyText(st, m.lang)))
 		}
 	}

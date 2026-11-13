@@ -1,0 +1,37 @@
+id: android.bank_pin_different
+platform: android
+category: accounts
+severity: high
+relevance:
+  default: recommended
+  rules:
+    - when: { sensitive_data: true }
+      level: essential
+probe:
+  ask: true
+text:
+  en:
+    title: "Banking app PIN"
+    title_pass: "Your bank PIN is different from your phone's passcode"
+    title_fail: "Use a bank PIN that is different from your phone's passcode"
+    question: "Is the PIN or password of your bank's app different from the passcode that unlocks your phone? (If you have no banking app, answer ?)"
+    where: "Inside your bank's app: Settings or Security > change PIN"
+    why: "A common route is that someone watches you type the phone passcode and then steals it. If your bank uses the same number, that one glance gives them your money too."
+    fix_steps:
+      - "Open your bank's app and change its PIN or password to one you use nowhere else."
+      - "Do not keep it in a note or a photo on the phone."
+      - "Ask your bank about lower limits for transfers and an alert for every transaction."
+  es:
+    title: "Clave de la app del banco"
+    title_pass: "La clave del banco es distinta del código del móvil"
+    title_fail: "Usa en el banco una clave distinta del código del móvil"
+    question: "¿La clave de la app de tu banco es distinta del código con el que desbloqueas el móvil? (Si no tienes app del banco, contesta ?)"
+    where: "Dentro de la app de tu banco: Ajustes o Seguridad > cambiar clave"
+    why: "Una vía habitual es que alguien te vea teclear el código del móvil y luego te lo robe. Si el banco usa el mismo número, con esa mirada también se lleva tu dinero."
+    fix_steps:
+      - "Abre la app de tu banco y cambia su clave por una que no uses en ningún otro sitio."
+      - "No la guardes en una nota ni en una foto en el móvil."
+      - "Pregunta a tu banco por límites más bajos para las transferencias y por un aviso con cada movimiento."
+references:
+  - https://support.google.com/android/answer/15146908?hl=en
+  - https://support.google.com/android/answer/15146908?hl=es

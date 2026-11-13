@@ -1,6 +1,7 @@
 package story_test
 
 import (
+	"strings"
 	"testing"
 	"testing/fstest"
 
@@ -52,12 +53,43 @@ func TestStoriesFire(t *testing.T) {
 	}
 }
 
+func TestSafeStoriesNeedEveryCheckToPass(t *testing.T) {
+	stories := []story.Story{{ID: "safe", Pass: []string{"a", "b"}}, {ID: "risk", Any: []string{"a"}}}
+	tests := []struct {
+		name    string
+		entries []scan.Entry
+		want    string
+	}{
+		{"all pass", []scan.Entry{entry("a", check.Essential, check.Pass), entry("b", check.Optional, check.Pass)}, "safe"},
+		{"one fails", []scan.Entry{entry("a", check.Essential, check.Fail), entry("b", check.Optional, check.Pass)}, "risk"},
+		{"one unknown", []scan.Entry{entry("a", check.Essential, check.Pass), entry("b", check.Optional, check.Manual)}, ""},
+		{"one not applicable", []scan.Entry{entry("a", check.Essential, check.Pass), entry("b", check.NotApplicable, check.Pass)}, ""},
+		{"one missing", []scan.Entry{entry("a", check.Essential, check.Pass)}, ""},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			r := scan.Report{Entries: tc.entries}
+			story.Add(&r, stories)
+			got := strings.Join(ids(r), ",")
+			if got != tc.want {
+				t.Errorf("got %q, want %q", got, tc.want)
+			}
+			for _, s := range r.Stories {
+				if s.Safe != (s.ID == "safe") {
+					t.Errorf("%s: Safe = %v", s.ID, s.Safe)
+				}
+			}
+		})
+	}
+}
+
 func TestLoadRejectsBrokenStories(t *testing.T) {
 	tests := map[string]string{
-		"no id":        "stories: [{all: [a], text: {en: x, es: y}}]",
-		"no checks":    "stories: [{id: s, text: {en: x, es: y}}]",
-		"no spanish":   "stories: [{id: s, all: [a], text: {en: x}}]",
-		"duplicate id": "stories: [{id: s, all: [a], text: {en: x, es: y}}, {id: s, all: [b], text: {en: x, es: y}}]",
+		"no id":         "stories: [{all: [a], text: {en: x, es: y}}]",
+		"no checks":     "stories: [{id: s, text: {en: x, es: y}}]",
+		"no spanish":    "stories: [{id: s, all: [a], text: {en: x}}]",
+		"pass with any": "stories: [{id: s, pass: [a], any: [b], text: {en: x, es: y}}]",
+		"duplicate id":  "stories: [{id: s, all: [a], text: {en: x, es: y}}, {id: s, all: [b], text: {en: x, es: y}}]",
 	}
 	for name, body := range tests {
 		t.Run(name, func(t *testing.T) {
@@ -92,7 +124,7 @@ func TestCatalogStoriesUseRealChecks(t *testing.T) {
 			known[c.ID] = true
 		}
 		for _, s := range stories {
-			for _, id := range append(append([]string{}, s.All...), s.Any...) {
+			for _, id := range s.Checks() {
 				if !known[id] {
 					t.Errorf("%s: unknown check %q", s.ID, id)
 				}

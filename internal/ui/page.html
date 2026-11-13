@@ -45,6 +45,7 @@ button.link { border: 0; background: none; color: var(--muted); padding: 4px 0; 
 .note { margin-top: 12px; padding: 10px 14px; border-radius: 12px; background: var(--soft-accent); }
 .note.good { background: var(--soft-good); }
 .stories { border-color: var(--bad); background: var(--soft-bad); }
+.stories.safe { border-color: var(--good); background: var(--soft-good); }
 .stories h3, section > h3 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); }
 .stories ul { margin: 0; padding-left: 20px; }
 .stories li { margin: 6px 0; }
@@ -192,6 +193,7 @@ function render() {
     el("header", {}, el("h1", {}, "hardenme · " + T.title), el("span", {}, "macOS " + S.os_version)),
     hero(),
     S.stories.length > 0 && el("div", { class: "card stories" }, el("h3", {}, T.stories), el("ul", {}, S.stories.map(s => el("li", {}, s)))),
+    S.safe.length > 0 && el("div", { class: "card stories safe" }, el("h3", {}, T.safe), el("ul", {}, S.safe.map(s => el("li", {}, s)))),
   ];
   for (const sec of ["essential", "recommended", "optional", "manual"]) {
     if (!by[sec]) continue;

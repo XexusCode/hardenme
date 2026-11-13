@@ -115,7 +115,10 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 - **Riesgo: asustar o tranquilizar de más.** Se dice lo que hace un ladrón de calle y, aparte, lo que solo hace alguien con medios forenses.
 - **No es asesoramiento bancario:** se explican riesgos y se remite a cada banco para sus límites y bloqueos.
 
-**Estado (2026-11-12):** las cuatro páginas están escritas en español e inglés, con cada dato contrastado y sus fuentes enlazadas. Lo que no se pudo confirmar en una fuente oficial se dejó fuera o va marcado como consejo propio. Pendientes: el simulador de robo y las preguntas sobre el banco.
+**Estado (2026-11-12):** las cuatro páginas están escritas en español e inglés, con cada dato contrastado y sus fuentes enlazadas. Lo que no se pudo confirmar en una fuente oficial se dejó fuera o va marcado como consejo propio. 
+- **Simulador de robo, hecho:** el informe separa "si te roban este móvil hoy" (riesgos) de "lo que un ladrón no podría hacer" (lo que ya te protege). Cada frase sale de las respuestas. También en el Mac y en la página del navegador.
+- **Preguntas sobre el banco, hechas:** bloqueo propio de la app y clave distinta del código del móvil, en iPhone y Android. Sus consejos no tienen fuente oficial y van marcados así en la guía.
+- Sin verificar en un móvil real, como el resto de la revisión del móvil.
 
 **Hecho cuando:** alguien que no sabe de seguridad lee la respuesta a "¿qué pasa si me roban el móvil ahora?" con su propia configuración y sabe qué tres cosas cambiar.
 

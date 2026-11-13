@@ -34,6 +34,9 @@ type Report struct {
 type Story struct {
 	ID   string
 	Text map[check.Lang]string
+	// Safe marks a reassuring story: something a thief could not do,
+	// because the settings behind it are right.
+	Safe bool
 }
 
 // Scan runs every check that applies to the profile. Checks that do not

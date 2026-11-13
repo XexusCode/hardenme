@@ -135,3 +135,28 @@ func TestUnsupportedFormat(t *testing.T) {
 		t.Fatalf("md: %v %v", f, err)
 	}
 }
+
+func TestSafeStoriesHaveTheirOwnSection(t *testing.T) {
+	r := sampleReport(t)
+	r.Stories = append(r.Stories, scan.Story{ID: "x.safe", Safe: true, Text: map[check.Lang]string{check.EN: "They could not do this."}})
+	for _, tc := range []struct {
+		platform, risks, safe string
+	}{
+		{"macos", "WHAT COULD HAPPEN TODAY", "WHAT YOU ARE ALREADY PROTECTED FROM"},
+		{"ios", "IF THIS PHONE IS STOLEN TODAY", "WHAT A THIEF COULD NOT DO"},
+	} {
+		r.Platform = tc.platform
+		var buf bytes.Buffer
+		if err := render.Render(&buf, r, render.Text, check.EN); err != nil {
+			t.Fatal(err)
+		}
+		out := buf.String()
+		risks, safe := strings.Index(out, tc.risks), strings.Index(out, tc.safe)
+		if risks < 0 || safe < risks || !strings.Contains(out[safe:], "✓ They could not do this.") {
+			t.Errorf("%s: sections missing or out of order:\n%s", tc.platform, out[:600])
+		}
+		if strings.Contains(out[risks:safe], "They could not do this.") {
+			t.Errorf("%s: the reassurance is listed as a risk", tc.platform)
+		}
+	}
+}

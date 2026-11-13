@@ -29,3 +29,14 @@ stories:
     text:
       en: Your Mac may have security holes that are already public and already fixed by Apple, but not installed on it yet.
       es: Tu Mac puede tener fallos de seguridad que ya son públicos y que Apple ya ha arreglado, pero que aún no están instalados.
+  # Reassurances: shown when every check in `pass` passes.
+  - id: macos.safe_disk
+    pass: [macos.filevault]
+    text:
+      en: If your Mac is stolen, the thief could not read your files by taking out the disk. It is encrypted, and without your password the data is useless.
+      es: Si te roban el Mac, no podrían leer tus archivos sacando el disco. Está cifrado y, sin tu contraseña, los datos no sirven de nada.
+  - id: macos.safe_locked
+    pass: [macos.auto_login, macos.auto_lock, macos.screen_lock_delay]
+    text:
+      en: If someone grabs your Mac while it is asleep or shortly after you leave it, they would find it locked and asking for your password.
+      es: Si alguien coge tu Mac en reposo o al poco de dejarlo, se lo encontraría bloqueado y pidiendo tu contraseña.

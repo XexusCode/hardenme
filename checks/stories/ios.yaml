@@ -20,3 +20,34 @@ stories:
     text:
       en: A thief could read the codes that arrive by text message, from the Lock Screen or with your SIM in another phone, and use them to take over your accounts.
       es: Un ladrón podría leer los códigos que llegan por SMS, desde la pantalla bloqueada o con tu SIM en otro móvil, y usarlos para quedarse con tus cuentas.
+  - id: ios.bank_exposed
+    any: [ios.bank_app_lock, ios.bank_pin_different]
+    text:
+      en: If someone sees your passcode and steals your iPhone, or takes it while it is unlocked, they could reach your bank's app.
+      es: Si alguien ve tu código y te roba el iPhone, o te lo quita desbloqueado, podría llegar a la app de tu banco.
+  # Reassurances: shown when every check in `pass` passes.
+  - id: ios.safe_locked
+    pass: [ios.strong_passcode]
+    text:
+      en: With the iPhone locked, a thief could not get into your apps, your photos or your bank. Your passcode is long, and the iPhone makes them wait longer after every wrong try.
+      es: Con el iPhone bloqueado, un ladrón no podría entrar en tus apps, tus fotos ni tu banco. Tu código es largo y el iPhone hace esperar cada vez más tras cada fallo.
+  - id: ios.safe_passcode_seen
+    pass: [ios.stolen_device_protection, ios.biometrics]
+    text:
+      en: Even if someone saw you type your passcode, away from your usual places they could not change your Apple Account password or see your saved passwords without your face or fingerprint.
+      es: Aunque alguien te haya visto teclear el código, lejos de tus sitios habituales no podría cambiar la contraseña de tu cuenta de Apple ni ver tus contraseñas guardadas sin tu cara o tu huella.
+  - id: ios.safe_codes
+    pass: [ios.sim_pin, ios.notification_previews]
+    text:
+      en: They could not read the codes that arrive by text message. They do not show on the Lock Screen, and your SIM asks for its PIN in another phone.
+      es: No podrían leer los códigos que llegan por SMS. No se ven en la pantalla bloqueada, y tu SIM pide su PIN en otro móvil.
+  - id: ios.safe_locate
+    pass: [ios.find_my, ios.control_center_locked]
+    text:
+      en: You could locate it, lock it and erase it from another device, and they could not hide it with Airplane Mode from the Lock Screen.
+      es: Podrías localizarlo, bloquearlo y borrarlo desde otro dispositivo, y no podrían esconderlo con el modo avión desde la pantalla bloqueada.
+  - id: ios.safe_bank
+    pass: [ios.bank_app_lock, ios.bank_pin_different]
+    text:
+      en: Knowing your iPhone passcode would not be enough for your bank's app. It asks for your face, your fingerprint or a different PIN.
+      es: Saber el código del iPhone no les bastaría para la app de tu banco. Pide tu cara, tu huella o una clave distinta.

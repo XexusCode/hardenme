@@ -20,3 +20,34 @@ stories:
     text:
       en: A spy app or a fake banking app would find it easier to get onto your phone without you noticing.
       es: Una app espía o una app falsa del banco lo tendría más fácil para colarse en tu móvil sin que te des cuenta.
+  - id: android.bank_exposed
+    any: [android.bank_app_lock, android.bank_pin_different]
+    text:
+      en: If someone sees your PIN and steals your phone, or takes it while it is unlocked, they could reach your bank's app.
+      es: Si alguien ve tu PIN y te roba el móvil, o te lo quita desbloqueado, podría llegar a la app de tu banco.
+  # Reassurances: shown when every check in `pass` passes.
+  - id: android.safe_locked
+    pass: [android.screen_lock, android.security_updates]
+    text:
+      en: With the phone locked, a thief could not get into your apps, your photos or your bank. It has a screen lock and recent updates, and it makes them wait longer after every wrong try.
+      es: Con el móvil bloqueado, un ladrón no podría entrar en tus apps, tus fotos ni tu banco. Tiene bloqueo de pantalla y actualizaciones recientes, y hace esperar cada vez más tras cada fallo.
+  - id: android.safe_pin_seen
+    pass: [android.identity_check]
+    text:
+      en: Even if someone saw you type your PIN, outside your trusted places they could not change the screen lock or your Google Account, or see your saved passwords, without your fingerprint or face.
+      es: Aunque alguien te haya visto teclear el PIN, fuera de tus sitios de confianza no podría cambiar el bloqueo ni tu cuenta de Google, ni ver tus contraseñas guardadas, sin tu huella o tu cara.
+  - id: android.safe_codes
+    pass: [android.sim_pin, android.lock_screen_notifications]
+    text:
+      en: They could not read the codes that arrive by text message. They do not show on the lock screen, and your SIM asks for its PIN in another phone.
+      es: No podrían leer los códigos que llegan por SMS. No se ven en la pantalla de bloqueo, y tu SIM pide su PIN en otro móvil.
+  - id: android.safe_locate
+    pass: [android.find_hub, android.theft_protection]
+    text:
+      en: You could locate it, lock it and erase it from another device, and the phone would lock itself if it is snatched from your hand or loses its connection.
+      es: Podrías localizarlo, bloquearlo y borrarlo desde otro dispositivo, y el móvil se bloquearía solo si te lo arrancan de la mano o se queda sin conexión.
+  - id: android.safe_bank
+    pass: [android.bank_app_lock, android.bank_pin_different]
+    text:
+      en: Knowing your phone's PIN would not be enough for your bank's app. It asks for your face, your fingerprint or a different PIN.
+      es: Saber el PIN del móvil no les bastaría para la app de tu banco. Pide tu cara, tu huella o una clave distinta.

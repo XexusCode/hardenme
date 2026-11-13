@@ -78,10 +78,17 @@ func (t *textWriter) report(r scan.Report) {
 	t.printf("%s\n", summaryLine(groups, t.lang))
 	t.printf("%s\n", wrap(msg(t.lang, "scoring_note"), width, ""))
 
-	if len(r.Stories) > 0 {
-		t.printf("\n%s\n", msg(t.lang, "sec_stories"))
-		for _, st := range r.Stories {
-			t.printf("→ %s\n", strings.TrimPrefix(wrap(storyText(st, t.lang), width, "  "), "  "))
+	risks, safe := splitStories(r.Stories)
+	for _, part := range []struct {
+		key, mark string
+		stories   []scan.Story
+	}{{"sec_stories", "→", risks}, {"sec_safe", "✓", safe}} {
+		if len(part.stories) == 0 {
+			continue
+		}
+		t.printf("\n%s\n", msg(t.lang, storyKey(part.key, r.Platform)))
+		for _, st := range part.stories {
+			t.printf("%s %s\n", part.mark, strings.TrimPrefix(wrap(storyText(st, t.lang), width, "  "), "  "))
 		}
 	}
 
@@ -98,6 +105,27 @@ func (t *textWriter) report(r scan.Report) {
 }
 
 func isPhone(platform string) bool { return platform == "ios" || platform == "android" }
+
+// storyKey picks the heading of a stories section. Phones get the theft
+// simulator's wording: "if this phone is stolen today".
+func storyKey(key, platform string) string {
+	if isPhone(platform) {
+		return key + "_phone"
+	}
+	return key
+}
+
+// splitStories separates the risks from the reassurances.
+func splitStories(all []scan.Story) (risks, safe []scan.Story) {
+	for _, s := range all {
+		if s.Safe {
+			safe = append(safe, s)
+		} else {
+			risks = append(risks, s)
+		}
+	}
+	return risks, safe
+}
 
 func storyText(s scan.Story, lang check.Lang) string {
 	if text, ok := s.Text[lang]; ok {

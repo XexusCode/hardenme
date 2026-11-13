@@ -253,6 +253,10 @@ func TestGuidedFixTicksItself(t *testing.T) {
 	if item(t, st, "macos.filevault").Status != check.Pass || len(st.Stories) != 0 {
 		t.Errorf("after turning it on: %+v, stories %v", item(t, st, "macos.filevault"), st.Stories)
 	}
+	// The risk turns into a reassurance.
+	if len(st.Safe) != 1 || !strings.Contains(st.Safe[0], "cifrado") {
+		t.Errorf("safe stories %v", st.Safe)
+	}
 }
 
 func TestThePageCannotChooseWhatRuns(t *testing.T) {
