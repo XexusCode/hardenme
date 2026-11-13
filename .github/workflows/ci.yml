@@ -35,10 +35,15 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
-      # GOOS=darwin: the code is built for macOS only, so analyse that build.
+      # The tools are built for this runner first. GOOS=darwin then makes
+      # them analyse the macOS build, which is the only one that ships.
+      - name: install tools
+        run: |
+          go install honnef.co/go/tools/cmd/staticcheck@v0.8.2
+          go install golang.org/x/vuln/cmd/govulncheck@v1.9.0
       - name: staticcheck
-        run: GOOS=darwin go run honnef.co/go/tools/cmd/staticcheck@v0.8.2 ./...
+        run: GOOS=darwin "$(go env GOPATH)/bin/staticcheck" ./...
       - name: govulncheck
-        run: GOOS=darwin go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+        run: GOOS=darwin "$(go env GOPATH)/bin/govulncheck" ./...
       - name: shellcheck
         run: shellcheck install.sh
