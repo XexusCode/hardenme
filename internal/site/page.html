@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="description" content="hardenme: check your phone's security in a few minutes. No app, no account, nothing leaves your browser.">
+<title>hardenme</title>
+<style>
+:root {
+  --bg: #f4f5f7; --card: #ffffff; --ink: #14181f; --muted: #5d6675; --line: #e3e6eb;
+  --good: #1f9d55; --warn: #d98a00; --bad: #d64545; --accent: #2563eb; --accent-ink: #ffffff;
+  --soft-bad: #fdecec; --soft-good: #e8f6ee; --soft-accent: #e8effd;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1216; --card: #191d24; --ink: #eef1f5; --muted: #9aa4b2; --line: #2a303a;
+    --good: #3ecf7c; --warn: #f0b23c; --bad: #f26d6d; --accent: #5b8def; --accent-ink: #0f1216;
+    --soft-bad: #3a1f22; --soft-good: #17301f; --soft-accent: #1b2740;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 620px; margin: 0 auto; padding: 16px 16px 56px; min-height: 100vh; }
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+header b { font-size: 18px; }
+h1 { font-size: 26px; line-height: 1.25; margin: 8px 0 12px; }
+h2 { font-size: 22px; line-height: 1.3; margin: 0 0 12px; }
+h3 { margin: 24px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); }
+p { margin: 0 0 12px; }
+.muted { color: var(--muted); font-size: 15px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 14px; }
+button { font: inherit; border-radius: 14px; border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 14px 16px; cursor: pointer; min-height: 52px; width: 100%; text-align: center; }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+button.link { border: 0; background: none; color: var(--muted); text-decoration: underline; width: auto; min-height: 0; padding: 6px 0; }
+.stack { display: grid; gap: 10px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+label.opt { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--line); }
+label.opt:last-of-type { border-bottom: 0; }
+label.opt input { width: 22px; height: 22px; margin-top: 2px; flex: none; }
+.bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin: 6px 0 18px; }
+.bar i { display: block; height: 100%; background: var(--accent); transition: width .3s ease; }
+.where { background: var(--soft-accent); border-radius: 12px; padding: 12px 14px; margin: 14px 0 18px; font-size: 15px; }
+.where b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
+.answers button.yes { border-color: var(--good); }
+.answers button.no { border-color: var(--bad); }
+.hero { display: flex; gap: 18px; align-items: center; }
+.ring { position: relative; width: 124px; height: 124px; flex: none; }
+.ring svg { transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 11; }
+.ring .track { stroke: var(--line); }
+.ring .fill { stroke-linecap: round; transition: stroke-dashoffset .9s ease; }
+.ring .num { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.ring .num b { font-size: 38px; line-height: 1; }
+.ring .num small { color: var(--muted); font-size: 12px; }
+.stories { border-color: var(--bad); background: var(--soft-bad); }
+.stories.safe { border-color: var(--good); background: var(--soft-good); }
+.stories h3 { margin-top: 0; }
+.stories ul { margin: 0; padding-left: 20px; }
+.stories li { margin: 6px 0; }
+details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; }
+summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; gap: 12px; align-items: center; font-weight: 600; }
+summary::-webkit-details-marker { display: none; }
+.dot { width: 22px; height: 22px; border-radius: 50%; flex: none; display: grid; place-content: center; color: #fff; font-size: 13px; font-weight: 700; background: var(--muted); }
+.dot.bad { background: var(--bad); } .dot.good { background: var(--good); } .dot.warn { background: var(--warn); }
+.body { padding: 0 16px 16px; }
+.body h4 { margin: 12px 0 4px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+.body ol { margin: 0; padding-left: 22px; }
+.body li { margin: 4px 0; }
+.plain { display: flex; gap: 12px; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); }
+.plain:last-child { border-bottom: 0; }
+.group { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+a { color: var(--accent); }
+ul.links { padding-left: 20px; margin: 0; }
+ul.links li { margin: 8px 0; }
+footer { margin-top: 28px; color: var(--muted); font-size: 14px; }
+pre { white-space: pre-wrap; font-size: 13px; }
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script id="data" type="application/json">{"__HARDENME_DATA__":true}</script>
+<script>
+"use strict";
+const D = JSON.parse(document.getElementById("data").textContent);
+const REPO = "https://github.com/XexusCode/hardenme";
+const RANK = { not_applicable: 0, optional: 1, recommended: 2, essential: 3 };
+const LEVEL = ["not_applicable", "optional", "recommended", "essential"];
+const app = document.getElementById("app");
+
+// ---- Engine: must match the Go engine. "#selftest" checks that it does. ----
+
+function weight(check, profile) {
+  let rank = RANK[check.relevance.default] || 0;
+  for (const rule of check.relevance.rules || []) {
+    const ok = Object.entries(rule.when).every(([k, v]) => profile[k] === v);
+    if (ok && RANK[rule.level] > rank) rank = RANK[rule.level];
+  }
+  return rank;
+}
+function evaluate(platform, profile, answers) {
+  const P = D.platforms[platform];
+  let earned = 0, max = 0;
+  const failing = {}, passing = {}, entries = [];
+  for (const c of P.checks) {
+    const w = weight(c, profile), a = answers[c.id];
+    entries.push({ check: c, weight: w, answer: a });
+    if (w === 0) continue;
+    if (a === "yes") { earned += w; max += w; passing[c.id] = true; }
+    else if (a === "no") { max += w; failing[c.id] = true; }
+  }
+  const score = max === 0 ? -1 : Math.round(earned / max * 100);
+  const grade = score < 0 ? "-" : score >= 90 ? "A" : score >= 80 ? "B" : score >= 70 ? "C" : score >= 60 ? "D" : "F";
+  const stories = P.stories.filter(s => {
+    if (s.pass && s.pass.length) return s.pass.every(id => passing[id]);
+    if (!(s.all || []).every(id => failing[id])) return false;
+    return !(s.any && s.any.length) || s.any.some(id => failing[id]);
+  });
+  return { score, grade, stories, entries };
+}
+function selfTest() {
+  const bad = [];
+  for (const [i, c] of D.selftest.entries()) {
+    const r = evaluate(c.platform, c.profile, c.answers);
+    const ids = r.stories.map(s => s.id).join(",");
+    if (r.score !== c.score || r.grade !== c.grade || ids !== c.stories.join(",")) {
+      bad.push("case " + i + " (" + c.platform + "): got " + r.score + " " + r.grade + " [" + ids + "], want " + c.score + " " + c.grade + " [" + c.stories.join(",") + "]");
+    }
+  }
+  const line = bad.length ? "SELFTEST FAIL " + bad.length + "/" + D.selftest.length : "SELFTEST PASS " + D.selftest.length + "/" + D.selftest.length;
+  console.log(line);
+  app.replaceChildren(el("pre", { id: "selftest" }, [line].concat(bad).join("\n")));
+}
+
+// ---- State, kept only in this browser. ----
+
+const store = {
+  get(key, fallback) { try { return JSON.parse(localStorage.getItem("hardenme." + key)) || fallback; } catch (e) { return fallback; } },
+  set(key, value) { try { localStorage.setItem("hardenme." + key, JSON.stringify(value)); } catch (e) { /* private mode: keep going */ } },
+};
+let lang = store.get("lang", null) || ((navigator.language || "en").toLowerCase().startsWith("es") ? "es" : "en");
+let T = D.strings[lang];
+let platform = null, profile = null, answers = {}, queue = [], pos = 0;
+
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") n.className = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat(Infinity)) if (kid != null && kid !== false) n.append(kid);
+  return n;
+}
+function svg(tag, attrs) {
+  const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  return n;
+}
+function show(...kids) {
+  document.documentElement.lang = lang;
+  app.replaceChildren(
+    el("header", {}, el("b", {}, "hardenme"), el("button", { class: "link", onclick: switchLang }, T.other_lang)),
+    ...kids.flat(Infinity).filter(Boolean));
+  window.scrollTo(0, 0);
+}
+let redraw = home;
+function switchLang() {
+  lang = lang === "es" ? "en" : "es";
+  T = D.strings[lang];
+  store.set("lang", lang);
+  redraw();
+}
+function defaultProfile() { return { portable: true, leaves_home: true, shared: false, sensitive_data: false, risk: "normal" }; }
+
+// ---- Screens ----
+
+function home() {
+  redraw = home;
+  const guess = /iphone|ipad/i.test(navigator.userAgent) ? "ios" : /android/i.test(navigator.userAgent) ? "android" : null;
+  const order = guess === "android" ? ["android", "ios"] : ["ios", "android"];
+  show(
+    el("h1", {}, T.tagline),
+    el("p", { class: "muted" }, T.private),
+    el("h3", {}, T.pick),
+    el("div", { class: "stack" }, order.map((p, i) => el("button", { class: i === 0 && guess ? "primary" : "", onclick: () => pick(p) }, T[p]))),
+    guides(),
+    el("footer", {}, T.about + " ", el("a", { href: REPO, rel: "noopener" }, "GitHub")));
+}
+function pick(p) {
+  platform = p;
+  profile = store.get(p + ".profile", null);
+  answers = store.get(p + ".answers", {});
+  if (profile && Object.keys(answers).length > 0) return resume();
+  profile = profile || defaultProfile();
+  answers = {};
+  askProfile();
+}
+function resume() {
+  redraw = resume;
+  show(
+    el("h2", {}, T[platform]),
+    el("p", {}, T.saved),
+    el("div", { class: "stack" },
+      el("button", { class: "primary", onclick: () => startQuestions(false) }, T.continue),
+      el("button", { onclick: () => { answers = {}; askProfile(); } }, T.start_over),
+      el("button", { class: "link", onclick: home }, T.back)));
+}
+function askProfile() {
+  redraw = askProfile;
+  const box = (key, label, get, set) => el("label", { class: "opt" },
+    el("input", { type: "checkbox", checked: get(), onchange: e => set(e.target.checked) }), el("span", {}, label));
+  show(
+    el("h2", {}, T.profile_title),
+    el("p", { class: "muted" }, T.profile_intro),
+    el("div", { class: "card" },
+      box("l", T.p_leaves_home, () => profile.leaves_home, v => profile.leaves_home = v),
+      box("s", T.p_shared, () => profile.shared, v => profile.shared = v),
+      box("d", T.p_sensitive, () => profile.sensitive_data, v => profile.sensitive_data = v),
+      box("r", T.p_risk, () => profile.risk === "elevated", v => profile.risk = v ? "elevated" : "normal")),
+    el("div", { class: "stack" },
+      el("button", { class: "primary", onclick: () => { store.set(platform + ".profile", profile); startQuestions(true); } }, T.next),
+      el("button", { class: "link", onclick: home }, T.back)));
+}
+// The most important questions go first, so stopping halfway still covers
+// what matters most. A saved "yes" is not asked again.
+function startQuestions(all) {
+  queue = D.platforms[platform].checks
+    .map((c, i) => ({ c, i, w: weight(c, profile) }))
+    .filter(x => x.w > 0 && (all || answers[x.c.id] !== "yes"))
+    .sort((a, b) => b.w - a.w || a.i - b.i)
+    .map(x => x.c);
+  pos = 0;
+  question();
+}
+function question() {
+  if (pos >= queue.length) return result();
+  redraw = question;
+  const c = queue[pos], t = c.text[lang];
+  const answer = a => () => { answers[c.id] = a; store.set(platform + ".answers", answers); pos++; question(); };
+  show(
+    el("div", { class: "muted" }, T.q_of.replace("{n}", pos + 1).replace("{t}", queue.length)),
+    el("div", { class: "bar" }, el("i", { style: "width:" + Math.round(pos / queue.length * 100) + "%" })),
+    el("h2", {}, t.question),
+    el("div", { class: "where" }, el("b", {}, T.where), t.where),
+    el("div", { class: "stack answers" },
+      el("div", { class: "two" }, el("button", { class: "yes", onclick: answer("yes") }, T.yes), el("button", { class: "no", onclick: answer("no") }, T.no)),
+      el("button", { onclick: answer("dont_know") }, T.dont_know),
+      el("button", { class: "link", onclick: () => { if (pos > 0) { pos--; question(); } else askProfile(); } }, T.back)));
+}
+function ring(score) {
+  const R = 51, C = 2 * Math.PI * R, box = el("div", { class: "ring" });
+  const color = score >= 80 ? "var(--good)" : score >= 60 ? "var(--warn)" : "var(--bad)";
+  const s = svg("svg", { width: 124, height: 124, viewBox: "0 0 124 124" });
+  s.append(svg("circle", { class: "track", cx: 62, cy: 62, r: R }));
+  const fill = svg("circle", { class: "fill", cx: 62, cy: 62, r: R, "stroke-dasharray": C, "stroke-dashoffset": C });
+  fill.style.stroke = color;
+  s.append(fill);
+  box.append(s, el("div", { class: "num" }, el("b", {}, String(score)), el("small", {}, T.score_of)));
+  requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.strokeDashoffset = C * (1 - score / 100); }));
+  return box;
+}
+function fixItem(e, mark, cls) {
+  const t = e.check.text[lang], link = e.check.links[lang];
+  return el("details", {},
+    el("summary", {}, el("span", { class: "dot " + cls }, mark), el("span", {}, cls === "warn" ? t.title : t.title_fail)),
+    el("div", { class: "body" },
+      el("h4", {}, T.why), el("p", {}, t.why),
+      el("h4", {}, T.how), el("ol", {}, t.steps.map(s => el("li", {}, s))),
+      link && el("p", { class: "muted" }, el("a", { href: link, rel: "noopener", target: "_blank" }, T.source))));
+}
+function result() {
+  redraw = result;
+  const r = evaluate(platform, profile, answers);
+  const live = r.entries.filter(e => e.weight > 0);
+  const failed = level => live.filter(e => e.answer === "no" && LEVEL[e.weight] === level);
+  const unknown = live.filter(e => e.answer !== "yes" && e.answer !== "no");
+  const good = live.filter(e => e.answer === "yes");
+  const risks = r.stories.filter(s => !(s.pass && s.pass.length)), safe = r.stories.filter(s => s.pass && s.pass.length);
+  const nothingWrong = live.every(e => e.answer === "yes");
+  const out = [
+    el("div", { class: "card hero" }, r.score >= 0 && ring(r.score),
+      el("div", {}, el("h2", {}, r.score >= 0 ? T["label_" + r.grade] : T.no_score), el("p", { class: "muted" }, nothingWrong ? T.all_good : T[platform]))),
+    risks.length > 0 && el("div", { class: "card stories" }, el("h3", {}, T.risks), el("ul", {}, risks.map(s => el("li", {}, s.text[lang])))),
+    safe.length > 0 && el("div", { class: "card stories safe" }, el("h3", {}, T.safe), el("ul", {}, safe.map(s => el("li", {}, s.text[lang])))),
+  ];
+  for (const level of ["essential", "recommended", "optional"]) {
+    const list = failed(level);
+    if (list.length) out.push(el("h3", {}, T[level] + " (" + list.length + ")"), list.map(e => fixItem(e, "!", "bad")));
+  }
+  if (unknown.length) out.push(el("h3", {}, T.unknown + " (" + unknown.length + ")"), unknown.map(e => fixItem(e, "?", "warn")));
+  if (good.length) out.push(el("h3", {}, T.good + " (" + good.length + ")"),
+    el("div", { class: "group" }, good.map(e => el("div", { class: "plain" }, el("span", { class: "dot good" }, "✓"), el("span", {}, e.check.text[lang].title_pass)))));
+  out.push(el("div", { class: "stack", style: "margin-top:24px" },
+    !nothingWrong && el("button", { class: "primary", onclick: () => startQuestions(false) }, T.recheck),
+    el("button", { onclick: () => { answers = {}; askProfile(); } }, T.start_over),
+    el("button", { class: "link", onclick: home }, T.change_phone)),
+    guides(),
+    el("footer", {}, T.private));
+  show(out);
+}
+function guides() {
+  const page = (name, key) => el("li", {}, el("a", { href: REPO + "/blob/main/docs/guide/" + lang + "/" + name + ".md", rel: "noopener", target: "_blank" }, T[key]));
+  return [el("h3", {}, T.guides), el("ul", { class: "links" },
+    page("phone-locked", "g_locked"), page("phone-unlock", "g_unlock"), page("biometrics", "g_bio"), page("bank-app", "g_bank"), page("theft-after", "g_after"))];
+}
+
+if (location.hash === "#selftest") selfTest(); else home();
+</script>
+</body>
+</html>

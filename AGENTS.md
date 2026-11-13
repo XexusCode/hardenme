@@ -30,6 +30,7 @@ gofmt -l . && go vet ./... && go test ./...
 | `internal/fix` | Fix candidates, previous-value capture, the one-dialog admin batch (`osascript`), re-check, change log and catalog-checked undo |
 | `internal/answers` | Saved phone checklist answers, so the next run asks only what was not right |
 | `internal/findings` | Signs of compromise on macOS (things the person should recognise): short, conservative, phrased as questions, never part of the score, and silent about anything it cannot read |
+| `internal/site` | The phone checklist as one static web page (`hardenme site`), built from the same YAML. Its JavaScript scoring is checked against the Go engine by embedded self-test cases (open the page with `#selftest`) |
 | `internal/story` | Theft stories: joins failing checks into plain-language risks |
 | `internal/render` | Report output (text, JSON, Markdown) with EN/ES labels; golden files in `testdata/` |
 | `checks/` | **Check definitions as data**: `checks/<platform>/<name>.yaml` (macos, ios, android), theft stories in `checks/stories/<platform>.yaml`, plus `schema.json`. Embedded with `go:embed` |

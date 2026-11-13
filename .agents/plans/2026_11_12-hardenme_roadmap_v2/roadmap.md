@@ -182,6 +182,12 @@ Consecuencia: en Mac y Windows el objetivo se cumple entero. En Android depende 
 - **Límite honesto:** no es automática. Es la mejor opción posible en iPhone, y la opción sin altas en Android.
 - Comparte interfaz con la etapa 1.
 
+**Estado (2026-11-13):** página hecha, sin publicar.
+- `hardenme site` genera un solo `index.html` (117 KB) con iPhone y Android, en español e inglés, sin cargar nada de fuera.
+- La nota y las historias las calcula el navegador. La página lleva 48 casos calculados por el motor de Go y los comprueba con `#selftest`: pasan 48 de 48 en Chrome.
+- Revisadas en capturas a tamaño de móvil: inicio, pregunta y resultado. Sin probar en un móvil real ni en Safari.
+- Para publicarla: subir a `main` y activar una vez GitHub Pages (Settings > Pages > Source: GitHub Actions).
+
 **Hecho cuando:** alguien abre un enlace en su móvil, contesta, y ve su nota, sus historias de robo y qué cambiar, sin instalar nada.
 
 ### Etapa 6: Windows

@@ -62,7 +62,7 @@ func newRoot() *cobra.Command {
 		SilenceErrors: true,
 	}
 	root.PersistentFlags().StringVar(&opts.lang, "lang", defaultLang(), "language: en or es")
-	root.AddCommand(newScan(opts), newFix(opts), newUI(opts), newChecklist(opts), newProfile(opts), newGuide(opts))
+	root.AddCommand(newScan(opts), newFix(opts), newUI(opts), newSite(), newChecklist(opts), newProfile(opts), newGuide(opts))
 	return root
 }
 

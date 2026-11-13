@@ -97,7 +97,7 @@ function el(tag, attrs, ...kids) {
     else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
     else if (v !== false && v != null) n.setAttribute(k, v === true ? "" : v);
   }
-  for (const kid of kids.flat()) if (kid != null && kid !== false) n.append(kid);
+  for (const kid of kids.flat(Infinity)) if (kid != null && kid !== false) n.append(kid);
   return n;
 }
 function svg(tag, attrs) {
